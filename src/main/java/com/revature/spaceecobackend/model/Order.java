@@ -50,5 +50,5 @@ public class Order {
     @OneToOne
     private Payment payment;
 
-    
+
 }
