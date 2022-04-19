@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
 @Table(name="orders")
@@ -48,4 +49,17 @@ public class Order {
     @JoinColumn(name="payment_id")
     @OneToOne
     private Payment payment;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Order)) return false;
+        Order order = (Order) o;
+        return id == order.id && shippingAddressId == order.shippingAddressId && Objects.equals(orderDate, order.orderDate) && Objects.equals(orderStatus, order.orderStatus) && Objects.equals(payment, order.payment);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, orderDate, orderStatus, shippingAddressId, payment);
+    }
 }
