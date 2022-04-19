@@ -21,12 +21,12 @@ public class Order {
 /*
     // seller id
     @JoinColumn(name="seller_id",nullable = false)
-    int sellerId;
+    private User sellerId;
 
     // buyer id
     @JoinColumn(name="buyer_id", nullable = false)
     @OneToOne
-    private int buyerId;
+    private User buyerId;
 
     list of products
     @ManyToMany
@@ -41,25 +41,14 @@ public class Order {
     private String orderStatus;
 
     // shipping address
-    @ManyToOne
-    @JoinColumn(name ="shipping_address_id", nullable = false)
-    private int shippingAddressId;
+//    @ManyToOne
+//    @JoinColumn(name ="shipping_address_id", nullable = false)
+//    private Address shippingAddressId;
 
     // payment id
     @JoinColumn(name="payment_id")
     @OneToOne
     private Payment payment;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Order)) return false;
-        Order order = (Order) o;
-        return id == order.id && shippingAddressId == order.shippingAddressId && Objects.equals(orderDate, order.orderDate) && Objects.equals(orderStatus, order.orderStatus) && Objects.equals(payment, order.payment);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, orderDate, orderStatus, shippingAddressId, payment);
-    }
 }
