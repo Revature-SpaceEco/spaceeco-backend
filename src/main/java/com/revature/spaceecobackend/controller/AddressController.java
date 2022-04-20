@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.revature.spaceecobackend.model.Address;
 import com.revature.spaceecobackend.service.AddressService;
-import com.revature.spaceecobackend.service.AddressServiceInterface;
+// import com.revature.spaceecobackend.service.AddressServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +18,7 @@ public class AddressController {
     //add users as private instance variable @Autowired
 
     @Autowired
-    AddressService addressService;
+    Service addressService;
 
 
 
