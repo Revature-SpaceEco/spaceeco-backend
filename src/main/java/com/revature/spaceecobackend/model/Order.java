@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -12,26 +13,21 @@ import java.util.Objects;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-/*
-    // seller id
-    @JoinColumn(name="seller_id",nullable = false)
-    private User sellerId;
 
     // buyer id
     @JoinColumn(name="buyer_id", nullable = false)
     @OneToOne
     private User buyerId;
 
-    list of products
+    // list of products
     @ManyToMany
-    List<Product>items
-*/
+    List<Product> items;
+
     // order date
     @Column(name="order_date",nullable = false)
     private Timestamp orderDate;
@@ -41,9 +37,9 @@ public class Order {
     private String orderStatus;
 
     // shipping address
-//    @ManyToOne
-//    @JoinColumn(name ="shipping_address_id", nullable = false)
-//    private Address shippingAddressId;
+    @ManyToOne
+    @JoinColumn(name ="shipping_address_id", nullable = false)
+    private Address shippingAddressId;
 
     // payment id
     @JoinColumn(name="payment_id")
