@@ -20,9 +20,9 @@ public class Order {
 
 
     // buyer id
-    @JoinColumn(name="buyer_id", nullable = false)
+    @JoinColumn(name="buyer", nullable = false)
     @OneToOne
-    private User buyerId;
+    private User buyer;
 
     // list of products
     @ManyToMany

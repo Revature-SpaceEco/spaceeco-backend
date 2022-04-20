@@ -11,7 +11,7 @@ import com.revature.spaceecobackend.dto.PaymentDto;
 public class OrderDto {
     private int id;
 
-//    private UserDto buyerId;
+//    private UserDto buyer;
 
 //    List<ProductDTO> items;
 

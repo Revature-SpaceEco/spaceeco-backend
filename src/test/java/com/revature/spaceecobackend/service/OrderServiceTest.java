@@ -2,6 +2,7 @@ package com.revature.spaceecobackend.service;
 
 import com.revature.spaceecobackend.dao.OrderRepository;
 import com.revature.spaceecobackend.dto.OrderDto;
+import com.revature.spaceecobackend.exception.OrderNotFound;
 import com.revature.spaceecobackend.model.Order;
 import com.revature.spaceecobackend.model.User;
 import com.revature.spaceecobackend.model.UserRole;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,7 @@ public class OrderServiceTest {
     private static List<Order> orders;
     private static Order order;
     private static OrderDto orderDto;
+    private static List<OrderDto> orderDtos;
 
 
     @BeforeAll
@@ -40,48 +43,51 @@ public class OrderServiceTest {
         orders = new ArrayList<>();
         order = new Order();
         orders.add(order);
+        orderDtos = new ArrayList<>();
         orderDto = new OrderDto();
+        orderDtos.add(orderDto);
     }
 
     //getting all orders
     @Test
     void getAllOrders_positive() {
         when(orderRepo.findAll()).thenReturn(orders);
-        List<Order> actual = orderService.getAllOrders();
+        List<OrderDto> actual = orderService.getAllOrders();
 
-        assertThat(actual).isEqualTo(orders);
+        assertThat(actual).isEqualTo(orderDtos);
     }
 
     @Test
     void getOrderByBuyerId_ValidId() {
         when(orderRepo.findByBuyerId(1)).thenReturn(orders);
 
-        List<Order> actual = orderService.getOrdersByBuyerId(1);
-        assertThat(actual).isEqualTo(orders);
+        List<OrderDto> actual = orderService.getOrdersByBuyerId(1);
+        assertThat(actual).isEqualTo(orderDtos);
     }
 
-//    @Test
-//    void getOrderByBuyerId_InvalidId() {
-//        when(orderRepo.findByBuyerId(500)).thenReturn(null);
-//
-//        Assertions.assertThrows(SomeException.class, () -> {
-//                orderService.getOrdersByBuyerId(500);
-//                });
-//    }
+    @Test
+    void getOrderByBuyerId_InvalidId() {
+        when(orderRepo.findByBuyerId(500)).thenReturn(null);
+
+        Assertions.assertThrows(OrderNotFound.class, () -> {
+                orderService.getOrdersByBuyerId(500);
+        });
+    }
+
     //getting order by id
     @Test
-    void getOrderByValidOrderId(){
+    void getOrderByValidOrderId() throws OrderNotFound {
         when(orderRepo.findById(1)).thenReturn(Optional.of(order));
-        Order actual = orderService.getOrderByOrderId(1);
-        assertThat(actual).isEqualTo(order);
+        OrderDto actual = orderService.getOrderByOrderId(1);
+        assertThat(actual).isEqualTo(orderDto);
     }
 
     //create order
     @Test
     void createOrder_positive() {
         when(orderRepo.saveAndFlush(order)).thenReturn(order);
-        Order actual = orderService.createOrder(orderDto);
-        assertThat(actual).isEqualTo(order);
+        OrderDto actual = orderService.createOrder(orderDto);
+        assertThat(actual).isEqualTo(orderDto);
     }
 
     //udpate order
@@ -90,14 +96,14 @@ public class OrderServiceTest {
         OrderDto editedOrder = new OrderDto();
         when(orderRepo.saveAndFlush(order)).thenReturn(order);
 
-        Order actual = orderService.updateOrder(editedOrder);
-        assertThat(actual).isEqualTo(order);
+        OrderDto actual = orderService.updateOrder(editedOrder);
+        assertThat(actual).isEqualTo(orderDto);
     }
     //delete order
     @Test
-    void deleteOrderWhenThatOrderExists() {
+    void deleteOrderWhenThatOrderExists() throws OrderNotFound {
         when(orderRepo.existsById(order.getId())).thenReturn(true);
-        assertThat(orderService.deleteOrder(order)).isTrue();
+        assertThat(orderService.deleteOrder(orderDto)).isTrue();
     }
 
 }
