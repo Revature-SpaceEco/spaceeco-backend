@@ -27,7 +27,7 @@ public class OrderService {
     @Autowired
     private ModelMapper modelMapper;
 
-    //TODO getAllOrders
+
     public List<OrderDto> getAllOrders(){
         List<Order> orders = orderRepository.findAll();
         List<OrderDto> orderDtos = new ArrayList<>();
@@ -37,7 +37,7 @@ public class OrderService {
         return orderDtos;
     }
 
-    //TODO getAllOrdersByUserId
+
     public List<OrderDto> getOrdersByBuyerId(int id) {
         if (userRepository.findById(id).isPresent()) {
             List<Order> orders = orderRepository.findByBuyerId(id);
@@ -52,7 +52,7 @@ public class OrderService {
         }
     }
 
-    //TODO getOrderByOrderId
+
     public OrderDto getOrderByOrderId(int id) throws OrderNotFound {
         Optional<Order> optional = orderRepository.findById(id);
         Order order;
@@ -64,21 +64,19 @@ public class OrderService {
         return modelMapper.map(order, OrderDto.class);
     }
 
-    //TODO createOrder
+
     public OrderDto createOrder(OrderDto dto){
         Order order = modelMapper.map(dto, Order.class);
         Order createdOrder = orderRepository.saveAndFlush(order);
         return modelMapper.map(createdOrder, OrderDto.class);
     }
 
-    //TODO updateOrder
     public OrderDto updateOrder(OrderDto dto) {
         Order order = modelMapper.map(dto, Order.class);
         Order updatedOrder = orderRepository.saveAndFlush(order);
         return modelMapper.map(updatedOrder, OrderDto.class);
     }
 
-    //TODO deleteOrder
     public boolean deleteOrder(OrderDto orderDto) throws OrderNotFound {
         Optional<Order> order = orderRepository.findById(orderDto.getId());
         if(order.isPresent()){
