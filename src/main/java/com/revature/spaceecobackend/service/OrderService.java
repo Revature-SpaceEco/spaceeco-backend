@@ -5,10 +5,8 @@ import com.revature.spaceecobackend.dao.UserRepository;
 import com.revature.spaceecobackend.dto.OrderDto;
 import com.revature.spaceecobackend.exception.OrderNotFound;
 import com.revature.spaceecobackend.model.Order;
-import org.aspectj.weaver.ast.Or;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

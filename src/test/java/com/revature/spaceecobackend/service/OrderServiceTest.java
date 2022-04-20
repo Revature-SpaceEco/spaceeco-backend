@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
@@ -26,6 +27,9 @@ import static org.mockito.Mockito.when;
 public class OrderServiceTest {
     @Mock
     private OrderRepository orderRepo;
+
+    @Spy
+    ModelMapper modelMapper = new ModelMapper();
 
     @InjectMocks
     private OrderService orderService;
@@ -102,7 +106,7 @@ public class OrderServiceTest {
     //delete order
     @Test
     void deleteOrderWhenThatOrderExists() throws OrderNotFound {
-        when(orderRepo.existsById(order.getId())).thenReturn(true);
+        when(orderRepo.findById(orderDto.getId())).thenReturn(Optional.of(order));
         assertThat(orderService.deleteOrder(orderDto)).isTrue();
     }
 
