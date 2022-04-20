@@ -2,6 +2,7 @@ package com.revature.spaceecobackend;
 
 
 import com.revature.spaceecobackend.dao.ProductRepository;
+import com.revature.spaceecobackend.model.Categories;
 import com.revature.spaceecobackend.model.Product;
 import com.revature.spaceecobackend.model.User;
 import com.revature.spaceecobackend.model.UserRole;
@@ -32,6 +33,7 @@ public class ProductServiceTest {
         UserRole fakeRole = new UserRole();
         fakeRole.setId(1);
         fakeRole.setRole("role");
+        Categories categories=new Categories(1,"Electronics");
         User fakeUser = new User();
         fakeUser.setId(1);
         fakeUser.setEmail("email.com");
@@ -42,7 +44,7 @@ public class ProductServiceTest {
         fakeUser.setPassword("password");
         fakeUser.setUserRoleId(fakeRole);
         List<Product> fakeProducts = new ArrayList<>();
-        fakeProducts.add(new Product(1,"product","product description",100,1,"image.jpg", fakeUser));
+        fakeProducts.add(new Product(1,"product","product description",100,categories,"image.jpg", fakeUser));
 
 
         when(productRepository.findAll()).thenReturn(fakeProducts);
