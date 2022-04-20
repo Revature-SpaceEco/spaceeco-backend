@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### To prevent conflicts if teams need to customize file while testing ###
+src/main/resources/application.properties
