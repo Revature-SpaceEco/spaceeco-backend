@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### To prevent conflicts if teams need to customize file while testing ###
-**/src/main/resources/application.properties
+git update-index --assume-unchanged src/main/resources/application.properties
