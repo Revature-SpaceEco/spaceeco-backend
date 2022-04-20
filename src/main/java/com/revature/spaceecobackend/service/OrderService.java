@@ -26,7 +26,6 @@ public class OrderService {
     @Autowired
     private ModelMapper modelMapper;
 
-
     public List<OrderDto> getAllOrders(){
         List<Order> orders = orderRepository.findAll();
         List<OrderDto> orderDtos = new ArrayList<>();
@@ -61,7 +60,6 @@ public class OrderService {
         }
         return modelMapper.map(order, OrderDto.class);
     }
-
 
     public OrderDto createOrder(OrderDto dto){
         Order order = modelMapper.map(dto, Order.class);
