@@ -4,6 +4,7 @@ import com.revature.spaceecobackend.dao.OrderRepository;
 import com.revature.spaceecobackend.dao.UserRepository;
 import com.revature.spaceecobackend.dto.OrderDto;
 import com.revature.spaceecobackend.exception.OrderNotFound;
+import com.revature.spaceecobackend.exception.UserNotFound;
 import com.revature.spaceecobackend.model.Order;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class OrderService {
     }
 
 
-    public List<OrderDto> getOrdersByBuyerId(int id) {
+    public List<OrderDto> getOrdersByBuyerId(int id) throws UserNotFound {
         if (userRepository.findById(id).isPresent()) {
             List<Order> orders = orderRepository.findByBuyerId(id);
             List<OrderDto> orderDtos = new ArrayList<>();
@@ -45,8 +46,7 @@ public class OrderService {
             }
             return orderDtos;
         } else {
-            // throw new UserNotFound("A user with an id of " + id + " does not exist.");
-            return null;
+             throw new UserNotFound("A user with an id of " + id + " does not exist.");
         }
     }
 
