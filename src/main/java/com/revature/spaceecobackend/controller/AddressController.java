@@ -13,44 +13,42 @@ import java.util.Optional;
 @RestController("/address")
 public class AddressController {
 
-  /*  //add address service as private instance variable @Autowired
+    //add address service as private instance variable @Autowired
 
     //add users as private instance variable @Autowired
 
     @Autowired
-    AddressServiceInterface addressService;
+    AddressService addressService;
 
 
 
     @PostMapping
-    public ResponseEntity<?> createAddress(@RequestBody Address address) throws JsonProcessingException{ //Create
-        Address address1 = addressService.createAddress(address);
-        return ResponseEntity.status(200).body(address1);
+    public Address createAddress(@RequestBody Address address) throws JsonProcessingException{ //Create
+        return addressService.createAddress(address);
 
     }
 
-    @GetMapping("/{id}")
-    public Optional<Address> getAddressByUserId(@PathVariable String id) { //change name if naming convention changes //Response
-        Address address1 = addressService.getAddressByUserId(Long.parseLong(id));
-        return Optional.status(200).body(address1);;
-    }
+   /* @GetMapping("/{id}")
+    public Optional<Address> getAddressByUserId(@PathVariable String id, @PathVariable String imageId) { //change name if naming convention changes //Response
+        return addressService.getAddressByUserId(Integer.parseInt(id));
+    }*/
 
     @DeleteMapping("/{id}")
     public Boolean deleteAddressById(@PathVariable String id){ //Delete
-        return addressService.deleteAddress(Long.parseLong(id));
+        return addressService.deleteAddress(Integer.parseInt(id));
     }
 
-    @PutMapping
+   /* @PutMapping
     public Address updateAddress(@PathVariable String id,
                                  @RequestBody Address address){ //Update
-        return addressService.updateAddressByUserId(Long.parseLong(id), address);
+        return addressService.updateAddressByUserId(Integer.parseInt(id), address);
     }
 
 
 
     @PatchMapping
     public Address updateAddress2(@PathVariable String id,
-                                 @RequestBody Address address){ //
-        return addressService.updateAddressByUserId2(Long.parseLong(id));
-    }
-}*/
+                                  @RequestBody Address address){ //
+        return addressService.updateAddressByUserId2(address);
+    }*/
+}

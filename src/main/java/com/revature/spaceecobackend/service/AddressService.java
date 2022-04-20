@@ -3,13 +3,12 @@ package com.revature.spaceecobackend.service;
 import com.revature.spaceecobackend.dao.AddressRepository;
 import com.revature.spaceecobackend.model.Address;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class AddressService implements AddressServiceInterface{
+public class AddressService{
 
     @Autowired
     AddressRepository addressRepository;
@@ -18,19 +17,20 @@ public class AddressService implements AddressServiceInterface{
         return addressRepository.save(address);
     }
 
-    public Optional<?> getAddress(int id) {
-        return Optional.empty();
-    }
+  /*  public Optional<Address> getAddressByUserId(int id) {//Fix later
+        return userRepository.findAddressByUserId(id);
+    }*/
 
     public Boolean deleteAddress(int id) {
-        return null;
+        addressRepository.deleteById(id);
+        return !addressRepository.existsById(id);
     }
 
-    public AddressService updateAddressByUserId(int id, Address address) {
-        return null;
+   /* public Address updateAddressByUserId(int id, Address address) {
+        return addressRepository.findById(id, address);
     }
 
-    public AddressService updateAddressByUserId2(int id, Address address) {
-        return null;
-    }
+    public Address updateAddressByUserId2(Address address) {
+        return addressRepository.save(address);
+    }*/
 }
