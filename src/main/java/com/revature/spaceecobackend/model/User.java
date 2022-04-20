@@ -38,10 +38,13 @@ public class User {
     @JoinColumn(name = "role_user_id")
     private UserRole userRoleId;
 
-//    @ManyToOne
-//    @JoinColumn(name = "primary_billing_id")
-//    private Address primaryAddressId;
-//    private Billing primaryBillingId;
+    @ManyToOne
+    @JoinColumn(name = "primary_address_id")
+    private Address primaryAddressId;
+
+    @ManyToOne
+    @JoinColumn(name = "primary_billing_id")
+    private BillingDetails primaryBillingId;
 
     @Column(name = "profile_image")
     private String imageUrl;
