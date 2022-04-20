@@ -9,13 +9,11 @@ VALUES (1, '9194 North College Ave', '512 South Pennsylvania St', 'Grand Haven',
 (3, '605 Hawthorne Ave', '', 'Clinton', 'MD', 'United States', '20735', 'solar system', 'earth');
 
 --REGISTER TEAM: fix and uncomment Many to one columns to Address table, then edit this insert
---INSERT INTO users (user_username, user_password, user_email, user_first_name, user_last_name, role_user_id, primary_address_id, primary_billing_address_id, profile_image)
-
-INSERT INTO users (user_username, user_password, user_email, user_first_name, user_last_name, role_user_id, profile_image)
-VALUES ('buyer1', 'password', 'buyer@email.com', 'John', 'Doe', 1, 'www.profileimage.com/1.jpg'),
-('buyer2', 'password', 'tenzin@email.com', 'Tenzin', 'Chandrakant', 1, 'www.profileimage.com/2.jpg'),
-('seller1', 'password', 'seller@email.com', 'Jane', 'Doe', 2, 'www.profileimage.com/2.jpg'),
-('admin1', 'password', 'admin@email.com', 'Aruna', 'Pero', 3, 'www.profileimage.com/3.jpg');
+INSERT INTO users (user_username, user_password, user_email, user_first_name, user_last_name, role_user_id, primary_address_id, primary_billing_address_id, profile_image)
+VALUES ('buyer1', 'password', 'buyer@email.com', 'John', 'Doe', 1, 1, 1, 'www.profileimage.com/1.jpg'),
+('buyer2', 'password', 'tenzin@email.com', 'Tenzin', 'Chandrakant', 1, 2, 2, 'www.profileimage.com/2.jpg'),
+('seller1', 'password', 'seller@email.com', 'Jane', 'Doe', 2, 1, 1, 'www.profileimage.com/2.jpg'),
+('admin1', 'password', 'admin@email.com', 'Aruna', 'Pero', 3, 1, 1, 'www.profileimage.com/3.jpg');
 
 INSERT INTO categories (category_name)
 VALUES ('planets'),
