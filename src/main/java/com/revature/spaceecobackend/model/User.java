@@ -38,11 +38,11 @@ public class User {
     @JoinColumn(name = "role_user_id")
     private UserRole userRoleId;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "primary_address_id")
     private Address primaryAddressId;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "primary_billing_id")
     private BillingDetails primaryBillingId;
 
@@ -54,11 +54,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(lastName, user.lastName) && Objects.equals(firstName, user.firstName) && Objects.equals(userRoleId, user.userRoleId) && Objects.equals(imageUrl, user.imageUrl);
+        return id == user.id && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(userRoleId, user.userRoleId) && Objects.equals(primaryAddressId, user.primaryAddressId) && Objects.equals(primaryBillingId, user.primaryBillingId) && Objects.equals(imageUrl, user.imageUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, email, lastName, firstName, userRoleId, imageUrl);
+        return Objects.hash(id, username, password, email, firstName, lastName, userRoleId, primaryAddressId, primaryBillingId, imageUrl);
     }
 }
