@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+
 import java.util.Optional;
 
 @Service
@@ -18,6 +19,7 @@ public class AddressService{
 
     @Autowired
     UserRepository userRepository;
+
     public Address createAddress(Address address) {
         return addressRepository.save(address);
     }
