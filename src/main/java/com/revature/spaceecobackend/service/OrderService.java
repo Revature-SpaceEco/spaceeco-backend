@@ -3,6 +3,7 @@ package com.revature.spaceecobackend.service;
 import com.revature.spaceecobackend.dao.OrderRepository;
 import com.revature.spaceecobackend.dao.UserRepository;
 import com.revature.spaceecobackend.dto.OrderDto;
+import com.revature.spaceecobackend.exception.EmptyFields;
 import com.revature.spaceecobackend.exception.OrderNotFound;
 import com.revature.spaceecobackend.exception.UserNotFound;
 import com.revature.spaceecobackend.model.Order;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 public class OrderService {
@@ -61,13 +64,19 @@ public class OrderService {
         return modelMapper.map(order, OrderDto.class);
     }
 
-    public OrderDto createOrder(OrderDto dto){
+    public OrderDto createOrder(OrderDto dto) throws EmptyFields {
+        if(Stream.of(dto).anyMatch(Objects::isNull)){
+            throw new EmptyFields("Order is missing information");
+        }
+
         Order order = modelMapper.map(dto, Order.class);
         Order createdOrder = orderRepository.saveAndFlush(order);
         return modelMapper.map(createdOrder, OrderDto.class);
     }
 
-    public OrderDto updateOrder(OrderDto dto) {
+    public OrderDto updateOrder(OrderDto dto) throws OrderNotFound {
+        Optional<Order> optional = orderRepository.findById(dto.getId());
+        if (!optional.isPresent()) throw new OrderNotFound("Order with id "+dto.getId()+" does not exist");
         Order order = modelMapper.map(dto, Order.class);
         Order updatedOrder = orderRepository.saveAndFlush(order);
         return modelMapper.map(updatedOrder, OrderDto.class);
