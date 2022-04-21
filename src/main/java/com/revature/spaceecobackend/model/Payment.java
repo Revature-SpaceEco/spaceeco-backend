@@ -12,15 +12,14 @@ import java.util.Objects;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @JoinColumn(name = "billing_details_id")
+    @JoinColumn(name = "billing_details")
     @OneToOne
-    private int billingId;
+    private BillingDetails billingDetails;
 
     @Column(name="payment_status", nullable=false)
     private String status;
@@ -28,13 +27,22 @@ public class Payment {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Payment)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Payment payment = (Payment) o;
-        return id == payment.id && billingId == payment.billingId && Objects.equals(status, payment.status);
+        return id == payment.id && Objects.equals(billingDetails, payment.billingDetails) && Objects.equals(status, payment.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, billingId, status);
+        return Objects.hash(id, billingDetails, status);
+    }
+
+    @Override
+    public String toString() {
+        return "Payment{" +
+                "id=" + id +
+                ", billingDetails=" + billingDetails +
+                ", status='" + status + '\'' +
+                '}';
     }
 }
