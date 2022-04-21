@@ -1,8 +1,11 @@
 package com.revature.spaceecobackend.service;
 
 import com.revature.spaceecobackend.dao.BillingDetailsRepository;
+import com.revature.spaceecobackend.exception.BillingDetailsNotFound;
+import com.revature.spaceecobackend.exception.EmptyFields;
 import com.revature.spaceecobackend.model.Address;
 import com.revature.spaceecobackend.model.BillingDetails;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +14,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 
 import static org.mockito.Mockito.when;
@@ -38,32 +43,59 @@ public class BillingServiceTest {
   @Test
   void getBillingDetailById_Positive() {
     when(billingDetailsRepo.findById(1)).thenReturn(Optional.of(billingDetails));
-    
+    BillingDetails actual = billingDetailsService.getBillingDetailById(1);
+    assertThat(actual).isEqualTo(billingDetails);
   }
 
   @Test
-  void createBillingDetail_Positive(){
-//      when(billingDetailsRepo.saveAllAndFlush(any(BillingDetails.class))).thenReturn(billingDetails);
+  void getBillingDetailsThatDoNotExist_negative() {
+    Assertions.assertThrows(BillingDetailsNotFound.class, () -> {
+      billingDetailsService.deleteBillingDetails(billingDetails);
+    });
+  }
+
+  @Test
+  void createBillingDetail_Positive() throws EmptyFields{
+      when(billingDetailsRepo.saveAndFlush(any(BillingDetails.class))).thenReturn(billingDetails);
+      BillingDetails actual = billingDetailsService.createBillingDetail(billingDetails);
+      assertThat(actual).isEqualTo(billingDetails);
   }
 
   @Test
   void createBillingDetail_NegativeException(){
+    BillingDetails emptyDetails = new BillingDetails();
+    Assertions.assertThrows(EmptyFields.class, ()-> {
+            billingDetailsService.createBillingDetail(emptyDetails);
+    });
 
   }
 
   @Test
-  void updateBillingDetail_Positive(){
-//    when(billingDetailsRepo.)
+  void updateBillingDetail_Positive() throws BillingDetailsNotFound {
+    when(billingDetailsRepo.findById(billingDetails.getId())).thenReturn(Optional.of(billingDetails));
+    when(billingDetailsRepo.saveAndFlush(any(BillingDetails.class))).thenReturn(billingDetails);
+    BillingDetails actual = billingDetailsService.updateBillingDetails(billingDetails);
+    assertThat(actual).isEqualTo(billingDetails);
   }
 
   @Test
-  void updateBillingDetail_NegativeException(){
-
+  void updateBillingDetail_NegativeException() {
+    Assertions.assertThrows(BillingDetailsNotFound.class, () -> {
+      billingDetailsService.updateBillingDetails(billingDetails);
+    });
   }
 
   @Test
-  void deleteBillingDetail_Positive(){
+  void deleteBillingDetail_Positive() throws BillingDetailsNotFound {
+    when(billingDetailsRepo.findById(billingDetails.getId())).thenReturn(Optional.of(billingDetails));
+    assertThat(billingDetailsService.deleteBillingDetails(billingDetails)).isTrue();
+  }
 
+  @Test
+  void deleteBillingDetailsThatDoNotExist_negative() {
+    Assertions.assertThrows(BillingDetailsNotFound.class, () -> {
+      billingDetailsService.deleteBillingDetails(billingDetails);
+    });
   }
 
 }
