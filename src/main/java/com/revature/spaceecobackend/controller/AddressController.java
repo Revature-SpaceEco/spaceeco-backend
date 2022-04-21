@@ -10,7 +10,8 @@
  import org.springframework.web.bind.annotation.*;
 
  import java.util.Optional;
- @RestController("/address")
+ @RestController
+ @RequestMapping("/address")
  public class AddressController {
 
      //add address service as private instance variable @Autowired
