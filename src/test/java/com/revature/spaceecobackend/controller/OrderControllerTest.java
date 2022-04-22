@@ -86,8 +86,8 @@ public class OrderControllerTest {
 
     @Test
     void getOrderById_OrderNotFound() throws OrderNotFound {
-        when(orderService.getOrderByOrderId(any(Integer.class))).thenReturn(null);
-        ResponseEntity<?> response = orderController.getOrderById(order.getId());
+        when(orderService.getOrderByOrderId(any(Integer.class))).thenThrow(OrderNotFound.class);
+        ResponseEntity<?> response = orderController.getOrderById(500);
         assertThat(response.getStatusCodeValue()).isEqualTo(404);
     }
 
@@ -100,7 +100,7 @@ public class OrderControllerTest {
 
     @Test
     void updateOrderById_OrderNotFound() throws OrderNotFound, EmptyFields {
-        when(orderService.updateOrder(orderDto)).thenThrow(new OrderNotFound());
+        when(orderService.updateOrder(orderDto)).thenThrow(OrderNotFound.class);
         ResponseEntity<?> response = orderController.updateOrderById(orderDto);
         int expected = 404;
         assertThat(response.getStatusCodeValue()).isEqualTo(expected);
@@ -108,7 +108,7 @@ public class OrderControllerTest {
 
     @Test
     void updateOrderById_EmptyFields() throws OrderNotFound, EmptyFields {
-        when(orderService.updateOrder(any(OrderDto.class))).thenThrow(new EmptyFields());
+        when(orderService.updateOrder(any(OrderDto.class))).thenThrow(EmptyFields.class);
         ResponseEntity<?> response = orderController.updateOrderById(new OrderDto());
 
         assertThat(response.getStatusCodeValue()).isEqualTo(400);
@@ -119,12 +119,12 @@ public class OrderControllerTest {
     void deleteOrder_positive() throws OrderNotFound {
         when(orderService.deleteOrder(orderDto)).thenReturn(true);
         ResponseEntity<?> response = orderController.deleteOrder(orderDto);
-        assertThat(response.getBody()).isEqualTo(orderDto);
+        assertThat(response.getBody()).isEqualTo(true);
     }
 
     @Test
     void deleteOrder_OrderNotFound() throws OrderNotFound {
-        when(orderService.deleteOrder(orderDto)).thenThrow(new OrderNotFound());
+        when(orderService.deleteOrder(orderDto)).thenThrow(OrderNotFound.class);
         ResponseEntity<?> response = orderController.deleteOrder(orderDto);
         int expected = 404;
         assertThat(response.getStatusCodeValue()).isEqualTo(expected);
@@ -139,9 +139,9 @@ public class OrderControllerTest {
 
     @Test
     void createOrder_EmptyFields() throws EmptyFields {
-        when(orderService.createOrder(orderDto)).thenThrow(new EmptyFields());
+        when(orderService.createOrder(orderDto)).thenThrow(EmptyFields.class);
         ResponseEntity<?> response = orderController.addNewOrder(orderDto);
-        int expected = 404;
+        int expected = 400;
         assertThat(response.getStatusCodeValue()).isEqualTo(expected);
     }
 }
