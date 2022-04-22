@@ -36,7 +36,7 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "role_user_id")
-    private UserRole userRoleId;
+    private UserRole userRole;
 
     @OneToOne
     @JoinColumn(name = "primary_address_id")
@@ -49,16 +49,19 @@ public class User {
     @Column(name = "profile_image")
     private String imageUrl;
 
+    @Column(name = "is_user_active")
+    private boolean active;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof User)) return false;
         User user = (User) o;
-        return id == user.id && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(userRoleId, user.userRoleId) && Objects.equals(primaryAddressId, user.primaryAddressId) && Objects.equals(primaryBillingId, user.primaryBillingId) && Objects.equals(imageUrl, user.imageUrl);
+        return id == user.id && active == user.active && username.equals(user.username) && password.equals(user.password) && email.equals(user.email) && firstName.equals(user.firstName) && lastName.equals(user.lastName) && userRole.equals(user.userRole) && primaryAddressId.equals(user.primaryAddressId) && primaryBillingId.equals(user.primaryBillingId) && imageUrl.equals(user.imageUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, email, firstName, lastName, userRoleId, primaryAddressId, primaryBillingId, imageUrl);
+        return Objects.hash(id, username, password, email, firstName, lastName, userRole, primaryAddressId, primaryBillingId, imageUrl, active);
     }
 }

@@ -42,7 +42,8 @@ public class ProductServiceTest {
         fakeUser.setImageUrl("image.jpg");
         fakeUser.setUsername("username");
         fakeUser.setPassword("password");
-        fakeUser.setUserRoleId(fakeRole);
+        fakeUser.setActive(true);
+        fakeUser.setUserRole(fakeRole);
         List<Product> fakeProducts = new ArrayList<>();
         fakeProducts.add(new Product(1,"product","product description",100,categories,"image.jpg", fakeUser));
 

@@ -1,7 +1,7 @@
 INSERT INTO user_roles (user_role)
-VALUES  ('buyer'),
-('seller'),
-('admin');
+VALUES  ('ROLE_BUYER'),
+('ROLE_SELLER'),
+('ROLE_ADMIN');
 
 INSERT INTO categories (category_name)
 VALUES ('planets'),
@@ -20,13 +20,11 @@ VALUES ('Visa', 1234456778971547, 142, 'John', 1),
 ('MasterCard', 9874159823651478, 951, 'Jane', 2),
 ('MasterCard', 9874159823651478, 951, 'Aruna', 2);
 
-INSERT INTO users (user_username, user_password, user_email, user_first_name, user_last_name, role_user_id, primary_address_id, primary_billing_id, profile_image)
-VALUES ('buyer1', 'password', 'buyer@email.com', 'John', 'Doe', 1, 1, 1, 'www.profileimage.com/1.jpg'),
-('buyer2', 'password', 'tenzin@email.com', 'Tenzin', 'Chandrakant', 1, 2, 2, 'www.profileimage.com/2.jpg'),
-('seller1', 'password', 'seller@email.com', 'Jane', 'Doe', 2, 3, 3, 'www.profileimage.com/2.jpg'),
-('admin1', 'password', 'admin@email.com', 'Aruna', 'Pero', 3, 4, 4, 'www.profileimage.com/3.jpg'),
-('seller8', 'password8', 'admin@email.com8', 'XYZ', 'Pero', 2, null, null, 'www.profileimage.com/3.jpg'),
-('seller22', 'password22', 'admin@email.com8', 'XYZ', 'Pero', 2, 5, null, 'www.profileimage.com/3.jpg');
+INSERT INTO users (user_username, user_password, user_email, user_first_name, user_last_name, role_user_id, primary_address_id, primary_billing_id, profile_image, is_user_active)
+VALUES ('buyer1', 'password', 'buyer@email.com', 'John', 'Doe', 1, 1, 1, 'www.profileimage.com/1.jpg', true),
+('buyer2', 'password', 'tenzin@email.com', 'Tenzin', 'Chandrakant', 1, 2, 2, 'www.profileimage.com/2.jpg', true),
+('seller1', 'password', 'seller@email.com', 'Jane', 'Doe', 2, 3, 3, 'www.profileimage.com/2.jpg', true),
+('admin1', 'password', 'admin@email.com', 'Aruna', 'Pero', 3, 4, 4, 'www.profileimage.com/3.jpg', true);
 
 INSERT INTO payments (billing_details, payment_status)
 VALUES (1, 'Pending'),
