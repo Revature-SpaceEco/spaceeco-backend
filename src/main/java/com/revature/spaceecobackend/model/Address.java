@@ -13,7 +13,10 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "primary_address_id" )
     private int id;
+
+
 
     @Column(nullable = false)
     private String addressLineOne;
