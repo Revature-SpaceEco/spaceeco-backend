@@ -1,8 +1,9 @@
 package com.revature.spaceecobackend.controller;
 
 import com.revature.spaceecobackend.dto.OrderDto;
+import com.revature.spaceecobackend.exception.EmptyFields;
 import com.revature.spaceecobackend.exception.OrderNotFound;
-import com.revature.spaceecobackend.model.Order;
+import com.revature.spaceecobackend.exception.UserNotFound;
 import com.revature.spaceecobackend.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,31 +31,45 @@ public class OrderController {
     public ResponseEntity<?> getOrderById(@PathVariable("order_id") int orderId){
         try{
             OrderDto orderDto = orderService.getOrderByOrderId(orderId);
+            return ResponseEntity.ok().body(orderDto);
         }catch(OrderNotFound e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.notFound().build();
         }
-        return null;
     }
 
     @GetMapping("/user/{userId}/orders")
-    public ResponseEntity<?> getOrdersByUserId(@PathVariable("userId") int userId){
-        Order order = orderService.getOrdersByBuyerId(userId);
-
-        if(order != null) {
-
+    public ResponseEntity<?> getOrdersByUserId(@PathVariable("userId") int userId) {
+        try {
+            List<OrderDto> orders = orderService.getOrdersByBuyerId(userId);
+            if(orders.isEmpty()) {
+                return ResponseEntity.badRequest().body("No orders were found for this user.");
+            }
+            return ResponseEntity.ok().body(orders);
+        } catch (UserNotFound e) {
+            return ResponseEntity.notFound().build();
         }
     }
 
     @PatchMapping
-    public ResponseEntity<?> updateOrderById( @RequestBody OrderDto orderDto) {
-        Order order = orderService.
-        return null;
+    public ResponseEntity<?> updateOrderById( @RequestBody OrderDto orderDto){
+        try{
+            OrderDto updatedOrder = orderService.updateOrder(orderDto);
+            return ResponseEntity.ok().body(updatedOrder);
+        }catch(EmptyFields e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }catch (OrderNotFound e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
     public ResponseEntity<?> addNewOrder(@RequestBody OrderDto orderDto) {
-        OrderDto newOrder = orderService.createOrder(orderDto);
-        return null;
+        try {
+            OrderDto newOrder = orderService.createOrder(orderDto);
+            return ResponseEntity.ok().body(newOrder);
+        } catch (EmptyFields e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @DeleteMapping
@@ -63,7 +78,7 @@ public class OrderController {
             boolean deleted = orderService.deleteOrder(orderDto);
             return ResponseEntity.ok().body(deleted);
         } catch(OrderNotFound e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.notFound().build();
         }
     }
 }
