@@ -48,7 +48,7 @@ public class OrderService {
             }
             return orderDtos;
         } else {
-             throw new UserNotFound("A user with an id of " + id + " does not exist.");
+            throw new UserNotFound("A user with an id of " + id + " does not exist.");
         }
     }
 
@@ -74,7 +74,11 @@ public class OrderService {
         return modelMapper.map(createdOrder, OrderDto.class);
     }
 
-    public OrderDto updateOrder(OrderDto dto) throws OrderNotFound {
+    public OrderDto updateOrder(OrderDto dto) throws OrderNotFound, EmptyFields {
+        if(Stream.of(dto).anyMatch(Objects::isNull)){
+            throw new EmptyFields("Order is missing information");
+        }
+        
         Optional<Order> optional = orderRepository.findById(dto.getId());
         if (!optional.isPresent()) throw new OrderNotFound("Order with id "+dto.getId()+" does not exist");
         Order order = modelMapper.map(dto, Order.class);

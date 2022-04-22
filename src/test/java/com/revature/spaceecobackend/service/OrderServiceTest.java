@@ -132,7 +132,7 @@ public class OrderServiceTest {
 
     //update order
     @Test
-    void updateOrder_positive() throws OrderNotFound {
+    void updateOrder_positive() throws OrderNotFound, EmptyFields {
         OrderDto editedOrder = new OrderDto(1, orderDate, "pending", address, paymentDto);
         when(orderRepo.findById(editedOrder.getId())).thenReturn(Optional.of(order));
         when(orderRepo.saveAndFlush(any(Order.class))).thenReturn(order);
