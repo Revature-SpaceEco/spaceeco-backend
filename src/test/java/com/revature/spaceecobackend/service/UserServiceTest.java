@@ -42,7 +42,7 @@ class UserServiceTest {
         BillingDetails billingDetails = new BillingDetails();
 
         User user = new User(0, "test", "password", "test", "test", "test@test.com", role, address, billingDetails, "Person Profile",true);
-        when(userRepository.saveAndFlush(user)).thenReturn(user);
+        when(userRepository.save(user)).thenReturn(user);
         User actual = userService.createUser(user);
         assertThat(actual).isEqualTo(user);
     }
