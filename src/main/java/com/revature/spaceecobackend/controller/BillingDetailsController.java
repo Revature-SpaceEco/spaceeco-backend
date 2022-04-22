@@ -19,7 +19,7 @@ public class BillingDetailsController {
     @GetMapping("/{billing_id}")
     public ResponseEntity<?>  getBillingById(@PathVariable("billing_id") int id, @RequestHeader("Authorization") String headerValue) {
         BillingDetails billingDetails = billingDetailsService.getBillingDetailById(id);
-        
+
         if (billingDetails != null) {
             return ResponseEntity.ok().body(billingDetails);
         } else {
@@ -66,7 +66,7 @@ public class BillingDetailsController {
             boolean deleted = billingDetailsService.deleteBillingDetails(id);
             return ResponseEntity.ok().body(deleted);
         } catch (BillingDetailsNotFound e) {
-           return ResponseEntity.status(404).body(e.getMessage());
+            return ResponseEntity.status(404).body(e.getMessage());
         }
     }
 }
