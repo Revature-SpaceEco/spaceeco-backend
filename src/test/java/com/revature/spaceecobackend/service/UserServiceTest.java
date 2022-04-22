@@ -41,7 +41,7 @@ class UserServiceTest {
                 "8823", "Test", "TestPlanet");
         BillingDetails billingDetails = new BillingDetails();
 
-      //  User user = new User(0, "test", "password", "test", "test", "test@test.com", role, address, billingDetails, "Person Profile");
+        User user = new User(0, "test", "password", "test", "test", "test@test.com", role, address, billingDetails, "Person Profile");
         when(userRepository.saveAndFlush(user)).thenReturn(user);
         User actual = userService.createUser(user);
         assertThat(actual).isEqualTo(user);
