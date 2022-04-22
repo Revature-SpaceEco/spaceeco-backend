@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
+
 
 @Service
 public class ProductService implements ProductServiceInterface{
@@ -16,4 +19,8 @@ public class ProductService implements ProductServiceInterface{
     public List<Product> findAll() {
         return productRepo.findAll();
     }
+
+    public  Product getProductsById(Integer productId) {
+        Optional<Product> optional = productRepo.findById(productId);
+        return  optional.get();}
 }
