@@ -24,6 +24,7 @@ public class AddressService{
 //        return addressRepository.save(address);
 //    }
 
+    @Transactional
     public Address createAddress(int userId, Address address) {
         Address createdAddress = addressRepository.save(address);
         Optional<User> user = userRepository.findById(userId);
@@ -38,11 +39,12 @@ public class AddressService{
 
     }
 
-    public Boolean deleteAddressById(int id) {
-        addressRepository.deleteById(id);
-        return !addressRepository.existsById(id);
-    }
+//    public Boolean deleteAddressById(int id) {
+//        addressRepository.deleteById(id);
+//        return !addressRepository.existsById(id);
+//    }
 
+ @Transactional
    public Address updateAddressByUserId(int id, Address newAddress) {
        Optional<User> user = userRepository.findById(id);
        Address oldAddress = user.get().getPrimaryAddressId();

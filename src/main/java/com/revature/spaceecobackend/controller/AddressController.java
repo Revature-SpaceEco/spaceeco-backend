@@ -39,10 +39,10 @@
          return addressService.getAddressByUserId(Integer.parseInt(userId));
      }
 
-     @DeleteMapping("/{id}")
-     public Boolean deleteAddressById(@PathVariable String id){ //Delete
-         return addressService.deleteAddressById(Integer.parseInt(id));
-     }
+//     @DeleteMapping("/{id}")
+//     public Boolean deleteAddressById(@PathVariable String id){ //Delete
+//         return addressService.deleteAddressById(Integer.parseInt(id));
+//     }
 
      @PutMapping("/users/{userId}")
      public Address updateAddressByUserId(@PathVariable String userId,
