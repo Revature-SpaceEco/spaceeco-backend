@@ -32,12 +32,9 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'org.modelmapper:modelmapper:3.1.0'
-<<<<<<< HEAD
-
-=======
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server:2.6.6'
 	implementation 'com.auth0:java-jwt:3.19.1'
->>>>>>> main-dev
+
 }
 
 tasks.named('test') {
@@ -67,7 +64,7 @@ sonarqube {
 		property "sonar.projectKey", "Revature-SpaceEco_spaceeco-backend"
 		property "sonar.organization", "revature-spaceeco"
 		property "sonar.host.url", "https://sonarcloud.io"
-		property "sonar.coverage.jacoco.xmlReportPath", "$buildDir/jacoco/test/jacocoTestReport.xml"
+//		property "sonar.coverage.jacoco.xmlReportPath", "$buildDir/jacoco/test.exec"
 //		property "sonar.coverage.exclusions", ""
 	}
 }
