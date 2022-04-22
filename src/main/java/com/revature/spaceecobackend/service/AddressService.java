@@ -20,8 +20,15 @@ public class AddressService{
     @Autowired
     UserRepository userRepository;
 
-    public Address createAddress(Address address) {
-        return addressRepository.save(address);
+//    public Address createAddress(Address address) {
+//        return addressRepository.save(address);
+//    }
+
+    public Address createAddress(int userId, Address address) {
+        Address createdAddress = addressRepository.save(address);
+        Optional<User> user = userRepository.findById(userId);
+        user.get().setPrimaryAddressId(createdAddress);
+        return createdAddress;
     }
 
     @Transactional
@@ -36,11 +43,22 @@ public class AddressService{
         return !addressRepository.existsById(id);
     }
 
-   /* public Address updateAddressByUserId(int id, Address address) {
-        return addressRepository.findById(id, address);
+   public Address updateAddressByUserId(int id, Address newAddress) {
+       Optional<User> user = userRepository.findById(id);
+       Address oldAddress = user.get().getPrimaryAddressId();
+
+       oldAddress.setAddressLineOne(newAddress.getAddressLineOne());
+       oldAddress.setAddressLineTwo(newAddress.getAddressLineTwo());
+       oldAddress.setCity(newAddress.getCity());
+       oldAddress.setState(newAddress.getState());
+       oldAddress.setCountry(newAddress.getCountry());
+       oldAddress.setZip(newAddress.getZip());
+       oldAddress.setPlanet(newAddress.getPlanet());
+       oldAddress.setSolarSystem(newAddress.getSolarSystem());
+       return addressRepository.save(oldAddress);
     }
 
-    public Address updateAddressByUserId2(Address address) {
-        return addressRepository.save(address);
-    }*/
+
+
+
 }

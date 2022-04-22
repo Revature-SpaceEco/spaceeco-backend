@@ -24,7 +24,9 @@ INSERT INTO users (user_username, user_password, user_email, user_first_name, us
 VALUES ('buyer1', 'password', 'buyer@email.com', 'John', 'Doe', 1, 1, 1, 'www.profileimage.com/1.jpg'),
 ('buyer2', 'password', 'tenzin@email.com', 'Tenzin', 'Chandrakant', 1, 2, 2, 'www.profileimage.com/2.jpg'),
 ('seller1', 'password', 'seller@email.com', 'Jane', 'Doe', 2, 3, 3, 'www.profileimage.com/2.jpg'),
-('admin1', 'password', 'admin@email.com', 'Aruna', 'Pero', 3, 4, 4, 'www.profileimage.com/3.jpg');
+('admin1', 'password', 'admin@email.com', 'Aruna', 'Pero', 3, 4, 4, 'www.profileimage.com/3.jpg'),
+('seller8', 'password8', 'admin@email.com8', 'XYZ', 'Pero', 2, null, null, 'www.profileimage.com/3.jpg'),
+('seller22', 'password22', 'admin@email.com8', 'XYZ', 'Pero', 2, 5, null, 'www.profileimage.com/3.jpg');
 
 INSERT INTO payments (billing_details, payment_status)
 VALUES (1, 'Pending'),

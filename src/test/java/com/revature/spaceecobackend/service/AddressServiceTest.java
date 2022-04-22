@@ -41,9 +41,15 @@ public class AddressServiceTest {
         address.setPlanet("Earth");
         address.setSolarSystem("Milky Way");
 
+        UserRole ur = new UserRole(2, "seller");
+        BillingDetails bd = new BillingDetails();
+
+        User user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, address, bd, "www.image.com");
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+
         when(addressRepository.save(address)).thenReturn(address);
 
-        Address actual = addressService.createAddress(address);
+        Address actual = addressService.createAddress(1,address);
 
         assertThat(actual).isEqualTo(address);
     }
@@ -78,5 +84,7 @@ public class AddressServiceTest {
 
         assertThat(actual).isEqualTo(true);
     }
+
+//    @Test
 
 }

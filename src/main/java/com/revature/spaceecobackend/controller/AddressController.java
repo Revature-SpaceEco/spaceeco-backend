@@ -11,6 +11,7 @@
 
  import java.util.Optional;
  @RestController
+ @CrossOrigin(originPatterns = "*",exposedHeaders = "*",allowedHeaders = "*")
  @RequestMapping("/address")
  public class AddressController {
 
@@ -20,13 +21,20 @@
 
      @Autowired
      AddressService addressService;
+//
+//     @PostMapping
+//     public Address createAddress(@RequestBody Address address) throws JsonProcessingException{ //Create
+//         return addressService.createAddress(address);
+//     }
 
-     @PostMapping
-     public Address createAddress(@RequestBody Address address) throws JsonProcessingException{ //Create
-         return addressService.createAddress(address);
+     @PostMapping("/users/{userId}")
+     public Address createAddress(@PathVariable String userId,
+                                  @RequestBody Address address) throws JsonProcessingException{ //Create
+
+         return addressService.createAddress(Integer.parseInt(userId), address);
      }
 
-     @GetMapping("/{userId}")
+     @GetMapping("/users/{userId}")
      public Address getAddressByUserId(@PathVariable String userId) { //change name if naming convention changes //Response
          return addressService.getAddressByUserId(Integer.parseInt(userId));
      }
@@ -36,16 +44,12 @@
          return addressService.deleteAddressById(Integer.parseInt(id));
      }
 
-    /* @PutMapping
-     public Address updateAddress(@PathVariable String id,
+     @PutMapping("/users/{userId}")
+     public Address updateAddressByUserId(@PathVariable String userId,
                                   @RequestBody Address address){ //Update
-         return addressService.updateAddressByUserId(Integer.parseInt(id), address);
+         return addressService.updateAddressByUserId(Integer.parseInt(userId), address);
      }
 
 
-     @PatchMapping
-     public Address updateAddress2(@PathVariable String id,
-                                   @RequestBody Address address){ //
-         return addressService.updateAddressByUserId2(address);
-     }*/
+
  }
