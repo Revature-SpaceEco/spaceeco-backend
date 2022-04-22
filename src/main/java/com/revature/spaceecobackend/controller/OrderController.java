@@ -38,16 +38,22 @@ public class OrderController {
 
     @GetMapping("/user/{userId}/orders")
     public ResponseEntity<?> getOrdersByUserId(@PathVariable("userId") int userId){
-        return null;
+        Order order = orderService.getOrdersByBuyerId(userId);
+
+        if(order != null) {
+
+        }
     }
 
     @PatchMapping
     public ResponseEntity<?> updateOrderById( @RequestBody OrderDto orderDto) {
+        Order order = orderService.
         return null;
     }
 
     @PostMapping
     public ResponseEntity<?> addNewOrder(@RequestBody OrderDto orderDto) {
+        OrderDto newOrder = orderService.createOrder(orderDto);
         return null;
     }
 
@@ -55,9 +61,9 @@ public class OrderController {
     public ResponseEntity<?> deleteOrder(@RequestBody OrderDto orderDto){
         try {
             boolean deleted = orderService.deleteOrder(orderDto);
+            return ResponseEntity.ok().body(deleted);
         } catch(OrderNotFound e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return null;
     }
 }
