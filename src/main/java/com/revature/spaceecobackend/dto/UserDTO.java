@@ -18,4 +18,5 @@ public class UserDTO {
     private Address primaryAddress;
     private BillingDetails primaryBilling;
     private String imageUrl;
+    private boolean active;
 }

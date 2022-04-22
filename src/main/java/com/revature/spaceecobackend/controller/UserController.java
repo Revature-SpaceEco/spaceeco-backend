@@ -33,6 +33,7 @@ public class UserController {
             userDTO.setUserRole(rtnUser.getUserRole());
             userDTO.setPrimaryAddress(rtnUser.getPrimaryAddressId());
             userDTO.setPrimaryBilling(rtnUser.getPrimaryBillingId());
+            userDTO.setActive(rtnUser.isActive());
             return userDTO;
         }
         return null;

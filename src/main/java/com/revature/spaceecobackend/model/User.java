@@ -55,9 +55,9 @@ public class User {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && active == user.active && username.equals(user.username) && password.equals(user.password) && email.equals(user.email) && firstName.equals(user.firstName) && lastName.equals(user.lastName) && userRole.equals(user.userRole) && primaryAddressId.equals(user.primaryAddressId) && primaryBillingId.equals(user.primaryBillingId) && imageUrl.equals(user.imageUrl);
+        return id == user.id && active == user.active && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(userRole, user.userRole) && Objects.equals(primaryAddressId, user.primaryAddressId) && Objects.equals(primaryBillingId, user.primaryBillingId) && Objects.equals(imageUrl, user.imageUrl);
     }
 
     @Override
