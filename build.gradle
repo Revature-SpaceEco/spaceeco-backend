@@ -2,6 +2,8 @@ plugins {
 	id 'org.springframework.boot' version '2.6.6'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'jacoco'
+	id "org.sonarqube" version "3.3"
 }
 
 group = 'com.revature'
@@ -30,8 +32,39 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'org.modelmapper:modelmapper:3.1.0'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server:2.6.6'
+	implementation 'com.auth0:java-jwt:3.19.1'
+
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+jacoco {
+	toolVersion = "0.8.7"
+	reportsDirectory = layout.buildDirectory.dir('jacoco')
+}
+
+test {
+	finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+	dependsOn test
+	reports {
+		xml.required = false
+		csv.required = false
+		html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+	}
+}
+
+sonarqube {
+	properties {
+		property "sonar.projectKey", "Revature-SpaceEco_spaceeco-backend"
+		property "sonar.organization", "revature-spaceeco"
+		property "sonar.host.url", "https://sonarcloud.io"
+//		property "sonar.coverage.jacoco.xmlReportPath", "$buildDir/jacoco/test.exec"
+//		property "sonar.coverage.exclusions", ""
+	}
 }
