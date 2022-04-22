@@ -4,6 +4,8 @@ import com.revature.spaceecobackend.dao.OrderRepository;
 import com.revature.spaceecobackend.dao.UserRepository;
 import com.revature.spaceecobackend.dto.OrderDto;
 import com.revature.spaceecobackend.dto.PaymentDto;
+import com.revature.spaceecobackend.exception.BillingDetailsNotFound;
+import com.revature.spaceecobackend.exception.EmptyFields;
 import com.revature.spaceecobackend.exception.OrderNotFound;
 import com.revature.spaceecobackend.exception.UserNotFound;
 import com.revature.spaceecobackend.model.*;
@@ -55,6 +57,7 @@ public class OrderServiceTest {
     private static Address address;
     private static PaymentDto paymentDto;
     private static BillingDetails billingDetails;
+    private static Timestamp orderDate;
 
 
     @BeforeAll
@@ -71,7 +74,7 @@ public class OrderServiceTest {
         buyer = new User(1, "test", "password", "email@email.com", "tester", "testy", userRole, address, billingDetails, "www.image.com");
         address = new Address(1, "10 Test Drive", null, "City Test", "Test", "Country", "80000", "Solar", "Planet");
         orders = new ArrayList<>();
-        Timestamp orderDate = new Timestamp(System.currentTimeMillis());
+        orderDate = new Timestamp(System.currentTimeMillis());
         order = new Order(1, buyer, products, orderDate, "pending", address, payment);
         orders.add(order);
         paymentDto = new PaymentDto(0, null);
@@ -123,21 +126,38 @@ public class OrderServiceTest {
 
     //create order
     @Test
-    void createOrder_positive() {
+    void createOrder_positive() throws EmptyFields {
         when(orderRepo.saveAndFlush(any(Order.class))).thenReturn(order);
         OrderDto actual = orderService.createOrder(orderDto);
         assertThat(actual).isEqualTo(orderDto);
     }
 
-    //udpate order
+    //update order
     @Test
-    void updateOrder_positive(){
-        OrderDto editedOrder = new OrderDto();
+    void updateOrder_positive() throws OrderNotFound {
+        OrderDto editedOrder = new OrderDto(1, orderDate, "pending", address, paymentDto);
+        when(orderRepo.findById(editedOrder.getId())).thenReturn(Optional.of(order));
         when(orderRepo.saveAndFlush(any(Order.class))).thenReturn(order);
 
         OrderDto actual = orderService.updateOrder(editedOrder);
         assertThat(actual).isEqualTo(orderDto);
     }
+
+
+    @Test
+    void createOrder_NegativeException() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            orderService.createOrder(orderDto);
+        });
+    }
+
+    @Test
+    void updateOrder_NegativeException() {
+        Assertions.assertThrows(OrderNotFound.class, () -> {
+            orderService.updateOrder(orderDto);
+        });
+    }
+
     //delete order
     @Test
     void deleteOrder_positive() throws OrderNotFound {
