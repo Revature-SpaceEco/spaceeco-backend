@@ -6,8 +6,6 @@ import lombok.Data;
 
 
 import java.sql.Timestamp;
-import java.util.List;
-import com.revature.spaceecobackend.dto.PaymentDto;
 import lombok.NoArgsConstructor;
 
 @Data

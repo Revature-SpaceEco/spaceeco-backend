@@ -4,7 +4,6 @@ import com.revature.spaceecobackend.dao.OrderRepository;
 import com.revature.spaceecobackend.dao.UserRepository;
 import com.revature.spaceecobackend.dto.OrderDto;
 import com.revature.spaceecobackend.dto.PaymentDto;
-import com.revature.spaceecobackend.exception.BillingDetailsNotFound;
 import com.revature.spaceecobackend.exception.EmptyFields;
 import com.revature.spaceecobackend.exception.OrderNotFound;
 import com.revature.spaceecobackend.exception.UserNotFound;
@@ -20,7 +19,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
