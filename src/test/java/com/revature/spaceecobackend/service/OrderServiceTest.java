@@ -4,6 +4,7 @@ import com.revature.spaceecobackend.dao.OrderRepository;
 import com.revature.spaceecobackend.dao.UserRepository;
 import com.revature.spaceecobackend.dto.OrderDto;
 import com.revature.spaceecobackend.dto.PaymentDto;
+import com.revature.spaceecobackend.exception.EmptyFields;
 import com.revature.spaceecobackend.exception.OrderNotFound;
 import com.revature.spaceecobackend.exception.UserNotFound;
 import com.revature.spaceecobackend.model.*;
@@ -18,7 +19,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -55,23 +55,24 @@ public class OrderServiceTest {
     private static Address address;
     private static PaymentDto paymentDto;
     private static BillingDetails billingDetails;
+    private static Timestamp orderDate;
 
 
     @BeforeAll
     public static void init() {
         billingDetails = new BillingDetails();
         userRole2 = new UserRole(2, "seller");
-        seller = new User(2, "seller", "password", "email@email.com", "tester", "testy", userRole2, address, billingDetails, "www.image.com");
+        seller = new User(2, "seller", "password", "email@email.com", "tester", "testy", userRole2, address, billingDetails, "www.image.com", true);
         category = new Categories(1, "categoryTest");
         products = new ArrayList<>();
         products.add(new Product(1,"test", "test description", 100, category, "image.jpg", seller));
         products.add(new Product(2,"test", "test description", 100, category, "image2.jpg", seller));
         payment = new Payment();
         userRole = new UserRole(1, "buyer");
-        buyer = new User(1, "test", "password", "email@email.com", "tester", "testy", userRole, address, billingDetails, "www.image.com");
+        buyer = new User(1, "test", "password", "email@email.com", "tester", "testy", userRole, address, billingDetails, "www.image.com", true);
         address = new Address(1, "10 Test Drive", null, "City Test", "Test", "Country", "80000", "Solar", "Planet");
         orders = new ArrayList<>();
-        Timestamp orderDate = new Timestamp(System.currentTimeMillis());
+        orderDate = new Timestamp(System.currentTimeMillis());
         order = new Order(1, buyer, products, orderDate, "pending", address, payment);
         orders.add(order);
         paymentDto = new PaymentDto(0, null);
@@ -123,21 +124,38 @@ public class OrderServiceTest {
 
     //create order
     @Test
-    void createOrder_positive() {
+    void createOrder_positive() throws EmptyFields {
         when(orderRepo.saveAndFlush(any(Order.class))).thenReturn(order);
         OrderDto actual = orderService.createOrder(orderDto);
         assertThat(actual).isEqualTo(orderDto);
     }
 
-    //udpate order
+    //update order
     @Test
-    void updateOrder_positive(){
-        OrderDto editedOrder = new OrderDto();
+    void updateOrder_positive() throws OrderNotFound {
+        OrderDto editedOrder = new OrderDto(1, orderDate, "pending", address, paymentDto);
+        when(orderRepo.findById(editedOrder.getId())).thenReturn(Optional.of(order));
         when(orderRepo.saveAndFlush(any(Order.class))).thenReturn(order);
 
         OrderDto actual = orderService.updateOrder(editedOrder);
         assertThat(actual).isEqualTo(orderDto);
     }
+
+
+    @Test
+    void createOrder_NegativeException() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            orderService.createOrder(orderDto);
+        });
+    }
+
+    @Test
+    void updateOrder_NegativeException() {
+        Assertions.assertThrows(OrderNotFound.class, () -> {
+            orderService.updateOrder(orderDto);
+        });
+    }
+
     //delete order
     @Test
     void deleteOrder_positive() throws OrderNotFound {
