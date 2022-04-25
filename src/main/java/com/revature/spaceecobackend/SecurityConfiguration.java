@@ -39,12 +39,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return NoOpPasswordEncoder.getInstance();
     }
 
+    // TODO change
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
                 .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/user/{username}/**")
-                .access("@userSecurity.hasUserId(authentication, #username)")
+                .antMatchers("/user/{id}/**")
+                .access("@userSecurity.hasUserId(authentication, #id)")
                 .antMatchers("/authenticate").permitAll()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

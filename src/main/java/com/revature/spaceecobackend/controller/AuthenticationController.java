@@ -3,6 +3,7 @@ package com.revature.spaceecobackend.controller;
 import com.revature.spaceecobackend.dto.LoginDto;
 import com.revature.spaceecobackend.model.AuthenticationRequest;
 import com.revature.spaceecobackend.model.AuthenticationResponse;
+import com.revature.spaceecobackend.model.CustomUserDetails;
 import com.revature.spaceecobackend.service.CustomUserDetailsService;
 import com.revature.spaceecobackend.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class AuthenticationController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @GetMapping("/user/{username}/hello")
+    @GetMapping("/user/{id}/hello")
     public String hello() {
         return "Hello world";
     }
@@ -47,7 +48,7 @@ public class AuthenticationController {
             throw new Exception("Incorrect username or password", e);
         }
 
-        final UserDetails userDetails = userDetailsService
+        final CustomUserDetails userDetails = userDetailsService
                 .loadUserByUsername(authenticationRequest.getUsername());
         final String jwt = jwtUtil.generateToken(userDetails);
 
