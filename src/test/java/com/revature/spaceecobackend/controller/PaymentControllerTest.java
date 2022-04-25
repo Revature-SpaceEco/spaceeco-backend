@@ -3,7 +3,11 @@ package com.revature.spaceecobackend.controller;
 import com.revature.spaceecobackend.dto.BillingDetailsDto;
 import com.revature.spaceecobackend.dto.PaymentDto;
 import com.revature.spaceecobackend.exception.EmptyFields;
+import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.Address;
+import com.revature.spaceecobackend.model.BillingDetails;
+import com.revature.spaceecobackend.model.Payment;
+import com.revature.spaceecobackend.service.PaymentService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,29 +33,35 @@ public class PaymentControllerTest {
     private static BillingDetailsDto billingDetailsDto;
     private static Address address;
     private static BillingDetailsDto billingDetailsDto2;
+    private static Payment payment;
+    private static BillingDetails billingDetails;
+    private static BillingDetails billingDetails2;
 
     @BeforeAll
     public static void init() {
+        address = new Address(1, "809 Frozen Water Way", null, "Southern", "Water Tribe", "Elements", "10000", "Spirit World", "Earth");
         billingDetailsDto = new BillingDetailsDto("Mastercard", 1002004587406874L, 123, "Katara WaterTribe", address);
         billingDetailsDto2 = new BillingDetailsDto("Visa", 6007004587406874L, 456, "Katara WaterTribe", address);
-        address = new Address(1, "809 Frozen Water Way", null, "Southern", "Water Tribe", "Elements", "10000", "Spirit World", "Earth");
-        paymentDto = new PaymentDto(1, "pending", billingDetailsDto);
+        paymentDto = new PaymentDto(1, billingDetailsDto, "pending");
+        billingDetails = new BillingDetails(1, "Visa", 6007004587406874L, 456, "Katara WaterTribe", address);
+        payment = new Payment(1, billingDetails, "pending");
+        billingDetails2 = new BillingDetails(1, "Mastercard", 6007004587406874L, 456, "Katara WaterTribe", address);
     }
 
     // getPaymentById
     @Test
-    void getPaymentById_postive() {
-        when(paymentService.getPaymentById(1)).thenReturn(paymentDto);
+    void getPaymentById_postive() throws NotFound {
+        when(paymentService.getPaymentById(1)).thenReturn(payment);
         ResponseEntity<?> response = paymentController.getPaymentById(1);
-        PaymentDto actual = (PaymentDto) response.getBody();
+        Payment actual = (Payment) response.getBody();
 
-        assertThat(actual).isEqualTo(paymentDto);
+        assertThat(actual).isEqualTo(payment);
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
     }
 
     @Test
-    void getPaymentById_negative() {
-        when(paymentService.getPaymentById(500)).thenReturn(null);
+    void getPaymentById_negative() throws NotFound {
+        when(paymentService.getPaymentById(500)).thenThrow(NotFound.class);
         ResponseEntity<?> response = paymentController.getPaymentById(500);
         int expectedStatus = 404;
         assertThat(response.getStatusCodeValue()).isEqualTo(expectedStatus);
@@ -60,11 +70,11 @@ public class PaymentControllerTest {
     // CreatePayment
     @Test
     void createNewPayment_positive() throws EmptyFields {
-        when(paymentService.createPayment(paymentDto)).thenReturn(paymentDto);
+        when(paymentService.createPayment(paymentDto)).thenReturn(payment);
         ResponseEntity<?> response = paymentController.createPayment(paymentDto);
-        PaymentDto actual = (PaymentDto) response.getBody();
+        Payment actual = (Payment) response.getBody();
 
-        assertThat(actual).isEqualTo(paymentDto);
+        assertThat(actual).isEqualTo(payment);
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
     }
 
@@ -79,19 +89,19 @@ public class PaymentControllerTest {
 
     // UpdatePaymentStatus
     @Test
-    void updatePaymentStatus_postive() throws PaymentNotFound {
-        PaymentDto updated = new PaymentDto(1, "approved", billingDetailsDto);
-        when(paymentService.updatePaymentStatus(paymentDto)).thenReturn(updated);
+    void updatePaymentStatus_postive() throws NotFound {
+        Payment updated = new Payment(1, billingDetails, "approved");
+        when(paymentService.updatePayment(paymentDto)).thenReturn(updated);
         ResponseEntity<?> response = paymentController.updatePaymentStatus(paymentDto);
-        PaymentDto actual = (PaymentDto) response.getBody();
+        Payment actual = (Payment) response.getBody();
 
         assertThat(actual).isEqualTo(updated);
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
     }
 
     @Test
-    void updatePaymentStatus_negative() throws PaymentNotFound {
-        when(paymentService.updatePaymentStatus(any(PaymentDto.class))).thenThrow(PaymentNotFound.class);
+    void updatePaymentStatus_negative() throws NotFound {
+        when(paymentService.updatePayment(any(PaymentDto.class))).thenThrow(NotFound.class);
         ResponseEntity<?> response = paymentController.updatePaymentStatus(paymentDto);
         int expected = 404;
         assertThat(response.getStatusCodeValue()).isEqualTo(expected);
@@ -99,16 +109,16 @@ public class PaymentControllerTest {
 
 
     @Test
-    void editPaymentDetails_postive() throws PaymentNotFound {
-        PaymentDto edited = new PaymentDto(1, "pending", billingDetailsDto2);
-        when(paymentService.editPaymentDetails(paymentDto)).thenReturn(edited);
+    void editPaymentDetails_postive() throws NotFound {
+        Payment edited = new Payment(1,  billingDetails2, "pending");
+        when(paymentService.updatePayment(paymentDto)).thenReturn(edited);
         ResponseEntity<?> response = paymentController.editPaymentDetails(paymentDto);
         assertThat(response.getBody()).isEqualTo(edited);
     }
 
     @Test
-    void editPaymentDetails_negative() throws PaymentNotFound {
-        when(paymentService.editPaymentDetails(paymentDto)).thenThrow(PaymentNotFound.class);
+    void editPaymentDetails_negative() throws NotFound {
+        when(paymentService.updatePayment(paymentDto)).thenThrow(NotFound.class);
         ResponseEntity<?> response = paymentController.editPaymentDetails(paymentDto);
         int expected = 404;
         assertThat(response.getStatusCodeValue()).isEqualTo(expected);
@@ -116,8 +126,8 @@ public class PaymentControllerTest {
 
     // DeletePayment
     @Test
-    void deletePaymentDetails_postive() throws PaymentNotFound {
-        when(paymentService.deletePayment(1)).thenReturn(true);
+    void deletePaymentDetails_postive() throws NotFound {
+        when(paymentService.deletePaymentById(1)).thenReturn(true);
         ResponseEntity<?> response = paymentController.deletePayment(1);
 
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
@@ -125,8 +135,8 @@ public class PaymentControllerTest {
 
 
     @Test
-    void deletePaymentDetails_PaymentNotFound() throws PaymentNotFound {
-        when(paymentService.deletePayment(1)).thenThrow(PaymentNotFound.class);
+    void deletePaymentDetails_PaymentNotFound() throws NotFound {
+        when(paymentService.deletePaymentById(1)).thenThrow(NotFound.class);
         ResponseEntity<?> response = paymentController.deletePayment(1);
         int expected = 404;
         assertThat(response.getStatusCodeValue()).isEqualTo(expected);
