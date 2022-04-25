@@ -20,7 +20,7 @@ import java.util.List;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ProductServiceTest {
+class ProductServiceTest {
 
     @Mock
     ProductRepository productRepository;
@@ -29,7 +29,7 @@ public class ProductServiceTest {
     ProductService productService;
 
     @Test
-    public void get_all_products_positive(){
+    void get_all_products_positive(){
         UserRole fakeRole = new UserRole();
         fakeRole.setId(1);
         fakeRole.setRole("role");

@@ -4,8 +4,7 @@ import com.revature.spaceecobackend.dao.OrderRepository;
 import com.revature.spaceecobackend.dao.UserRepository;
 import com.revature.spaceecobackend.dto.OrderDto;
 import com.revature.spaceecobackend.exception.EmptyFields;
-import com.revature.spaceecobackend.exception.OrderNotFound;
-import com.revature.spaceecobackend.exception.UserNotFound;
+import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.Order;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +38,7 @@ public class OrderService {
     }
 
 
-    public List<OrderDto> getOrdersByBuyerId(int id) throws UserNotFound {
+    public List<OrderDto> getOrdersByBuyerId(int id) throws NotFound {
         if (userRepository.findById(id).isPresent()) {
             List<Order> orders = orderRepository.findByBuyerId(id);
             List<OrderDto> orderDtos = new ArrayList<>();
@@ -48,18 +47,18 @@ public class OrderService {
             }
             return orderDtos;
         } else {
-             throw new UserNotFound("A user with an id of " + id + " does not exist.");
+            throw new NotFound("A user with an id of " + id + " does not exist.");
         }
     }
 
 
-    public OrderDto getOrderByOrderId(int id) throws OrderNotFound {
+    public OrderDto getOrderByOrderId(int id) throws NotFound {
         Optional<Order> optional = orderRepository.findById(id);
         Order order;
         if(optional.isPresent()) {
             order = optional.get();
         } else {
-            throw new OrderNotFound("An order with an id of " + id + " does not exist.");
+            throw new NotFound("An order with an id of " + id + " does not exist.");
         }
         return modelMapper.map(order, OrderDto.class);
     }
@@ -74,21 +73,25 @@ public class OrderService {
         return modelMapper.map(createdOrder, OrderDto.class);
     }
 
-    public OrderDto updateOrder(OrderDto dto) throws OrderNotFound {
+    public OrderDto updateOrder(OrderDto dto) throws NotFound, EmptyFields {
+        if(Stream.of(dto).anyMatch(Objects::isNull)){
+            throw new EmptyFields("Order is missing information");
+        }
+        
         Optional<Order> optional = orderRepository.findById(dto.getId());
-        if (!optional.isPresent()) throw new OrderNotFound("Order with id "+dto.getId()+" does not exist");
+        if (!optional.isPresent()) throw new NotFound("Order with id "+dto.getId()+" does not exist");
         Order order = modelMapper.map(dto, Order.class);
         Order updatedOrder = orderRepository.saveAndFlush(order);
         return modelMapper.map(updatedOrder, OrderDto.class);
     }
 
-    public boolean deleteOrder(OrderDto orderDto) throws OrderNotFound {
+    public boolean deleteOrder(OrderDto orderDto) throws NotFound {
         Optional<Order> order = orderRepository.findById(orderDto.getId());
         if(order.isPresent()){
             orderRepository.delete(order.get());
         }else
         {
-            throw new OrderNotFound("Order with id "+orderDto.getId()+" does not exist");
+            throw new NotFound("Order with id "+orderDto.getId()+" does not exist");
         }
         return true;
     }

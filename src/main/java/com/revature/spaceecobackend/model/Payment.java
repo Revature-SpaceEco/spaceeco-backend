@@ -1,7 +1,6 @@
 package com.revature.spaceecobackend.model;
 
 import lombok.*;
-import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -21,7 +20,7 @@ public class Payment {
     @OneToOne
     private BillingDetails billingDetails;
 
-    @Column(name="payment_status", nullable=false)
+    @Column(name="payment_status", nullable=false,columnDefinition = "varchar(100) default 'Pending'")
     private String status;
 
     @Override

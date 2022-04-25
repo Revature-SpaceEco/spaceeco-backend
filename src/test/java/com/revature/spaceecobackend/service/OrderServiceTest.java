@@ -2,11 +2,11 @@ package com.revature.spaceecobackend.service;
 
 import com.revature.spaceecobackend.dao.OrderRepository;
 import com.revature.spaceecobackend.dao.UserRepository;
+import com.revature.spaceecobackend.dto.BillingDetailsDto;
 import com.revature.spaceecobackend.dto.OrderDto;
 import com.revature.spaceecobackend.dto.PaymentDto;
 import com.revature.spaceecobackend.exception.EmptyFields;
-import com.revature.spaceecobackend.exception.OrderNotFound;
-import com.revature.spaceecobackend.exception.UserNotFound;
+import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -75,7 +75,7 @@ public class OrderServiceTest {
         orderDate = new Timestamp(System.currentTimeMillis());
         order = new Order(1, buyer, products, orderDate, "pending", address, payment);
         orders.add(order);
-        paymentDto = new PaymentDto(0, null);
+        paymentDto = new PaymentDto();
         orderDtos = new ArrayList<>();
         orderDto = new OrderDto(1, orderDate, "pending", address, paymentDto);
         orderDtos.add(orderDto);
@@ -91,7 +91,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    void getOrderByBuyerId_ValidId() throws UserNotFound {
+    void getOrderByBuyerId_ValidId() throws NotFound {
         when(userRepo.findById(1)).thenReturn(Optional.of(buyer));
         when(orderRepo.findByBuyerId(1)).thenReturn(orders);
 
@@ -102,14 +102,14 @@ public class OrderServiceTest {
     @Test
     void getOrderByBuyerId_InvalidId() {
 
-        Assertions.assertThrows(UserNotFound.class, () -> {
+        Assertions.assertThrows(NotFound.class, () -> {
                 orderService.getOrdersByBuyerId(500);
         });
     }
 
     //getting order by id
     @Test
-    void getOrderByValidOrderId() throws OrderNotFound {
+    void getOrderByValidOrderId() throws NotFound {
         when(orderRepo.findById(1)).thenReturn(Optional.of(order));
         OrderDto actual = orderService.getOrderByOrderId(1);
         assertThat(actual).isEqualTo(orderDto);
@@ -117,7 +117,7 @@ public class OrderServiceTest {
 
     @Test
     void getOrderByInvalidOrderId_negative() {
-        Assertions.assertThrows(OrderNotFound.class, () -> {
+        Assertions.assertThrows(NotFound.class, () -> {
             orderService.getOrderByOrderId(1);
         });
     }
@@ -132,7 +132,7 @@ public class OrderServiceTest {
 
     //update order
     @Test
-    void updateOrder_positive() throws OrderNotFound {
+    void updateOrder_positive() throws NotFound, EmptyFields {
         OrderDto editedOrder = new OrderDto(1, orderDate, "pending", address, paymentDto);
         when(orderRepo.findById(editedOrder.getId())).thenReturn(Optional.of(order));
         when(orderRepo.saveAndFlush(any(Order.class))).thenReturn(order);
@@ -151,21 +151,21 @@ public class OrderServiceTest {
 
     @Test
     void updateOrder_NegativeException() {
-        Assertions.assertThrows(OrderNotFound.class, () -> {
+        Assertions.assertThrows(NotFound.class, () -> {
             orderService.updateOrder(orderDto);
         });
     }
 
     //delete order
     @Test
-    void deleteOrder_positive() throws OrderNotFound {
+    void deleteOrder_positive() throws NotFound {
         when(orderRepo.findById(orderDto.getId())).thenReturn(Optional.of(order));
         assertThat(orderService.deleteOrder(orderDto)).isTrue();
     }
 
     @Test
     void deleteOrderThatDoesntExist_negative() {
-        Assertions.assertThrows(OrderNotFound.class, ()-> {
+        Assertions.assertThrows(NotFound.class, ()-> {
            orderService.deleteOrder(orderDto);
         });
     }
