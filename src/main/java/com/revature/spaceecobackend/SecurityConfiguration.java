@@ -18,45 +18,45 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserRepository userRepository;
+  @Autowired
+  private UserRepository userRepository;
 
-    @Autowired
-    private CustomUserDetailsService userDetailsService;
+  @Autowired
+  private CustomUserDetailsService userDetailsService;
 
-    @Autowired
-    private JwtRequestFilter jwtRequestFilter;
+  @Autowired
+  private JwtRequestFilter jwtRequestFilter;
 
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
-    }
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userDetailsService);
+  }
 
-    // WARNING DO NOT use this password encoder in production, not secure
-    @Bean
-    public PasswordEncoder getPasswordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }
+  // WARNING DO NOT use this password encoder in production, not secure
+  @Bean
+  public PasswordEncoder getPasswordEncoder() {
+    return NoOpPasswordEncoder.getInstance();
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests()
-                .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/user").hasAnyRole("ADMIN", "BUYER", "SELLER")
-                .antMatchers("/hello").hasRole("BUYER")
-                .antMatchers("/authenticate").permitAll()
-                .and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-    }
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.csrf().disable().authorizeRequests()
+        .antMatchers("/admin").hasRole("ADMIN")
+        .antMatchers("/user").hasAnyRole("ADMIN", "BUYER", "SELLER")
+        .antMatchers("/hello").hasRole("BUYER")
+        .antMatchers("/authenticate").permitAll()
+        .and().sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+  }
 
-    // This is required as of Spring 2 to use AuthenticationManager (injects into context)
-    @Override
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+  // This is required as of Spring 2 to use AuthenticationManager (injects into context)
+  @Override
+  @Bean
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
+  }
 
-    // Remove in production, this is not secure
+  // Remove in production, this is not secure
     /*
     @Override
     public void configure(WebSecurity web) {

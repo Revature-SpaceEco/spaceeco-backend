@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentDto {
-    
-    private int id;
-    private BillingDetailsDto billingDetailsDto;
-    private String status;
+
+  private int id;
+  private BillingDetailsDto billingDetailsDto;
+  private String status;
 
 }

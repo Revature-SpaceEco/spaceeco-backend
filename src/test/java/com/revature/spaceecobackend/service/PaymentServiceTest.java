@@ -26,93 +26,93 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class PaymentServiceTest {
-    
-    @Mock
-    private PaymentRepository paymentRepository;
 
-    @Spy
-    ModelMapper modelMapper = new ModelMapper();
-    
-    @InjectMocks
-    private PaymentService paymentService;
-		
-		private static BillingDetails billingDetails;
-		private static BillingDetailsDto billingDetailsDto;
-    private static Address address;
-		private static Payment payment;
-		private static PaymentDto paymentDto;
-		private static PaymentDto approvedPaymentDto;
-		private static Payment approvedPayment;
+  @Mock
+  private PaymentRepository paymentRepository;
 
-    
-    @BeforeAll
-    public static void init(){
-			address = new Address(1, "123 Fake St", null, "Springfield", "Kentucky", "United States of America", "80000", "Solar System", "Earth");
-	    billingDetails = new BillingDetails(1, "MasterCard",4519777777777777L,123,"Homer Simpson",address);
-	    billingDetailsDto = new BillingDetailsDto("MasterCard",4519777777777777L,123,"Homer Simpson",address);
-			payment = new Payment(1,billingDetails,"Pending");
-			paymentDto = new PaymentDto(1, billingDetailsDto,"Pending");
-			approvedPaymentDto = new PaymentDto(1, billingDetailsDto, "Approved");
-			approvedPayment = new Payment(payment.getId(),payment.getBillingDetails(), paymentDto.getStatus());
-    }
+  @Spy
+  ModelMapper modelMapper = new ModelMapper();
 
-    @Test
-    void getPaymentById_positive() throws NotFound {
-			when(paymentRepository.findById(payment.getId())).thenReturn(Optional.of(payment));
-			Payment actual = paymentService.getPaymentById(payment.getId());
-			assertThat(actual).isEqualTo(payment);
-    }
+  @InjectMocks
+  private PaymentService paymentService;
 
-    @Test
-    void getPaymentById_PaymentNotFound(){
-			Assertions.assertThrows(NotFound.class, () ->{
-				paymentService.getPaymentById(100);
-			});
-    }
+  private static BillingDetails billingDetails;
+  private static BillingDetailsDto billingDetailsDto;
+  private static Address address;
+  private static Payment payment;
+  private static PaymentDto paymentDto;
+  private static PaymentDto approvedPaymentDto;
+  private static Payment approvedPayment;
 
-    @Test
-    void createPayment_positive() throws EmptyFields {
-      when(paymentRepository.saveAndFlush(any(Payment.class))).thenReturn(payment);
-      
-      Payment actual = paymentService.createPayment(paymentDto);
-			assertThat(actual).isEqualTo(payment);
-    }
 
-    @Test
-    void createPayment_BillingDetailsNotFound(){
-        Assertions.assertThrows(EmptyFields.class, () ->{
-            paymentService.createPayment(new PaymentDto());
-        });
-    }
+  @BeforeAll
+  public static void init() {
+    address = new Address(1, "123 Fake St", null, "Springfield", "Kentucky", "United States of America", "80000", "Solar System", "Earth");
+    billingDetails = new BillingDetails(1, "MasterCard", 4519777777777777L, 123, "Homer Simpson", address);
+    billingDetailsDto = new BillingDetailsDto("MasterCard", 4519777777777777L, 123, "Homer Simpson", address);
+    payment = new Payment(1, billingDetails, "Pending");
+    paymentDto = new PaymentDto(1, billingDetailsDto, "Pending");
+    approvedPaymentDto = new PaymentDto(1, billingDetailsDto, "Approved");
+    approvedPayment = new Payment(payment.getId(), payment.getBillingDetails(), paymentDto.getStatus());
+  }
 
-    @Test
-    void updatePayment_positive() throws NotFound {
-        when(paymentRepository.findById(paymentDto.getId())).thenReturn(Optional.of(payment));
+  @Test
+  void getPaymentById_positive() throws NotFound {
+    when(paymentRepository.findById(payment.getId())).thenReturn(Optional.of(payment));
+    Payment actual = paymentService.getPaymentById(payment.getId());
+    assertThat(actual).isEqualTo(payment);
+  }
 
-        when(paymentRepository.saveAndFlush(any(Payment.class))).thenReturn(payment);
-        Payment actual = paymentService.updatePayment(paymentDto);
-        assertThat(actual).isEqualTo(approvedPayment);
-    }
-    
-    @Test
-    void updatePayment_BillingDetailsNotFound(){
-        PaymentDto paymentDtoEmpty = new PaymentDto();
-        Assertions.assertThrows(NotFound.class, () ->{
-            paymentService.updatePayment(paymentDtoEmpty);
-        });
-    }
+  @Test
+  void getPaymentById_PaymentNotFound() {
+    Assertions.assertThrows(NotFound.class, () -> {
+      paymentService.getPaymentById(100);
+    });
+  }
 
-    @Test
-    void deletePayment_positive() throws NotFound {
-        when(paymentRepository.findById(1)).thenReturn(Optional.of(payment));
-        assertThat(paymentService.deletePaymentById(1)).isTrue();
-    }
+  @Test
+  void createPayment_positive() throws EmptyFields {
+    when(paymentRepository.saveAndFlush(any(Payment.class))).thenReturn(payment);
 
-    @Test
-    void deletePayment_PaymentNotFound(){
-        Assertions.assertThrows(NotFound.class,()->{
-            paymentService.deletePaymentById(500);
-        });
-    }
+    Payment actual = paymentService.createPayment(paymentDto);
+    assertThat(actual).isEqualTo(payment);
+  }
+
+  @Test
+  void createPayment_BillingDetailsNotFound() {
+    Assertions.assertThrows(EmptyFields.class, () -> {
+      paymentService.createPayment(new PaymentDto());
+    });
+  }
+
+  @Test
+  void updatePayment_positive() throws NotFound {
+    when(paymentRepository.findById(paymentDto.getId())).thenReturn(Optional.of(payment));
+
+    when(paymentRepository.saveAndFlush(any(Payment.class))).thenReturn(payment);
+    Payment actual = paymentService.updatePayment(paymentDto);
+    assertThat(actual).isEqualTo(approvedPayment);
+  }
+
+  @Test
+  void updatePayment_BillingDetailsNotFound() {
+    PaymentDto paymentDtoEmpty = new PaymentDto();
+    Assertions.assertThrows(NotFound.class, () -> {
+      paymentService.updatePayment(paymentDtoEmpty);
+    });
+  }
+
+  @Test
+  void deletePayment_positive() throws NotFound {
+    when(paymentRepository.findById(1)).thenReturn(Optional.of(payment));
+    assertThat(paymentService.deletePaymentById(1)).isTrue();
+  }
+
+  @Test
+  void deletePayment_PaymentNotFound() {
+    Assertions.assertThrows(NotFound.class, () -> {
+      paymentService.deletePaymentById(500);
+    });
+  }
 
 }
