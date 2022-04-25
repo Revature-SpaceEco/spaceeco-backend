@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -64,17 +65,17 @@ public class OrderService {
     }
 
     public OrderDto createOrder(OrderDto dto) throws EmptyFields {
-        if(Stream.of(dto).anyMatch(Objects::isNull)){
+        if(!isValidOrder(dto)){
             throw new EmptyFields("Order is missing information");
         }
-
         Order order = modelMapper.map(dto, Order.class);
+        order.setOrderDate(new Timestamp(System.currentTimeMillis()));
         Order createdOrder = orderRepository.saveAndFlush(order);
         return modelMapper.map(createdOrder, OrderDto.class);
     }
 
     public OrderDto updateOrder(OrderDto dto) throws NotFound, EmptyFields {
-        if(Stream.of(dto).anyMatch(Objects::isNull)){
+        if(!isValidOrder(dto)){
             throw new EmptyFields("Order is missing information");
         }
         
@@ -93,6 +94,22 @@ public class OrderService {
         {
             throw new NotFound("Order with id "+orderDto.getId()+" does not exist");
         }
+        return true;
+    }
+
+    private boolean isValidOrder(OrderDto orderDto){
+        if (orderDto.getPayment() == null){
+            return false;
+        }
+
+        if(orderDto.getOrderStatus().equals("")){
+            return false;
+        }
+
+        if(orderDto.getShippingAddressId() == null){
+            return false;
+        }
+
         return true;
     }
 }

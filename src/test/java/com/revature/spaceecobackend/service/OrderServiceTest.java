@@ -8,6 +8,7 @@ import com.revature.spaceecobackend.dto.PaymentDto;
 import com.revature.spaceecobackend.exception.EmptyFields;
 import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.*;
+import org.aspectj.weaver.ast.Or;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -143,16 +144,23 @@ public class OrderServiceTest {
 
 
     @Test
-    void createOrder_NegativeException() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            orderService.createOrder(orderDto);
+    void createOrder_EmptyFields() {
+        Assertions.assertThrows(EmptyFields.class, () -> {
+            orderService.createOrder(new OrderDto());
         });
     }
 
     @Test
-    void updateOrder_NegativeException() {
+    void updateOrder_NotFound() {
         Assertions.assertThrows(NotFound.class, () -> {
             orderService.updateOrder(orderDto);
+        });
+    }
+
+    @Test
+    void updateOrder_EmptyFields() {
+        Assertions.assertThrows(EmptyFields.class, () -> {
+            orderService.updateOrder(new OrderDto());
         });
     }
 
@@ -166,7 +174,7 @@ public class OrderServiceTest {
     @Test
     void deleteOrderThatDoesntExist_negative() {
         Assertions.assertThrows(NotFound.class, ()-> {
-           orderService.deleteOrder(orderDto);
+            orderService.deleteOrder(orderDto);
         });
     }
 
