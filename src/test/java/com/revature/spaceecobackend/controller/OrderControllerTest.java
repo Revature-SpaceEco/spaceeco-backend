@@ -1,5 +1,6 @@
 package com.revature.spaceecobackend.controller;
 
+import com.revature.spaceecobackend.dto.BillingDetailsDto;
 import com.revature.spaceecobackend.dto.OrderDto;
 import com.revature.spaceecobackend.dto.PaymentDto;
 import com.revature.spaceecobackend.exception.EmptyFields;
@@ -63,7 +64,7 @@ public class OrderControllerTest {
         orderDate = new Timestamp(System.currentTimeMillis());
         order = new Order(1, buyer, products, orderDate, "pending", address, payment);
         orders.add(order);
-        paymentDto = new PaymentDto(0, null);
+        paymentDto = new PaymentDto(0, null, new BillingDetailsDto());
         orderDtos = new ArrayList<>();
         orderDto = new OrderDto(1, orderDate, "pending", address, paymentDto);
         orderDtos.add(orderDto);
