@@ -13,6 +13,5 @@ public class PaymentDto {
     private int id;
     private BillingDetailsDto billingDetailsDto;
     private String status;
-    
-    
+
 }
