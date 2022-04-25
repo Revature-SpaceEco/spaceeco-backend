@@ -39,7 +39,7 @@ public class AuthenticationControllerTest {
                 .andReturn().getResponse().getContentAsString();
 
         AuthenticationResponse authResponse = new ObjectMapper().readValue(response, AuthenticationResponse.class);
-        String actual = JwtUtil.extractUsername(authResponse.getJwt());
+        String actual = jwtUtil.extractUsername(authResponse.getJwt());
 
         Assertions.assertEquals(request.getUsername(), actual);
     }
