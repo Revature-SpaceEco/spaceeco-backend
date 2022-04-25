@@ -1,6 +1,6 @@
 package com.revature.spaceecobackend.dto;
 
-import com.revature.spaceecobackend.model.BillingDetails;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
