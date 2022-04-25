@@ -2,8 +2,8 @@ package com.revature.spaceecobackend.service;
 
 import com.revature.spaceecobackend.dao.BillingDetailsRepository;
 import com.revature.spaceecobackend.dto.BillingDetailsDto;
-import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.exception.EmptyFields;
+import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.Address;
 import com.revature.spaceecobackend.model.BillingDetails;
 import org.junit.jupiter.api.Assertions;
@@ -20,7 +20,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,11 +40,11 @@ public class BillingServiceTest {
 
 
   @BeforeAll
-  public static void init(){
+  public static void init() {
     address = new Address(1, "123 Fake St", null, "Springfield", "Kentucky", "United States of America", "80000", "Solar System", "Earth");
 
-    billingDetails = new BillingDetails(1,"MasterCard",4519777777777777L,123,"Homer Simpson",address);
-    billingDetailsDto = new BillingDetailsDto("MasterCard",4519777777777777L,123,"Homer Simpson",address);
+    billingDetails = new BillingDetails(1, "MasterCard", 4519777777777777L, 123, "Homer Simpson", address);
+    billingDetailsDto = new BillingDetailsDto("MasterCard", 4519777777777777L, 123, "Homer Simpson", address);
 
   }
 
@@ -64,17 +63,17 @@ public class BillingServiceTest {
   }
 
   @Test
-  void createBillingDetail_Positive() throws EmptyFields{
-      when(billingDetailsRepo.saveAndFlush(any(BillingDetails.class))).thenReturn(billingDetails);
-      BillingDetails actual = billingDetailsService.createBillingDetail(billingDetailsDto);
-      assertThat(actual).isEqualTo(billingDetails);
+  void createBillingDetail_Positive() throws EmptyFields {
+    when(billingDetailsRepo.saveAndFlush(any(BillingDetails.class))).thenReturn(billingDetails);
+    BillingDetails actual = billingDetailsService.createBillingDetail(billingDetailsDto);
+    assertThat(actual).isEqualTo(billingDetails);
   }
 
   @Test
-  void createBillingDetail_NegativeException(){
+  void createBillingDetail_NegativeException() {
     BillingDetailsDto emptyDetails = new BillingDetailsDto();
-    Assertions.assertThrows(EmptyFields.class, ()-> {
-            billingDetailsService.createBillingDetail(emptyDetails);
+    Assertions.assertThrows(EmptyFields.class, () -> {
+      billingDetailsService.createBillingDetail(emptyDetails);
     });
 
   }

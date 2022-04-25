@@ -14,16 +14,16 @@ import java.util.List;
 @CrossOrigin(originPatterns = "*", exposedHeaders = "*", allowedHeaders = "*")
 public class ProductController {
 
-    @Autowired
-    ProductService productService;
+  @Autowired
+  ProductService productService;
 
-    @GetMapping("/products")
-    public List<Product> getAllProducts(){
+  @GetMapping("/products")
+  public List<Product> getAllProducts() {
 
-        return productService.findAll();
+    return productService.findAll();
 
 
-    }
+  }
 
 
 }

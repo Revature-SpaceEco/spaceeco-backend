@@ -7,5 +7,5 @@ import java.util.List;
 public interface ProductServiceInterface {
 
 
-    public List<Product> findAll();
+  List<Product> findAll();
 }

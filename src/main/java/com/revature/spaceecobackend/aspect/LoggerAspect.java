@@ -12,20 +12,20 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class LoggerAspect {
-    private static final Logger logger = LoggerFactory.getLogger(LoggerAspect.class);
+  private static final Logger logger = LoggerFactory.getLogger(LoggerAspect.class);
 
-    @Before(value = "execution(* com.revature.spaceecobackend.*.*.*(..))")
-    public void beforeAdvice(JoinPoint joinPoint) {
-        logger.info("Before method: {}", joinPoint.getSignature());
-    }
+  @Before(value = "execution(* com.revature.spaceecobackend.*.*.*(..))")
+  public void beforeAdvice(JoinPoint joinPoint) {
+    logger.info("Before method: {}", joinPoint.getSignature());
+  }
 
-    @After(value = "execution(* com.revature.spaceecobackend.*.*.*(..))")
-    public void afterAdvice(JoinPoint joinPoint) {
-        logger.info("After method: {}", joinPoint.getSignature());
-    }
+  @After(value = "execution(* com.revature.spaceecobackend.*.*.*(..))")
+  public void afterAdvice(JoinPoint joinPoint) {
+    logger.info("After method: {}", joinPoint.getSignature());
+  }
 
-    @AfterThrowing(value = "execution(* com.revature.spaceecobackend.*.*.*(..))", throwing = "e")
-    public void exceptionAdvice(JoinPoint joinPoint, Throwable e) {
-        logger.warn("Exception: {}", e.getMessage());
-    }
+  @AfterThrowing(value = "execution(* com.revature.spaceecobackend.*.*.*(..))", throwing = "e")
+  public void exceptionAdvice(JoinPoint joinPoint, Throwable e) {
+    logger.warn("Exception: {}", e.getMessage());
+  }
 }

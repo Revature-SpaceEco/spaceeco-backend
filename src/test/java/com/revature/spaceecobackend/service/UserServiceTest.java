@@ -13,7 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -21,31 +20,31 @@ import static org.mockito.Mockito.when;
 class UserServiceTest {
 
 
-    @Mock
-    UserRepository userRepository;
+  @Mock
+  UserRepository userRepository;
 
-    @InjectMocks
-    UserService userService;
+  @InjectMocks
+  UserService userService;
 
-    @Test
-    public void getAllUsersTest_positive() {
-        List<User> userList = userService.getAllUsers();
-        assertThat(userList).isNotNull();
-    }
+  @Test
+  public void getAllUsersTest_positive() {
+    List<User> userList = userService.getAllUsers();
+    assertThat(userList).isNotNull();
+  }
 
 
-    @Test
-    public void createUser_positive(){
-        UserRole role = new UserRole(1, "admin");
-        Address address = new Address(1, "1 something street", "TestYoyo city", "TestCity", "TestState", "TestCountry",
-                "8823", "Test", "TestPlanet");
-        BillingDetails billingDetails = new BillingDetails();
+  @Test
+  public void createUser_positive() {
+    UserRole role = new UserRole(1, "admin");
+    Address address = new Address(1, "1 something street", "TestYoyo city", "TestCity", "TestState", "TestCountry",
+        "8823", "Test", "TestPlanet");
+    BillingDetails billingDetails = new BillingDetails();
 
-        User user = new User(0, "test", "password", "test", "test", "test@test.com", role, address, billingDetails, "Person Profile",true);
-        when(userRepository.save(user)).thenReturn(user);
-        User actual = userService.createUser(user);
-        assertThat(actual).isEqualTo(user);
-    }
+    User user = new User(0, "test", "password", "test", "test", "test@test.com", role, address, billingDetails, "Person Profile", true);
+    when(userRepository.save(user)).thenReturn(user);
+    User actual = userService.createUser(user);
+    assertThat(actual).isEqualTo(user);
+  }
 
 
 }

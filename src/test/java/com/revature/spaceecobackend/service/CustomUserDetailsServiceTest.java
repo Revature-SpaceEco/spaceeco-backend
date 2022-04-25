@@ -19,29 +19,29 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class CustomUserDetailsServiceTest {
 
-    @Mock
-    private UserRepository userRepository;
+  @Mock
+  private UserRepository userRepository;
 
-    @InjectMocks
-    private CustomUserDetailsService userDetailsService;
+  @InjectMocks
+  private CustomUserDetailsService userDetailsService;
 
-    @Test
-    void positiveTest_loadUserByUsername() {
-        UserRole userRole = new UserRole();
-        userRole.setId(1);
-        userRole.setRole("ROLE_BUYER");
+  @Test
+  void positiveTest_loadUserByUsername() {
+    UserRole userRole = new UserRole();
+    userRole.setId(1);
+    userRole.setRole("ROLE_BUYER");
 
-        User user = new User();
-        user.setUsername("Joe");
-        user.setPassword("Schmimmyshmam");
-        user.setUserRole(userRole);
-        user.setActive(true);
+    User user = new User();
+    user.setUsername("Joe");
+    user.setPassword("Schmimmyshmam");
+    user.setUserRole(userRole);
+    user.setActive(true);
 
-        when(userRepository.findByusername("Joe")).thenReturn(Optional.of(user));
+    when(userRepository.findByusername("Joe")).thenReturn(Optional.of(user));
 
-        UserDetails expected = new CustomUserDetails(user);
-        UserDetails actual = userDetailsService.loadUserByUsername("Joe");
+    UserDetails expected = new CustomUserDetails(user);
+    UserDetails actual = userDetailsService.loadUserByUsername("Joe");
 
-        Assertions.assertEquals(expected, actual);
-    }
+    Assertions.assertEquals(expected, actual);
+  }
 }
