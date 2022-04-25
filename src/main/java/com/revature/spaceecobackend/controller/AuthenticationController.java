@@ -26,12 +26,7 @@ public class AuthenticationController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
-        return null;
-    }
-
-    @GetMapping("/hello")
+    @GetMapping("/user/{username}/hello")
     public String hello() {
         return "Hello world";
     }
