@@ -26,9 +26,9 @@ VALUES ('buyer1', 'password', 'buyer@email.com', 'John', 'Doe', 1, 1, 1, 'www.pr
 ('seller1', 'password', 'seller@email.com', 'Jane', 'Doe', 2, 3, 3, 'www.profileimage.com/2.jpg', true),
 ('admin1', 'password', 'admin@email.com', 'Aruna', 'Pero', 3, 4, 4, 'www.profileimage.com/3.jpg', true);
 
-INSERT INTO payments (billing_details, payment_status)
-VALUES (1, 'Pending'),
-(2, 'Approved');
+INSERT INTO payments (billing_details)
+VALUES (1),
+(2);
 
 INSERT INTO products (product_name, product_description, product_cost, categories_category_id, product_image, product_seller_id_user_id)
 VALUES ('reach', 'A wonderful planet', 150, 1, 'www.image.com/reach.jpg', 3),

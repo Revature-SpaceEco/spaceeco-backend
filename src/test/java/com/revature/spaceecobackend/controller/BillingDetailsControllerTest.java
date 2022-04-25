@@ -1,7 +1,7 @@
 package com.revature.spaceecobackend.controller;
 
 import com.revature.spaceecobackend.dto.BillingDetailsDto;
-import com.revature.spaceecobackend.exception.BillingDetailsNotFound;
+import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.exception.EmptyFields;
 import com.revature.spaceecobackend.model.Address;
 import com.revature.spaceecobackend.model.BillingDetails;
@@ -41,18 +41,18 @@ public class BillingDetailsControllerTest {
     }
 
     @Test
-    void getbillingById_positiv(){
+    void getBillingById_positive(){
         when(billingDetailsService.getBillingDetailById(1)).thenReturn(billingDetails);
-        ResponseEntity<?> response = billingController.getBillingById(1, "headers");
+        ResponseEntity<?> response = billingController.getBillingById(1);
         BillingDetails actual = (BillingDetails) response.getBody();
 
         Assertions.assertEquals(billingDetails, actual);
     }
 
     @Test
-    void getGetbillingByIdDoesNotExist() {
+    void getBillingByIdDoesNotExist() {
         when(billingDetailsService.getBillingDetailById(1)).thenReturn(null);
-        ResponseEntity<?> response = billingController.getBillingById(1, "headers");
+        ResponseEntity<?> response = billingController.getBillingById(1);
         int statusCode = response.getStatusCodeValue();
         int expected = 404;
 
@@ -60,18 +60,18 @@ public class BillingDetailsControllerTest {
     }
 
     @Test
-    void updateBillingDetailsValidDetailsAndId() throws BillingDetailsNotFound {
+    void updateBillingDetailsValidDetailsAndId() throws NotFound {
         when(billingDetailsService.updateBillingDetails(billingDetailsDto, 1)).thenReturn(billingDetails);
-        ResponseEntity<?> response = billingController.updateBillingDetails(1, billingDetailsDto, "headers");
+        ResponseEntity<?> response = billingController.updateBillingDetails(1, billingDetailsDto);
 
         BillingDetails actual = (BillingDetails) response.getBody();
         Assertions.assertEquals(billingDetails, actual);
     }
 
     @Test
-    void updateBillingDetailsNotFound_negative() throws BillingDetailsNotFound {
-        when(billingDetailsService.updateBillingDetails(billingDetailsDto, 100)).thenThrow(new BillingDetailsNotFound());
-        ResponseEntity<?> response = billingController.updateBillingDetails(100, billingDetailsDto, "header");
+    void updateBillingDetailsNotFound_negative() throws NotFound {
+        when(billingDetailsService.updateBillingDetails(billingDetailsDto, 100)).thenThrow(new NotFound());
+        ResponseEntity<?> response = billingController.updateBillingDetails(100, billingDetailsDto);
         int expected = 404;
         Assertions.assertEquals(expected, response.getStatusCodeValue());
 
@@ -80,7 +80,7 @@ public class BillingDetailsControllerTest {
     @Test
     void addBillingDetailsValidBody() throws EmptyFields {
         when(billingDetailsService.createBillingDetail(billingDetailsDto)).thenReturn(billingDetails);
-        ResponseEntity<?> response = billingController.addBillingDetails(billingDetailsDto, "headers");
+        ResponseEntity<?> response = billingController.addBillingDetails(billingDetailsDto);
         BillingDetails actual = (BillingDetails) response.getBody();
 
         Assertions.assertEquals(billingDetails, actual);
@@ -90,26 +90,26 @@ public class BillingDetailsControllerTest {
     void addBillingDetailsInvalidBody() throws EmptyFields {
 
         when(billingDetailsService.createBillingDetail(billingDetailsDto)).thenThrow(EmptyFields.class);
-        ResponseEntity<?> response = billingController.addBillingDetails(billingDetailsDto, "headers");
+        ResponseEntity<?> response = billingController.addBillingDetails(billingDetailsDto);
         int actualStatusCode = response.getStatusCodeValue();
         int expectedStatusCode = 400;
         Assertions.assertEquals(expectedStatusCode, actualStatusCode);
     }
 
     @Test
-    void deleteExistingBillingDetails_positive() throws BillingDetailsNotFound {
+    void deleteExistingBillingDetails_positive() throws NotFound {
         when(billingDetailsService.deleteBillingDetails(1)).thenReturn(true);
-        ResponseEntity<?> response = billingController.deleteBillingDetails(1, "headers");
+        ResponseEntity<?> response = billingController.deleteBillingDetails(1);
         int actualStatusCode = response.getStatusCodeValue();
         int expectedStatusCode = 200;
         Assertions.assertEquals(expectedStatusCode, actualStatusCode);
     }
 
     @Test
-    void deleteNonExistentBillingDetails_negative() throws BillingDetailsNotFound {
-        doThrow(new BillingDetailsNotFound("Billing Details not found.")).when(billingDetailsService).deleteBillingDetails(anyInt());
+    void deleteNonExistentBillingDetails_negative() throws NotFound {
+        doThrow(new NotFound("Billing Details not found.")).when(billingDetailsService).deleteBillingDetails(anyInt());
 
-        ResponseEntity<?> response = billingController.deleteBillingDetails(1, "headers");
+        ResponseEntity<?> response = billingController.deleteBillingDetails(1);
         int expectedStatus = 404;
         Assertions.assertEquals(expectedStatus, response.getStatusCodeValue());
     }
