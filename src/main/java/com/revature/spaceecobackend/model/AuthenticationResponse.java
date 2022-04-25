@@ -2,13 +2,15 @@ package com.revature.spaceecobackend.model;
 
 public class AuthenticationResponse {
 
-  private final String jwt;
+    private String jwt;
 
-  public AuthenticationResponse(String jwt) {
-    this.jwt = jwt;
-  }
+    public AuthenticationResponse() {}
 
-  public String getJwt() {
-    return jwt;
-  }
+    public AuthenticationResponse(String jwt) {
+        this.jwt = jwt;
+    }
+
+    public String getJwt() {
+        return jwt;
+    }
 }
