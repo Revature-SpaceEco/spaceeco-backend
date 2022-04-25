@@ -24,6 +24,9 @@ public class AuthenticationController {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @GetMapping("/user/{id}/hello")
     public String hello() {
         return "Hello world";
@@ -47,7 +50,7 @@ public class AuthenticationController {
 
         final CustomUserDetails userDetails = userDetailsService
                 .loadUserByUsername(authenticationRequest.getUsername());
-        final String jwt = JwtUtil.generateToken(userDetails);
+        final String jwt = jwtUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
