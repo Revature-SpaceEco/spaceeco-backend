@@ -4,7 +4,7 @@ import com.revature.spaceecobackend.dto.BillingDetailsDto;
 import com.revature.spaceecobackend.dto.OrderDto;
 import com.revature.spaceecobackend.dto.PaymentDto;
 import com.revature.spaceecobackend.exception.EmptyFields;
-import com.revature.spaceecobackend.exception.OrderNotFound;
+import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.*;
 import com.revature.spaceecobackend.service.OrderService;
 import org.junit.jupiter.api.BeforeAll;
@@ -64,7 +64,7 @@ public class OrderControllerTest {
         orderDate = new Timestamp(System.currentTimeMillis());
         order = new Order(1, buyer, products, orderDate, "pending", address, payment);
         orders.add(order);
-        paymentDto = new PaymentDto(0, null, new BillingDetailsDto());
+        paymentDto = new PaymentDto();
         orderDtos = new ArrayList<>();
         orderDto = new OrderDto(1, orderDate, "pending", address, paymentDto);
         orderDtos.add(orderDto);
@@ -79,36 +79,36 @@ public class OrderControllerTest {
     }
 
     @Test
-    void getOrderById_positive() throws OrderNotFound {
+    void getOrderById_positive() throws NotFound {
         when(orderService.getOrderByOrderId(orderDto.getId())).thenReturn(orderDto);
         ResponseEntity<?> response = orderController.getOrderById(orderDto.getId());
         assertThat(response.getBody()).isEqualTo(orderDto);
     }
 
     @Test
-    void getOrderById_OrderNotFound() throws OrderNotFound {
-        when(orderService.getOrderByOrderId(any(Integer.class))).thenThrow(OrderNotFound.class);
+    void getOrderById_OrderNotFound() throws NotFound {
+        when(orderService.getOrderByOrderId(any(Integer.class))).thenThrow(NotFound.class);
         ResponseEntity<?> response = orderController.getOrderById(500);
         assertThat(response.getStatusCodeValue()).isEqualTo(404);
     }
 
     @Test
-    void updateOrderById_positive() throws OrderNotFound, EmptyFields {
+    void updateOrderById_positive() throws NotFound, EmptyFields {
         when(orderService.updateOrder(orderDto)).thenReturn(orderDto);
         ResponseEntity<?> response = orderController.updateOrderById(orderDto);
         assertThat(response.getBody()).isEqualTo(orderDto);
     }
 
     @Test
-    void updateOrderById_OrderNotFound() throws OrderNotFound, EmptyFields {
-        when(orderService.updateOrder(orderDto)).thenThrow(OrderNotFound.class);
+    void updateOrderById_OrderNotFound() throws NotFound, EmptyFields {
+        when(orderService.updateOrder(orderDto)).thenThrow(NotFound.class);
         ResponseEntity<?> response = orderController.updateOrderById(orderDto);
         int expected = 404;
         assertThat(response.getStatusCodeValue()).isEqualTo(expected);
     }
 
     @Test
-    void updateOrderById_EmptyFields() throws OrderNotFound, EmptyFields {
+    void updateOrderById_EmptyFields() throws NotFound, EmptyFields {
         when(orderService.updateOrder(any(OrderDto.class))).thenThrow(EmptyFields.class);
         ResponseEntity<?> response = orderController.updateOrderById(new OrderDto());
 
@@ -117,15 +117,15 @@ public class OrderControllerTest {
 
 
     @Test
-    void deleteOrder_positive() throws OrderNotFound {
+    void deleteOrder_positive() throws NotFound {
         when(orderService.deleteOrder(orderDto)).thenReturn(true);
         ResponseEntity<?> response = orderController.deleteOrder(orderDto);
         assertThat(response.getBody()).isEqualTo(true);
     }
 
     @Test
-    void deleteOrder_OrderNotFound() throws OrderNotFound {
-        when(orderService.deleteOrder(orderDto)).thenThrow(OrderNotFound.class);
+    void deleteOrder_OrderNotFound() throws NotFound {
+        when(orderService.deleteOrder(orderDto)).thenThrow(NotFound.class);
         ResponseEntity<?> response = orderController.deleteOrder(orderDto);
         int expected = 404;
         assertThat(response.getStatusCodeValue()).isEqualTo(expected);

@@ -2,7 +2,7 @@ package com.revature.spaceecobackend.service;
 
 import com.revature.spaceecobackend.dao.BillingDetailsRepository;
 import com.revature.spaceecobackend.dto.BillingDetailsDto;
-import com.revature.spaceecobackend.exception.BillingDetailsNotFound;
+import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.exception.EmptyFields;
 import com.revature.spaceecobackend.model.Address;
 import com.revature.spaceecobackend.model.BillingDetails;
@@ -58,7 +58,7 @@ public class BillingServiceTest {
 
   @Test
   void getBillingDetailsThatDoNotExist_negative() {
-    Assertions.assertThrows(BillingDetailsNotFound.class, () -> {
+    Assertions.assertThrows(NotFound.class, () -> {
       billingDetailsService.deleteBillingDetails(1);
     });
   }
@@ -80,7 +80,7 @@ public class BillingServiceTest {
   }
 
   @Test
-  void updateBillingDetail_Positive() throws BillingDetailsNotFound {
+  void updateBillingDetail_Positive() throws NotFound {
     when(billingDetailsRepo.findById(billingDetails.getId())).thenReturn(Optional.of(billingDetails));
     when(billingDetailsRepo.saveAndFlush(any(BillingDetails.class))).thenReturn(billingDetails);
     BillingDetails actual = billingDetailsService.updateBillingDetails(billingDetailsDto, billingDetails.getId());
@@ -89,20 +89,20 @@ public class BillingServiceTest {
 
   @Test
   void updateBillingDetail_NegativeException() {
-    Assertions.assertThrows(BillingDetailsNotFound.class, () -> {
+    Assertions.assertThrows(NotFound.class, () -> {
       billingDetailsService.updateBillingDetails(billingDetailsDto, 500);
     });
   }
 
   @Test
-  void deleteBillingDetail_Positive() throws BillingDetailsNotFound {
+  void deleteBillingDetail_Positive() throws NotFound {
     when(billingDetailsRepo.findById(billingDetails.getId())).thenReturn(Optional.of(billingDetails));
     assertThat(billingDetailsService.deleteBillingDetails(billingDetails.getId())).isTrue();
   }
 
   @Test
   void deleteBillingDetailsThatDoNotExist_negative() {
-    Assertions.assertThrows(BillingDetailsNotFound.class, () -> {
+    Assertions.assertThrows(NotFound.class, () -> {
       billingDetailsService.deleteBillingDetails(billingDetails.getId());
     });
   }
