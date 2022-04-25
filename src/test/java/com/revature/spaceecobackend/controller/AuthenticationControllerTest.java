@@ -42,4 +42,5 @@ public class AuthenticationControllerTest {
 
         Assertions.assertEquals(request.getUsername(), actual);
     }
+
 }

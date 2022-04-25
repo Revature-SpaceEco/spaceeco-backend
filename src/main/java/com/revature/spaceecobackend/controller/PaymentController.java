@@ -43,7 +43,7 @@ public class PaymentController {
   }
 
   // updatePaymentStatus
-  @PatchMapping("/")
+  @PutMapping("/")
   public ResponseEntity<?> updatePaymentStatus(@RequestBody PaymentDto paymentDto) {
     try {
       Payment updatePayment = paymentService.updatePayment(paymentDto);
