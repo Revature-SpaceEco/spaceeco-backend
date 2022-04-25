@@ -2,8 +2,8 @@ package com.revature.spaceecobackend.service;
 
 import com.revature.spaceecobackend.dao.BillingDetailsRepository;
 import com.revature.spaceecobackend.dto.BillingDetailsDto;
-import com.revature.spaceecobackend.exception.BillingDetailsNotFound;
 import com.revature.spaceecobackend.exception.EmptyFields;
+import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.BillingDetails;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,25 +26,25 @@ public class BillingDetailsService {
     }
 
 
-    public BillingDetails updateBillingDetails(BillingDetailsDto billingDetailsDto, int id) throws BillingDetailsNotFound {
+    public BillingDetails updateBillingDetails(BillingDetailsDto billingDetailsDto, int id) throws NotFound {
         BillingDetails billingDetails = modelMapper.map(billingDetailsDto, BillingDetails.class);
         billingDetails.setId(id);
         Optional<BillingDetails> optional = billingDetailsRepository.findById(billingDetails.getId());
         if (optional.isPresent()){
             billingDetailsRepository.saveAndFlush(billingDetails);
         }else {
-            throw new BillingDetailsNotFound("Payment info with id" + billingDetails.getId() + " was not found");
+            throw new NotFound("Payment info with id" + billingDetails.getId() + " was not found");
         }
         return billingDetails;
     }
 
 
-    public boolean deleteBillingDetails(int id) throws BillingDetailsNotFound {
+    public boolean deleteBillingDetails(int id) throws NotFound{
 
         Optional<BillingDetails> billingDetailToDelete = billingDetailsRepository.findById(id);
 
         if(!billingDetailToDelete.isPresent()){
-            throw new BillingDetailsNotFound("Payment info with id "+ id + " was not found");
+            throw new NotFound("Payment info with id "+ id + " was not found");
         }
         billingDetailsRepository.delete(billingDetailToDelete.get());
         return true;

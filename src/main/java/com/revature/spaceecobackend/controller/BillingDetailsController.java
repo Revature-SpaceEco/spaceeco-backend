@@ -1,8 +1,8 @@
 package com.revature.spaceecobackend.controller;
 
 import com.revature.spaceecobackend.dto.BillingDetailsDto;
-import com.revature.spaceecobackend.exception.BillingDetailsNotFound;
 import com.revature.spaceecobackend.exception.EmptyFields;
+import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.BillingDetails;
 import com.revature.spaceecobackend.service.BillingDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class BillingDetailsController {
             BillingDetails billingDetails;
             billingDetails = billingDetailsService.updateBillingDetails(billingDetailsDto, id);
             return ResponseEntity.ok().body(billingDetails);
-        }catch (BillingDetailsNotFound e){
+        }catch (NotFound e){
             return ResponseEntity.status(404).body(e.getMessage());
         }
     }
@@ -65,7 +65,7 @@ public class BillingDetailsController {
         try {
             boolean deleted = billingDetailsService.deleteBillingDetails(id);
             return ResponseEntity.ok().body(deleted);
-        } catch (BillingDetailsNotFound e) {
+        } catch (NotFound e) {
             return ResponseEntity.status(404).body(e.getMessage());
         }
     }

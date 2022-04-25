@@ -1,5 +1,6 @@
 package com.revature.spaceecobackend.dto;
 
+import com.revature.spaceecobackend.model.BillingDetails;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentDto {
+    
     private int id;
+    private BillingDetailsDto billingDetailsDto;
     private String status;
+    
+    
 }

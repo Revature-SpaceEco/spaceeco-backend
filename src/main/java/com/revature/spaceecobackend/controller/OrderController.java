@@ -2,8 +2,7 @@ package com.revature.spaceecobackend.controller;
 
 import com.revature.spaceecobackend.dto.OrderDto;
 import com.revature.spaceecobackend.exception.EmptyFields;
-import com.revature.spaceecobackend.exception.OrderNotFound;
-import com.revature.spaceecobackend.exception.UserNotFound;
+import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +31,7 @@ public class OrderController {
         try{
             OrderDto orderDto = orderService.getOrderByOrderId(orderId);
             return ResponseEntity.ok().body(orderDto);
-        }catch(OrderNotFound e){
+        }catch(NotFound e){
             return ResponseEntity.notFound().build();
         }
     }
@@ -45,7 +44,7 @@ public class OrderController {
                 return ResponseEntity.badRequest().body("No orders were found for this user.");
             }
             return ResponseEntity.ok().body(orders);
-        } catch (UserNotFound e) {
+        } catch (NotFound e) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -57,7 +56,7 @@ public class OrderController {
             return ResponseEntity.ok().body(updatedOrder);
         }catch(EmptyFields e){
             return ResponseEntity.badRequest().body(e.getMessage());
-        }catch (OrderNotFound e) {
+        }catch (NotFound e) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -77,7 +76,7 @@ public class OrderController {
         try {
             boolean deleted = orderService.deleteOrder(orderDto);
             return ResponseEntity.ok().body(deleted);
-        } catch(OrderNotFound e) {
+        } catch(NotFound e) {
             return ResponseEntity.notFound().build();
         }
     }
