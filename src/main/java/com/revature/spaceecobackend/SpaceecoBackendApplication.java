@@ -24,10 +24,11 @@ public class SpaceecoBackendApplication {
   @Bean
   public FilterRegistrationBean<JwtRequestFilter> initFilter() {
     FilterRegistrationBean<JwtRequestFilter> registrationBean = new FilterRegistrationBean<>();
+
     registrationBean.setFilter(new JwtRequestFilter());
     registrationBean.addUrlPatterns("*");
-    return registrationBean;
 
+    return registrationBean;
   }
 
 }
