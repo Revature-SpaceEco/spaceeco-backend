@@ -21,6 +21,7 @@ public class UserController {
   public UserDTO AddUser(@RequestBody User user) {
     User rtnUser = userService.createUser(user);
 
+    // TODO create mapper to clean this up
     if (rtnUser != null) {
       UserDTO userDTO = new UserDTO();
       userDTO.setId(rtnUser.getId());
