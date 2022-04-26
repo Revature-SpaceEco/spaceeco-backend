@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/billing")
+@RequestMapping("/users/{userId}/billing")
 @CrossOrigin(originPatterns = "*", exposedHeaders = "*", allowedHeaders = "*")
 public class BillingDetailsController {
   @Autowired
