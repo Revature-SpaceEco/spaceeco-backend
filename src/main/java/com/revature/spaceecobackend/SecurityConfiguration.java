@@ -44,7 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable().authorizeRequests()
                 .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/users/{userId}/**")
-                .access("@userSecurity.hasUserId(authentication, #id)")
+                .access("@userSecurity.hasUserId(authentication, #userId)")
                 .antMatchers("/authenticate").permitAll()
                 .antMatchers("/users").permitAll()
                 .and().sessionManagement()
