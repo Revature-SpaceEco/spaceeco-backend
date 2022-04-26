@@ -8,10 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(originPatterns = "*", exposedHeaders = "*", allowedHeaders = "*")
-@RequestMapping("/address")
+@RequestMapping("/users/{userId}")
 public class AddressController {
-
-  //add address service as private instance variable @Autowired
 
   //add users as private instance variable @Autowired
 
@@ -23,14 +21,14 @@ public class AddressController {
 //         return addressService.createAddress(address);
 //     }
 
-  @PostMapping("/users/{userId}")
+  @PostMapping("/address")
   public Address createAddress(@PathVariable String userId,
                                @RequestBody Address address) throws JsonProcessingException { //Create
 
     return addressService.createAddress(Integer.parseInt(userId), address);
   }
 
-  @GetMapping("/users/{userId}")
+  @GetMapping("/address")
   public Address getAddressByUserId(@PathVariable String userId) { //change name if naming convention changes //Response
     return addressService.getAddressByUserId(Integer.parseInt(userId));
   }
@@ -40,11 +38,10 @@ public class AddressController {
 //         return addressService.deleteAddressById(Integer.parseInt(id));
 //     }
 
-  @PutMapping("/users/{userId}")
+  @PutMapping("/address")
   public Address updateAddressByUserId(@PathVariable String userId,
                                        @RequestBody Address address) { //Update
     return addressService.updateAddressByUserId(Integer.parseInt(userId), address);
   }
-
 
 }
