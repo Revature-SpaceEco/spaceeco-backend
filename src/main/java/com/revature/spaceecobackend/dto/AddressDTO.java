@@ -11,6 +11,7 @@ import javax.persistence.Column;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddressDTO {
+
     private int id;
 
     private String addressLineOne;
