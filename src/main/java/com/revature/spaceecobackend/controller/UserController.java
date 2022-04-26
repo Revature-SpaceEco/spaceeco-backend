@@ -19,8 +19,10 @@ public class UserController {
 
   @PostMapping()
   public UserDTO AddUser(@RequestBody User user) {
+    user.setActive(true);
     User rtnUser = userService.createUser(user);
 
+    // TODO create mapper to clean this up
     if (rtnUser != null) {
       UserDTO userDTO = new UserDTO();
       userDTO.setId(rtnUser.getId());
