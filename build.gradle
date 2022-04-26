@@ -26,15 +26,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'org.modelmapper:modelmapper:3.1.0'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server:2.6.6'
-	implementation 'com.auth0:java-jwt:3.19.1'
-
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 }
 
 tasks.named('test') {
@@ -53,7 +50,7 @@ test {
 jacocoTestReport {
 	dependsOn test
 	reports {
-		xml.required = false
+		xml.required = true
 		csv.required = false
 		html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
 	}
@@ -65,6 +62,9 @@ sonarqube {
 		property "sonar.organization", "revature-spaceeco"
 		property "sonar.host.url", "https://sonarcloud.io"
 //		property "sonar.coverage.jacoco.xmlReportPath", "$buildDir/jacoco/test.exec"
-//		property "sonar.coverage.exclusions", ""
+		property "sonar.coverage.exclusions", "**/com/revature/spaceecobackend/model/*, " +
+				"**/com/revature/spaceecobackend/exception/*, **/com/revature/spaceecobackend/SecurityConfiguration.java," +
+				"**/com/revature/spaceecobackend/dao/*, **/com/revature/spaceecobackend/dto/*," +
+				"**/com/revature/spaceecobackend/aspect/*, **/com/revature/spaceecobackend/SpaceecoBackendApplication.java"
 	}
 }
