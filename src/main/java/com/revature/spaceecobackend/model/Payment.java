@@ -42,9 +42,9 @@ public class Payment {
   @Override
   public String toString() {
     return "Payment{" +
-        "id=" + id +
-        ", billingDetails=" + billingDetails +
-        ", status='" + status + '\'' +
-        '}';
+            "id=" + id +
+            ", billingDetails=" + billingDetails +
+            ", status='" + status + '\'' +
+            '}';
   }
 }
