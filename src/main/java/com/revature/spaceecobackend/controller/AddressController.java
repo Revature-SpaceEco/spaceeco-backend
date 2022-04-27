@@ -1,54 +1,49 @@
- package com.revature.spaceecobackend.controller;
+package com.revature.spaceecobackend.controller;
 
- import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.revature.spaceecobackend.dto.AddressDTO;
+import com.revature.spaceecobackend.model.Address;
+import com.revature.spaceecobackend.service.AddressService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
- import com.revature.spaceecobackend.model.Address;
- import com.revature.spaceecobackend.service.AddressService;
- // import com.revature.spaceecobackend.service.AddressServiceInterface;
- import org.springframework.beans.factory.annotation.Autowired;
- import org.springframework.http.ResponseEntity;
- import org.springframework.web.bind.annotation.*;
+@RestController
+@CrossOrigin(originPatterns = "*", exposedHeaders = "*", allowedHeaders = "*")
+@RequestMapping("/users/{userId}")
+public class AddressController {
 
- import java.util.Optional;
- @RestController
- @CrossOrigin(originPatterns = "*",exposedHeaders = "*",allowedHeaders = "*")
- @RequestMapping("/address")
- public class AddressController {
+  //add users as private instance variable @Autowired
 
-     //add address service as private instance variable @Autowired
 
-     //add users as private instance variable @Autowired
-
-     @Autowired
-     AddressService addressService;
+  @Autowired
+  AddressService addressService;
+//
 //     @PostMapping
 //     public Address createAddress(@RequestBody Address address) throws JsonProcessingException{ //Create
 //         return addressService.createAddress(address);
 //     }
 
-     @PostMapping("/users/{userId}")
-     public Address createAddress(@PathVariable String userId,
-                                  @RequestBody Address address) throws JsonProcessingException{ //Create
+  @PostMapping("/address")
+  public Address createAddress(@PathVariable String userId,
+                               @RequestBody AddressDTO addressDTO) throws JsonProcessingException { //Create
 
-         return addressService.createAddress(Integer.parseInt(userId), address);
-     }
+    return addressService.createAddress(Integer.parseInt(userId), addressDTO);
+  }
 
-     @GetMapping("/users/{userId}")
-     public Address getAddressByUserId(@PathVariable String userId) { //change name if naming convention changes //Response
-         return addressService.getAddressByUserId(Integer.parseInt(userId));
-     }
+  @GetMapping("/address")
+  public Address getAddressByUserId(@PathVariable String userId) { //change name if naming convention changes //Response
+    return addressService.getAddressByUserId(Integer.parseInt(userId));
+  }
 
 //     @DeleteMapping("/{id}")
 //     public Boolean deleteAddressById(@PathVariable String id){ //Delete
 //         return addressService.deleteAddressById(Integer.parseInt(id));
 //     }
 
-     @PutMapping("/users/{userId}")
-     public Address updateAddressByUserId(@PathVariable String userId,
-                                  @RequestBody Address address){ //Update
-         return addressService.updateAddressByUserId(Integer.parseInt(userId), address);
-     }
+  @PutMapping("/address")
+  public Address updateAddressByUserId(@PathVariable String userId,
+                                       @RequestBody AddressDTO address) { //Update
+    return addressService.updateAddressByUserId(Integer.parseInt(userId), address);
+  }
 
-
-
- }
+}

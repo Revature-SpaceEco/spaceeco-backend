@@ -2,6 +2,7 @@ package com.revature.spaceecobackend.service;
 
 import com.revature.spaceecobackend.dao.AddressRepository;
 import com.revature.spaceecobackend.dao.UserRepository;
+import com.revature.spaceecobackend.dto.AddressDTO;
 import com.revature.spaceecobackend.model.Address;
 import com.revature.spaceecobackend.model.BillingDetails;
 import com.revature.spaceecobackend.model.User;
@@ -10,71 +11,76 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-
+import org.modelmapper.ModelMapper;
 
 import java.util.Optional;
 
-import static org.mockito.Mockito.when;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class AddressServiceTest {
 
-    @Mock
-    private AddressRepository addressRepository;
+  @Mock
+  private AddressRepository addressRepository;
 
-    @InjectMocks
-    private AddressService addressService;
+  @InjectMocks
+  private AddressService addressService;
+  @Spy
+  ModelMapper modelMapper = new ModelMapper();
 
-    @Mock
-    private UserRepository userRepository;
 
-    @Test
-    public void createAddressTest (){
-        Address address = new Address();
-        address.setAddressLineOne("234 Finch Avenue");
-        address.setCity("Toronto");
-        address.setState("ON");
-        address.setZip("M8I 8L9");
-        address.setCountry("Canada");
-        address.setPlanet("Earth");
-        address.setSolarSystem("Milky Way");
+  @Mock
+  private UserRepository userRepository;
 
-        UserRole ur = new UserRole(2, "seller");
-        BillingDetails bd = new BillingDetails();
+  @Test
+    public void createAddressTest() {
+    Address address = new Address();
+    address.setAddressLineOne("234 Finch Avenue");
+    address.setAddressLineTwo("111");
+    address.setCity("Toronto");
+    address.setState("ON");
+    address.setZip("M8I 8L9");
+    address.setCountry("Canada");
+    address.setPlanet("Earth");
+    address.setSolarSystem("Milky Way");
 
-        User user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, address, bd, "www.image.com", true);
-        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+    UserRole ur = new UserRole(2, "seller");
+    BillingDetails bd = new BillingDetails();
 
-        when(addressRepository.save(address)).thenReturn(address);
+    User user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, address, bd, "www.image.com", true);
+    when(userRepository.findById(1)).thenReturn(Optional.of(user));
 
-        Address actual = addressService.createAddress(1,address);
+    when(addressRepository.saveAndFlush(address)).thenReturn(address);
 
-        assertThat(actual).isEqualTo(address);
-    }
+    Address actual = addressService.createAddress(1, new AddressDTO("234 Finch Avenue","111","Toronto","ON","Canada","M8I 8L9","Milky Way","Earth"));
 
-    @Test
-    public void getAddressByUserIdTest(){
-        Address expect = new Address();
+    assertThat(actual).isEqualTo(address);
+  }
 
-        expect.setAddressLineOne("234 Finch Avenue");
-        expect.setCity("Toronto");
-        expect.setState("ON");
-        expect.setZip("M8I 8L9");
-        expect.setCountry("Canada");
-        expect.setPlanet("Earth");
-        expect.setSolarSystem("Milky Way");
-        UserRole ur = new UserRole(2, "seller");
-        BillingDetails bd = new BillingDetails();
+  @Test
+  public void getAddressByUserIdTest() {
+    Address expect = new Address();
 
-        User user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, expect, bd, "www.image.com", true);
+    expect.setAddressLineOne("234 Finch Avenue");
+    expect.setCity("Toronto");
+    expect.setState("ON");
+    expect.setZip("M8I 8L9");
+    expect.setCountry("Canada");
+    expect.setPlanet("Earth");
+    expect.setSolarSystem("Milky Way");
+    UserRole ur = new UserRole(2, "seller");
+    BillingDetails bd = new BillingDetails();
 
-        when(userRepository.findById(1)).thenReturn(Optional.of(user));
-        Address actual = addressService.getAddressByUserId(1);
+    User user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, expect, bd, "www.image.com", true);
 
-        assertThat(actual).isEqualTo(expect);
-    }
+    when(userRepository.findById(1)).thenReturn(Optional.of(user));
+    Address actual = addressService.getAddressByUserId(1);
+
+    assertThat(actual).isEqualTo(expect);
+  }
 
 
 //    @Test
@@ -85,28 +91,29 @@ public class AddressServiceTest {
 //        assertThat(actual).isEqualTo(true);
 //    }
 
-           @Test
-           public void updateAddressTestByUserId (){
-               Address address = new Address();
-               address.setAddressLineOne("234 Finch Avenue");
-               address.setCity("Toronto");
-               address.setState("ON");
-               address.setZip("M8I 8L9");
-               address.setCountry("Canada");
-               address.setPlanet("Earth");
-               address.setSolarSystem("Milky Way");
+  @Test
+  public void updateAddressTestByUserId() {
+    Address address = new Address();
+    address.setAddressLineOne("234 Finch Avenue");
+    address.setAddressLineTwo("111");
+    address.setCity("Toronto");
+    address.setState("ON");
+    address.setZip("M8I 8L9");
+    address.setCountry("Canada");
+    address.setPlanet("Earth");
+    address.setSolarSystem("Milky Way");
 
-               UserRole ur = new UserRole(2, "seller");
-               BillingDetails bd = new BillingDetails();
+    UserRole ur = new UserRole(2, "seller");
+    BillingDetails bd = new BillingDetails();
 
-               User user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, address, bd, "www.image.com", true);
-               when(userRepository.findById(1)).thenReturn(Optional.of(user));
+    User user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, address, bd, "www.image.com", true);
+    when(userRepository.findById(1)).thenReturn(Optional.of(user));
 
-               when(addressRepository.save(address)).thenReturn(address);
+    when(addressRepository.save(address)).thenReturn(address);
 
-               Address actual = addressService.updateAddressByUserId(1,address);
+    Address actual = addressService.updateAddressByUserId(1, new AddressDTO("234 Finch Avenue","111","Toronto","ON","Canada","M8I 8L9","Earth","Milky Way"));
 
-               assertThat(actual).isEqualTo(address);
-           }
+    assertThat(actual).isEqualTo(address);
+  }
 
 }
