@@ -1,5 +1,6 @@
 package com.revature.spaceecobackend.model;
 
+import com.revature.spaceecobackend.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

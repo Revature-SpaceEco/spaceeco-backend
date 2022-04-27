@@ -1,6 +1,7 @@
 package com.revature.spaceecobackend.controller;
 
 
+import com.revature.spaceecobackend.dto.ProductDto;
 import com.revature.spaceecobackend.model.Product;
 import com.revature.spaceecobackend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +20,14 @@ public class ProductController {
   ProductService productService;
 
   @GetMapping("/products")
-  public List<Product> getAllProducts() {
+  public List<ProductDto> getAllProducts() {
 
-    return productService.findAll();
+    return productService.findAllProducts();
 
 
   }
-
-
     @GetMapping("/products/{product_id}")
-    public Product getProductById(@PathVariable("product_id") int productId) {
+    public ProductDto getProductById(@PathVariable("product_id") int productId) {
         return productService.getProductsById(productId);
     }
 
