@@ -11,11 +11,12 @@ import java.util.Optional;
 
 
 @Service
-public class ProductService implements ProductServiceInterface{
+public class ProductService implements ProductServiceInterface {
 
-    @Autowired
-    ProductRepository productRepo;
+  @Autowired
+  ProductRepository productRepo;
 
+<<<<<<< HEAD
     public List<Product> findAll() {
         return productRepo.findAll();
     }
@@ -23,4 +24,9 @@ public class ProductService implements ProductServiceInterface{
     public  Product getProductsById(Integer productId) {
         Optional<Product> optional = productRepo.findById(productId);
         return  optional.get();}
+=======
+  public List<Product> findAll() {
+    return productRepo.findAll();
+  }
+>>>>>>> 14737aa1695a1e938f1a2f9157b0900f6def8ae4
 }

@@ -15,17 +15,16 @@ import java.util.List;
 @CrossOrigin(originPatterns = "*", exposedHeaders = "*", allowedHeaders = "*")
 public class ProductController {
 
-    @Autowired
-    ProductService productService;
+  @Autowired
+  ProductService productService;
 
-    @GetMapping("/products")
-    public List<Product> getAllProducts(){
-        List<Product> productList = productService.findAll();
+  @GetMapping("/products")
+  public List<Product> getAllProducts() {
 
-        return productList;
+    return productService.findAll();
 
 
-    }
+  }
 
 
     @GetMapping("/products/{product_id}")

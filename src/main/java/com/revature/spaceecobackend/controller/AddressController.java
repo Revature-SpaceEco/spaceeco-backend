@@ -1,51 +1,47 @@
- package com.revature.spaceecobackend.controller;
+package com.revature.spaceecobackend.controller;
 
- import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.revature.spaceecobackend.model.Address;
+import com.revature.spaceecobackend.service.AddressService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
- import com.revature.spaceecobackend.model.Address;
- import com.revature.spaceecobackend.service.AddressService;
- // import com.revature.spaceecobackend.service.AddressServiceInterface;
- import org.springframework.beans.factory.annotation.Autowired;
- import org.springframework.http.ResponseEntity;
- import org.springframework.web.bind.annotation.*;
+@RestController
+@CrossOrigin(originPatterns = "*", exposedHeaders = "*", allowedHeaders = "*")
+@RequestMapping("/users/{userId}")
+public class AddressController {
 
- import java.util.Optional;
- @RestController
- @RequestMapping("/address")
- public class AddressController {
+  //add users as private instance variable @Autowired
 
-     //add address service as private instance variable @Autowired
+  @Autowired
+  AddressService addressService;
+//
+//     @PostMapping
+//     public Address createAddress(@RequestBody Address address) throws JsonProcessingException{ //Create
+//         return addressService.createAddress(address);
+//     }
 
-     //add users as private instance variable @Autowired
+  @PostMapping("/address")
+  public Address createAddress(@PathVariable String userId,
+                               @RequestBody Address address) throws JsonProcessingException { //Create
 
-     @Autowired
-     AddressService addressService;
+    return addressService.createAddress(Integer.parseInt(userId), address);
+  }
 
-     @PostMapping
-     public Address createAddress(@RequestBody Address address) throws JsonProcessingException{ //Create
-         return addressService.createAddress(address);
-     }
+  @GetMapping("/address")
+  public Address getAddressByUserId(@PathVariable String userId) { //change name if naming convention changes //Response
+    return addressService.getAddressByUserId(Integer.parseInt(userId));
+  }
 
-     @GetMapping("/{userId}")
-     public Address getAddressByUserId(@PathVariable String userId) { //change name if naming convention changes //Response
-         return addressService.getAddressByUserId(Integer.parseInt(userId));
-     }
+//     @DeleteMapping("/{id}")
+//     public Boolean deleteAddressById(@PathVariable String id){ //Delete
+//         return addressService.deleteAddressById(Integer.parseInt(id));
+//     }
 
-     @DeleteMapping("/{id}")
-     public Boolean deleteAddressById(@PathVariable String id){ //Delete
-         return addressService.deleteAddressById(Integer.parseInt(id));
-     }
+  @PutMapping("/address")
+  public Address updateAddressByUserId(@PathVariable String userId,
+                                       @RequestBody Address address) { //Update
+    return addressService.updateAddressByUserId(Integer.parseInt(userId), address);
+  }
 
-    /* @PutMapping
-     public Address updateAddress(@PathVariable String id,
-                                  @RequestBody Address address){ //Update
-         return addressService.updateAddressByUserId(Integer.parseInt(id), address);
-     }
-
-
-     @PatchMapping
-     public Address updateAddress2(@PathVariable String id,
-                                   @RequestBody Address address){ //
-         return addressService.updateAddressByUserId2(address);
-     }*/
- }
+}
