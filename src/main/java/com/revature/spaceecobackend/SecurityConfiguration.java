@@ -32,18 +32,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     // WARNING DO NOT use this password encoder in production, not secure
+    // TODO change to encode passwords
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
 
+    // TODO change
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
                 .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/user").hasAnyRole("ADMIN", "BUYER", "SELLER")
-                .antMatchers("/hello").hasRole("BUYER")
+                .antMatchers("/users/{userId}/**")
+                .access("@userSecurity.hasUserId(authentication, #userId)")
                 .antMatchers("/authenticate").permitAll()
+                .antMatchers("/users").permitAll()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

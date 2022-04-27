@@ -12,16 +12,26 @@ import java.util.List;
 @Data
 public class CustomUserDetails implements UserDetails {
 
+    private Integer id;
     private String userName;
     private String password;
     private boolean active;
     private List<GrantedAuthority> authorities;
 
     public CustomUserDetails(User user) {
+        this.id = user.getId();
         this.userName = user.getUsername();
         this.password = user.getPassword();
         this.active = user.isActive();
         this.authorities = Arrays.asList(new SimpleGrantedAuthority(user.getUserRole().getRole()));
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Override

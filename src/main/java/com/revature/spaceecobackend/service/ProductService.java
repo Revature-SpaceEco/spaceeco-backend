@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ProductService implements ProductServiceInterface{
+public class ProductService implements ProductServiceInterface {
 
-    @Autowired
-    ProductRepository productRepo;
+  @Autowired
+  ProductRepository productRepo;
 
-    public List<Product> findAll() {
-        return productRepo.findAll();
-    }
+  public List<Product> findAll() {
+    return productRepo.findAll();
+  }
 }
