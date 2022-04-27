@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/payments")
+@RequestMapping("/users/{userId}/payments")
 @CrossOrigin(originPatterns = "*", exposedHeaders = "*", allowedHeaders = "*")
 public class PaymentController {
 
@@ -65,7 +65,7 @@ public class PaymentController {
   }
 
   // deletePayment
-  @DeleteMapping("/{billing_id}")
+  @DeleteMapping("/{payment_id}")
   public ResponseEntity<?> deletePayment(@PathVariable("payment_id") int id) {
     try {
       boolean deleted = paymentService.deletePaymentById(id);

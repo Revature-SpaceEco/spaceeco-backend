@@ -21,6 +21,9 @@ public class Categories {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int categoryId;
 
+  @Column
+  private String categoryName;
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -33,7 +36,4 @@ public class Categories {
   public int hashCode() {
     return Objects.hash(categoryId, categoryName);
   }
-
-  @Column
-  private String categoryName;
 }
