@@ -14,7 +14,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +29,14 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class UserControllerTest {
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @Mock
     private UserService userService;
 
     @InjectMocks
     UserController userController;
-
 
     private static UserDTO userDTO;
     private static UserRole role;
@@ -62,14 +65,13 @@ class UserControllerTest {
 
     }
 
-
     @Test
     void createUser_positive()  {
+        when(passwordEncoder.encode(user.getPassword())).thenReturn(user.getPassword());
         when(userService.createUser(user)).thenReturn(user);
         UserDTO response = userController.AddUser(user);
         assertThat(response).isEqualTo(userDTO);
     }
-
 
     @Test
     void test_getAllusers(){
@@ -78,8 +80,5 @@ class UserControllerTest {
         ResponseEntity<?> response = userController.getAllUsers();
         assertThat(response.getBody()).isEqualTo(userList);
     }
-
-
-
 
 }

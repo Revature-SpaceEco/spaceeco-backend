@@ -21,10 +21,10 @@ VALUES ('Visa', 1234456778971547, 142, 'John', 1),
 ('MasterCard', 9874159823651478, 951, 'Aruna', 2);
 
 INSERT INTO users (user_username, user_password, user_email, user_first_name, user_last_name, role_user_id, primary_address_id, primary_billing_id, profile_image, is_user_active)
-VALUES ('buyer1', 'password', 'buyer@email.com', 'John', 'Doe', 1, 1, 1, 'www.profileimage.com/1.jpg', true),
-('buyer2', 'password', 'tenzin@email.com', 'Tenzin', 'Chandrakant', 1, 2, 2, 'www.profileimage.com/2.jpg', true),
-('seller1', 'password', 'seller@email.com', 'Jane', 'Doe', 2, 3, 3, 'www.profileimage.com/2.jpg', true),
-('admin1', 'password', 'admin@email.com', 'Aruna', 'Pero', 3, 4, 4, 'www.profileimage.com/3.jpg', true);
+VALUES ('buyer1', '{bcrypt}$2a$10$7BPBYvGVY/IOKqX.jvNNuOn7gXyQXDNsDf.IV/YrRwEpRibNIMfWm', 'buyer@email.com', 'John', 'Doe', 1, 1, 1, 'www.profileimage.com/1.jpg', true),
+('buyer2', '{bcrypt}$2a$10$7BPBYvGVY/IOKqX.jvNNuOn7gXyQXDNsDf.IV/YrRwEpRibNIMfWm', 'tenzin@email.com', 'Tenzin', 'Chandrakant', 1, 2, 2, 'www.profileimage.com/2.jpg', true),
+('seller1', '{bcrypt}$2a$10$7BPBYvGVY/IOKqX.jvNNuOn7gXyQXDNsDf.IV/YrRwEpRibNIMfWm', 'seller@email.com', 'Jane', 'Doe', 2, 3, 3, 'www.profileimage.com/2.jpg', true),
+('admin1', '{bcrypt}$2a$10$7BPBYvGVY/IOKqX.jvNNuOn7gXyQXDNsDf.IV/YrRwEpRibNIMfWm', 'admin@email.com', 'Aruna', 'Pero', 3, 4, 4, 'www.profileimage.com/3.jpg', true);
 
 INSERT INTO payments (billing_details)
 VALUES (1),
