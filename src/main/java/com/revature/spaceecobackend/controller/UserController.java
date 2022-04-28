@@ -1,8 +1,10 @@
 package com.revature.spaceecobackend.controller;
 
 import com.revature.spaceecobackend.dto.UserDTO;
+import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.User;
 import com.revature.spaceecobackend.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,26 +19,18 @@ public class UserController {
   @Autowired
   private UserService userService;
 
+  @Autowired
+  private ModelMapper modelMapper;
+
   @PostMapping()
   public UserDTO AddUser(@RequestBody User user) {
     user.setActive(true);
     User rtnUser = userService.createUser(user);
 
-    // TODO create mapper to clean this up
     if (rtnUser != null) {
-      UserDTO userDTO = new UserDTO();
-      userDTO.setId(rtnUser.getId());
-      userDTO.setUsername(rtnUser.getUsername());
-      userDTO.setFirstName(rtnUser.getFirstName());
-      userDTO.setLastName(rtnUser.getLastName());
-      userDTO.setEmail(rtnUser.getEmail());
-      userDTO.setImageUrl(rtnUser.getImageUrl());
-      userDTO.setUserRole(rtnUser.getUserRole());
-      userDTO.setPrimaryAddress(rtnUser.getPrimaryAddressId());
-      userDTO.setPrimaryBilling(rtnUser.getPrimaryBillingId());
-      userDTO.setActive(rtnUser.isActive());
-      return userDTO;
+      return modelMapper.map(rtnUser, UserDTO.class);
     }
+
     return null;
   }
 
@@ -44,6 +38,16 @@ public class UserController {
   public ResponseEntity<?> getAllUsers() {
     List<User> users = userService.getAllUsers();
     return ResponseEntity.ok().body(users);
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<?> getUserById(@PathVariable("id") int id) {
+    try {
+      UserDTO userDTO = userService.getUserById(id);
+      return ResponseEntity.ok().body(userDTO);
+    } catch (NotFound e) {
+      return ResponseEntity.notFound().build();
+    }
   }
 
 }
