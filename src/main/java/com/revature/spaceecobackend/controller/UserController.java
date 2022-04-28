@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -27,16 +28,17 @@ public class UserController {
   private ModelMapper modelMapper;
 
   @PostMapping()
-  public UserDTO AddUser(@RequestBody User user) {
+  public ResponseEntity<?> AddUser(@RequestBody User user) {
     user.setActive(true);
     user.setPassword(passwordEncoder.encode(user.getPassword()));
-    User rtnUser = userService.createUser(user);
 
-    if (rtnUser != null) {
-      return modelMapper.map(rtnUser, UserDTO.class);
+    boolean result = userService.createUser(user);
+
+    if (result) {
+      return ResponseEntity.status(200).body("User created successfully.");
+    } else {
+      return ResponseEntity.status(400).body("Username or email already exist.");
     }
-
-    return null;
   }
 
   @GetMapping()
@@ -45,8 +47,8 @@ public class UserController {
     return ResponseEntity.ok().body(users);
   }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<?> getUserById(@PathVariable("id") int id) {
+  @GetMapping("/{userId}")
+  public ResponseEntity<?> getUserById(@PathVariable("userId") int id) {
     try {
       UserDTO userDTO = userService.getUserById(id);
       return ResponseEntity.ok().body(userDTO);

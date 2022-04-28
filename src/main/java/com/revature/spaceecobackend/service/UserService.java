@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,9 +22,18 @@ public class UserService {
   @Autowired
   private ModelMapper modelMapper;
 
-  @Transactional
-  public User createUser(User user) {
-    return userRepository.save(user);
+  public boolean createUser(User user) {
+    // get the user from the database if exist
+    User dbUser = userRepository.findByUsernameOrEmail(user.getUsername(), user.getEmail());
+
+    // if the user not already exist
+    // then we create and return the user
+    if(dbUser == null) {
+      userRepository.save(user);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public List<User> getAllUsers() {

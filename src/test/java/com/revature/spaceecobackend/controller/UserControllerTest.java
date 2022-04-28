@@ -45,6 +45,7 @@ class UserControllerTest {
     private static User user;
     private static User user2;
     private static List<User> userList;
+
     @BeforeAll
     public static void init() {
 
@@ -62,15 +63,14 @@ class UserControllerTest {
         userList.add(user);
         userList.add(user2);
 
-
     }
 
     @Test
     void createUser_positive()  {
         when(passwordEncoder.encode(user.getPassword())).thenReturn(user.getPassword());
-        when(userService.createUser(user)).thenReturn(user);
-        UserDTO response = userController.AddUser(user);
-        assertThat(response).isEqualTo(userDTO);
+        when(userService.createUser(user)).thenReturn(true);
+        ResponseEntity<?> response = userController.AddUser(user);
+        assertEquals("User created successfully.", response.getBody());
     }
 
     @Test
