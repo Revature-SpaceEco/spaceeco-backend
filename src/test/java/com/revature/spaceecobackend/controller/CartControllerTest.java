@@ -1,43 +1,32 @@
-package com.revature.spaceecobackend.service;
+package com.revature.spaceecobackend.controller;
 
-import com.revature.spaceecobackend.dao.CartRepository;
-import com.revature.spaceecobackend.dao.UserRepository;
 import com.revature.spaceecobackend.dto.CartDto;
 import com.revature.spaceecobackend.dto.UserDTO;
 import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.*;
-import org.junit.jupiter.api.Assertions;
+import com.revature.spaceecobackend.service.CartService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
-import static org.mockito.ArgumentMatchers.any;
-
+import org.springframework.http.ResponseEntity;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class CartServiceTest {
+public class CartControllerTest {
   @Mock
-  CartRepository cartRepository;
-
-  @Mock
-  UserRepository userRepository;
-
-  @Spy
-  ModelMapper modelMapper;
+  CartService cartService;
 
   @InjectMocks
-  CartService cartService;
+  CartController cartController;
 
   private static Address address;
   private static BillingDetails billingDetails;
@@ -50,7 +39,6 @@ public class CartServiceTest {
   private static UserDTO buyerDto;
   private static Categories categories;
   private static List<Product> products;
-
 
   @BeforeAll
   public static void init(){
@@ -71,51 +59,53 @@ public class CartServiceTest {
   }
 
   @Test
-  public void getCartByUserId_positive() throws NotFound {
-    when(userRepository.findById(buyer.getId())).thenReturn(Optional.of(buyer));
-    when(cartRepository.findByBuyerId(buyer.getId())).thenReturn(cart);
+  void getCartByUserId() throws NotFound {
+    when(cartService.getCartByBuyerId(buyer.getId())).thenReturn(cartDto);
 
-    CartDto actual = cartService.getCartByBuyerId(1);
-    assertThat(actual).isEqualTo(cartDto);
+    ResponseEntity response = cartController.getCartByUserId(buyer.getId());
+
+    assertThat(response.getBody()).isEqualTo(cartDto);
   }
 
   @Test
-  void getOrderByBuyerId_UserNotFound() {
-    Assertions.assertThrows(NotFound.class, () -> {
-      cartService.getCartByBuyerId(500);
-    });
+  void getCartByUserId_UserNotFound() throws NotFound {
+    when(cartService.getCartByBuyerId(any(Integer.class))).thenThrow(NotFound.class);
+    ResponseEntity<?> response = cartController.getCartByUserId(500);
+    assertThat(response.getStatusCodeValue()).isEqualTo(404);
   }
 
   @Test
-  public void createCart_positive() throws NotFound {
-    when(cartRepository.saveAndFlush(any(Cart.class))).thenReturn(cart);
+  void createCart() throws NotFound {
+    when(cartService.createCart(cartDto)).thenReturn(cartDto);
 
-    CartDto actual = cartService.createCart(cartDto);
-    assertThat(actual).isEqualTo(cartDto);
+    ResponseEntity response = cartController.createCart(cartDto);
+
+    assertThat(response.getBody()).isEqualTo(cartDto);
   }
 
   @Test
-  void createCart_UserNotSignedIn() {
-    Assertions.assertThrows(NotFound.class, () -> {
-      cartService.createCart(new CartDto());
-    });
+  void createCart_UserNotFound() throws NotFound {
+    when(cartService.createCart(new CartDto())).thenThrow(NotFound.class);
+    ResponseEntity<?> response = cartController.createCart(new CartDto());
+    assertThat(response.getStatusCodeValue()).isEqualTo(400);
   }
 
   @Test
-  public void updateCart_positive() throws NotFound {
+  void updateCart() throws NotFound {
     CartDto editedCart = new CartDto(1,buyerDto,products);
-    when(cartRepository.findById(editedCart.getId())).thenReturn(Optional.of(cart));
-    when(cartRepository.saveAndFlush(any(Cart.class))).thenReturn(cart);
+    when(cartService.updateCart(editedCart)).thenReturn(editedCart);
 
-    CartDto actual = cartService.updateCart(editedCart);
-    assertThat(actual).isEqualTo(cartDto);
+    ResponseEntity response = cartController.updateCart(editedCart);
+
+    assertThat(response.getBody()).isEqualTo(editedCart);
+
   }
 
   @Test
-  void updateCart_UserNotFound() {
-    Assertions.assertThrows(NotFound.class, () -> {
-      cartService.updateCart(new CartDto());
-    });
+  void updateCart_UserNotFound() throws NotFound {
+    CartDto editedCart = new CartDto(1,buyerDto,products);
+    when(cartService.updateCart(editedCart)).thenThrow(NotFound.class);
+    ResponseEntity<?> response = cartController.updateCart(editedCart);
+    assertThat(response.getStatusCodeValue()).isEqualTo(404);
   }
-
 }
