@@ -1,6 +1,7 @@
 package com.revature.spaceecobackend.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.revature.spaceecobackend.dto.AddressDTO;
 import com.revature.spaceecobackend.model.Address;
 import com.revature.spaceecobackend.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ public class AddressController {
 
   //add users as private instance variable @Autowired
 
+
   @Autowired
   AddressService addressService;
 //
@@ -23,9 +25,9 @@ public class AddressController {
 
   @PostMapping("/address")
   public Address createAddress(@PathVariable String userId,
-                               @RequestBody Address address) throws JsonProcessingException { //Create
+                               @RequestBody AddressDTO addressDTO) throws JsonProcessingException { //Create
 
-    return addressService.createAddress(Integer.parseInt(userId), address);
+    return addressService.createAddress(Integer.parseInt(userId), addressDTO);
   }
 
   @GetMapping("/address")
@@ -40,7 +42,7 @@ public class AddressController {
 
   @PutMapping("/address")
   public Address updateAddressByUserId(@PathVariable String userId,
-                                       @RequestBody Address address) { //Update
+                                       @RequestBody AddressDTO address) { //Update
     return addressService.updateAddressByUserId(Integer.parseInt(userId), address);
   }
 

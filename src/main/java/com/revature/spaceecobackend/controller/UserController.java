@@ -7,6 +7,7 @@ import com.revature.spaceecobackend.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,9 @@ import java.util.List;
 public class UserController {
 
   @Autowired
+  private PasswordEncoder passwordEncoder;
+
+  @Autowired
   private UserService userService;
 
   @Autowired
@@ -25,6 +29,7 @@ public class UserController {
   @PostMapping()
   public UserDTO AddUser(@RequestBody User user) {
     user.setActive(true);
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
     User rtnUser = userService.createUser(user);
 
     if (rtnUser != null) {

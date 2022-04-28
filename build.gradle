@@ -68,3 +68,17 @@ sonarqube {
 				"**/com/revature/spaceecobackend/aspect/*, **/com/revature/spaceecobackend/SpaceecoBackendApplication.java"
 	}
 }
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.revature.main.SpaceEcoBackendApplication'
+    }
+
+    from {
+        (configurations.runtimeClasspath).collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+
+    duplicatesStrategy 'exclude'
+}
