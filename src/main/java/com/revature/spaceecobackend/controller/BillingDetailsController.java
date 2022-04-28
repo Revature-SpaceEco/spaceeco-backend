@@ -49,18 +49,6 @@ public class BillingDetailsController {
     }
   }
 
-
-  @PostMapping("/user")
-  public ResponseEntity<?> saveBillingDetails(@RequestBody BillingDetailsDto billingDetailsDto) {
-    try {
-      BillingDetails billingDetails1 = billingDetailsService.createBillingDetail(billingDetailsDto);
-      return ResponseEntity.ok().body(billingDetails1);
-    } catch (EmptyFields e) {
-      return ResponseEntity.status(400).body(e.getMessage());
-    }
-  }
-
-
   @DeleteMapping("/{billing_id}")
   public ResponseEntity<?> deleteBillingDetails(@PathVariable("billing_id") int id) {
     try {
