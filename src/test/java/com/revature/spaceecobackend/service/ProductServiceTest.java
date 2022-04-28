@@ -1,6 +1,4 @@
-package com.revature.spaceecobackend;
-
-
+package com.revature.spaceecobackend.service;
 import com.revature.spaceecobackend.dao.ProductRepository;
 import com.revature.spaceecobackend.dto.ProductDto;
 import com.revature.spaceecobackend.dto.SellerDto;
@@ -8,15 +6,12 @@ import com.revature.spaceecobackend.model.Categories;
 import com.revature.spaceecobackend.model.Product;
 import com.revature.spaceecobackend.model.User;
 import com.revature.spaceecobackend.model.UserRole;
-import com.revature.spaceecobackend.service.ProductService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.parameters.P;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -51,19 +46,12 @@ class ProductServiceTest {
     fakeUser.setUserRole(fakeRole);
     List<Product> fakeProducts = new ArrayList<>();
     fakeProducts.add(new Product(1, "product", "product description", 100, categories, "image.jpg", fakeUser));
-
-
     when(productRepository.findAll()).thenReturn(fakeProducts);
-
     List<ProductDto> productDtos = new ArrayList<>();
     productDtos.add(new ProductDto(1, "product", "product description", 100, categories, "image.jpg", new SellerDto(fakeUser.getId(), fakeUser.getUsername(), fakeUser.getEmail(), fakeUser.getFirstName(), fakeUser.isActive())));
-
     List<ProductDto> actual = productService.findAllProducts();
 
     Assertions.assertEquals(productDtos, actual);
-
-
-
   }
 
   @Test
