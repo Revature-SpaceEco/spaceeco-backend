@@ -45,6 +45,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
                 .antMatchers("/users/{userId}/**")
                 .access("@userSecurity.hasUserId(authentication, #userId)")
+                .antMatchers("/users/{userId}")
+                .access("@userSecurity.hasUserId(authentication, #userId)")
                 .antMatchers("/authenticate").permitAll()
                 .antMatchers("/products").permitAll()
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
