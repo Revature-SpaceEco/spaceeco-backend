@@ -3,7 +3,9 @@ package com.revature.spaceecobackend.controller;
 import com.revature.spaceecobackend.dto.CartDto;
 import com.revature.spaceecobackend.dto.OrderDto;
 import com.revature.spaceecobackend.dto.UserDTO;
+import com.revature.spaceecobackend.exception.EmptyFields;
 import com.revature.spaceecobackend.exception.NotFound;
+import com.revature.spaceecobackend.model.Cart;
 import com.revature.spaceecobackend.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +32,22 @@ public class CartController {
   }
 
   @PostMapping
-  public ResponseEntity<?> createCart(@PathVariable("user_id") int userId){
-    return null;
+  public ResponseEntity<?> createCart(@RequestBody CartDto cartDto){
+    try {
+      CartDto createdCart = cartService.createCart(cartDto);
+      return ResponseEntity.ok().body(createdCart);
+    } catch (NotFound e) {
+     return ResponseEntity.status(400).body(e.getMessage());
+    }
   }
 
   @PatchMapping
-  public ResponseEntity<?> updateCart(@PathVariable("user_id") int userId){
-    return null;
+  public ResponseEntity<?> updateCart( @RequestBody()CartDto cartDto){
+    try {
+      CartDto updatedCart = cartService.updateCart(cartDto);
+      return ResponseEntity.ok().body(updatedCart);
+    } catch (NotFound e) {
+      return ResponseEntity.notFound().build();
+    }
   }
 }
