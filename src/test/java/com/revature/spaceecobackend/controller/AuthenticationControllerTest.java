@@ -3,7 +3,6 @@ package com.revature.spaceecobackend.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.spaceecobackend.model.AuthenticationRequest;
 import com.revature.spaceecobackend.model.AuthenticationResponse;
-import com.revature.spaceecobackend.model.CustomUserDetails;
 import com.revature.spaceecobackend.service.CustomUserDetailsService;
 import com.revature.spaceecobackend.util.JwtUtil;
 import org.junit.jupiter.api.Assertions;
@@ -12,11 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -28,7 +25,6 @@ public class AuthenticationControllerTest {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
-    /*
     @Test
     void positiveTest_createAuthenticationToken() throws Exception {
         AuthenticationRequest request = new AuthenticationRequest("admin1", "password");
@@ -39,10 +35,9 @@ public class AuthenticationControllerTest {
                 .andReturn().getResponse().getContentAsString();
 
         AuthenticationResponse authResponse = new ObjectMapper().readValue(response, AuthenticationResponse.class);
-        String actual = jwtUtil.extractUsername(authResponse.getJwt());
+        String actual = JwtUtil.extractUsername(authResponse.getJwt());
 
         Assertions.assertEquals(request.getUsername(), actual);
     }
 
-     */
 }
