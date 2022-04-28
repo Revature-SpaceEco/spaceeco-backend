@@ -1,6 +1,7 @@
 package com.revature.spaceecobackend.controller;
 
 import com.revature.spaceecobackend.dao.UserRepository;
+import com.revature.spaceecobackend.dto.RegisterUserDTO;
 import com.revature.spaceecobackend.dto.UserDTO;
 import com.revature.spaceecobackend.exception.EmptyFields;
 import com.revature.spaceecobackend.model.Address;
@@ -42,6 +43,7 @@ class UserControllerTest {
     private static UserRole role;
     private static Address address;
     private static BillingDetails billingDetails;
+    private static RegisterUserDTO registerUserDTO;
     private static User user;
     private static User user2;
     private static List<User> userList;
@@ -49,14 +51,15 @@ class UserControllerTest {
     @BeforeAll
     public static void init() {
 
-
         role = new UserRole(1, "admin");
         address = new Address(1, "1 something street", "TestYoyo city", "TestCity", "TestState", "TestCountry",
                 "8823", "Test", "TestPlanet");
         billingDetails = new BillingDetails();
 
-        user = new User(0, "test", "sadsa", "test@email", "test", "test@test.com", role, address, billingDetails, "Person Profile", true);
+        registerUserDTO = new RegisterUserDTO("test", "123456", "test@gmail.com", "test", "testy", role, true);
         userDTO = new UserDTO(0,"test","test@email", "test", "test@test.com", role, address, billingDetails, "Person Profile", true);
+
+        user = new User(0, "test", "sadsa", "test@email", "test", "test@test.com", role, address, billingDetails, "Person Profile", true);
         user2 = new User(0, "test", "sadsa", "test@email", "test", "test@test.com", role, address, billingDetails, "Person Profile", true);
 
         userList = new ArrayList<User>();
@@ -66,16 +69,15 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser_positive()  {
-        when(passwordEncoder.encode(user.getPassword())).thenReturn(user.getPassword());
-        when(userService.createUser(user)).thenReturn(true);
-        ResponseEntity<?> response = userController.AddUser(user);
+    void createUser_positive() {
+        when(passwordEncoder.encode(registerUserDTO.getPassword())).thenReturn(user.getPassword());
+        when(userService.createUser(registerUserDTO)).thenReturn(true);
+        ResponseEntity<?> response = userController.AddUser(registerUserDTO);
         assertEquals("User created successfully.", response.getBody());
     }
 
     @Test
-    void test_getAllusers(){
-
+    void test_getAllUsers() {
         when(userService.getAllUsers()).thenReturn(userList);
         ResponseEntity<?> response = userController.getAllUsers();
         assertThat(response.getBody()).isEqualTo(userList);

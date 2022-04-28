@@ -1,6 +1,7 @@
 package com.revature.spaceecobackend.service;
 
 import com.revature.spaceecobackend.dao.UserRepository;
+import com.revature.spaceecobackend.dto.RegisterUserDTO;
 import com.revature.spaceecobackend.dto.UserDTO;
 import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.User;
@@ -22,14 +23,14 @@ public class UserService {
   @Autowired
   private ModelMapper modelMapper;
 
-  public boolean createUser(User user) {
+  public boolean createUser(RegisterUserDTO registerUserDTO) {
     // get the user from the database if exist
-    User dbUser = userRepository.findByUsernameOrEmail(user.getUsername(), user.getEmail());
+    User dbUser = userRepository.findByUsernameOrEmail(registerUserDTO.getUsername(), registerUserDTO.getEmail());
 
     // if the user not already exist
     // then we create and return the user
     if(dbUser == null) {
-      userRepository.save(user);
+      userRepository.save(modelMapper.map(registerUserDTO, User.class));
       return true;
     } else {
       return false;

@@ -1,5 +1,6 @@
 package com.revature.spaceecobackend.controller;
 
+import com.revature.spaceecobackend.dto.RegisterUserDTO;
 import com.revature.spaceecobackend.dto.UserDTO;
 import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.User;
@@ -28,11 +29,11 @@ public class UserController {
   private ModelMapper modelMapper;
 
   @PostMapping()
-  public ResponseEntity<?> AddUser(@RequestBody User user) {
-    user.setActive(true);
-    user.setPassword(passwordEncoder.encode(user.getPassword()));
+  public ResponseEntity<?> AddUser(@RequestBody RegisterUserDTO registerUserDTO) {
+    registerUserDTO.setActive(true);
+    registerUserDTO.setPassword(passwordEncoder.encode(registerUserDTO.getPassword()));
 
-    boolean result = userService.createUser(user);
+    boolean result = userService.createUser(registerUserDTO);
 
     if (result) {
       return ResponseEntity.status(200).body("User created successfully.");
