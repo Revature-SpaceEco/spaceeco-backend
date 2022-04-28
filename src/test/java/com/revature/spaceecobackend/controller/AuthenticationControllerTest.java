@@ -27,7 +27,7 @@ public class AuthenticationControllerTest {
 
     @Test
     void positiveTest_createAuthenticationToken() throws Exception {
-        AuthenticationRequest request = new AuthenticationRequest("admin1", "password");
+        AuthenticationRequest request = new AuthenticationRequest("admin1", "password", null);
         String requestJson = (new ObjectMapper()).writeValueAsString(request);
 
         String response = mockMvc.perform(post("/authenticate").contentType(MediaType.APPLICATION_JSON).

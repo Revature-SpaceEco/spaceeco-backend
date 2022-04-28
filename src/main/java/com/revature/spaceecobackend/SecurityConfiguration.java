@@ -3,6 +3,9 @@ package com.revature.spaceecobackend;
 import com.revature.spaceecobackend.dao.UserRepository;
 import com.revature.spaceecobackend.filter.JwtRequestFilter;
 import com.revature.spaceecobackend.service.CustomUserDetailsService;
+import dev.samstevens.totp.qr.QrDataFactory;
+import dev.samstevens.totp.secret.DefaultSecretGenerator;
+import dev.samstevens.totp.secret.SecretGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -62,14 +65,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    // Remove in production, this is not secure
-    /*
-    @Override
-    public void configure(WebSecurity web) {
-        web
-                .ignoring()
-                .antMatchers("/**");
-    }
-     */
+
 
 }

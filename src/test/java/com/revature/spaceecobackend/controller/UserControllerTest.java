@@ -8,6 +8,7 @@ import com.revature.spaceecobackend.model.BillingDetails;
 import com.revature.spaceecobackend.model.User;
 import com.revature.spaceecobackend.model.UserRole;
 import com.revature.spaceecobackend.service.UserService;
+import dev.samstevens.totp.exceptions.QrGenerationException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -54,9 +55,9 @@ class UserControllerTest {
                 "8823", "Test", "TestPlanet");
         billingDetails = new BillingDetails();
 
-        user = new User(0, "test", "sadsa", "test@email", "test", "test@test.com", role, address, billingDetails, "Person Profile", true);
+        user = new User(0, "test", "sadsa", "test@email", "test", "test@test.com", role, address, billingDetails, "Person Profile", true, "secret");
         userDTO = new UserDTO(0,"test","test@email", "test", "test@test.com", role, address, billingDetails, "Person Profile", true);
-        user2 = new User(0, "test", "sadsa", "test@email", "test", "test@test.com", role, address, billingDetails, "Person Profile", true);
+        user2 = new User(0, "test", "sadsa", "test@email", "test", "test@test.com", role, address, billingDetails, "Person Profile", true, "secret");
 
         userList = new ArrayList<User>();
         userList.add(user);
@@ -66,10 +67,10 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser_positive()  {
+    void createUser_positive() throws QrGenerationException {
         when(passwordEncoder.encode(user.getPassword())).thenReturn(user.getPassword());
         when(userService.createUser(user)).thenReturn(user);
-        UserDTO response = userController.AddUser(user);
+        ResponseEntity<?> response = userController.AddUser(user);
         assertThat(response).isEqualTo(userDTO);
     }
 

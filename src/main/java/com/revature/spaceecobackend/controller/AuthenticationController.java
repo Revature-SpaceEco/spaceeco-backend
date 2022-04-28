@@ -5,6 +5,7 @@ import com.revature.spaceecobackend.model.AuthenticationRequest;
 import com.revature.spaceecobackend.model.AuthenticationResponse;
 import com.revature.spaceecobackend.model.CustomUserDetails;
 import com.revature.spaceecobackend.service.CustomUserDetailsService;
+import com.revature.spaceecobackend.service.MfaService;
 import com.revature.spaceecobackend.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class AuthenticationController {
     private CustomUserDetailsService userDetailsService;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private MfaService mfaService;
 
     @GetMapping("/user/{id}/hello")
     public String hello() {
@@ -38,7 +39,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+    public ResponseEntity<?> createAuthenticationTokenAndLogin(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
 
         try {
             authenticationManager.authenticate(
@@ -48,10 +49,19 @@ public class AuthenticationController {
             throw new Exception("Incorrect username or password", e);
         }
 
-        final CustomUserDetails userDetails = userDetailsService
-                .loadUserByUsername(authenticationRequest.getUsername());
-        final String jwt = jwtUtil.generateToken(userDetails);
+        if (mfaService.verifyCode(authenticationRequest.getMfaCode(), mfaService.getSecret())) {
 
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+            final CustomUserDetails userDetails = userDetailsService
+                    .loadUserByUsername(authenticationRequest.getUsername());
+
+            final String jwt = JwtUtil.generateToken(userDetails);
+
+
+            return ResponseEntity.ok(new AuthenticationResponse(jwt, userDetails.getId()));
+        }
+
+        return ResponseEntity.status(400).body("Authentication Failed");
+
     }
+
 }
