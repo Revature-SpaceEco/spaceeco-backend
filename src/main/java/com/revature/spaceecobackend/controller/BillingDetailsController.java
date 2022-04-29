@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/users/{userId}/billing")
+@RequestMapping("/users/{user_id}/billing")
 @CrossOrigin(originPatterns = "*", exposedHeaders = "*", allowedHeaders = "*")
 public class BillingDetailsController {
   @Autowired
@@ -39,7 +39,7 @@ public class BillingDetailsController {
     }
   }
 
-  @PostMapping("/")
+  @PostMapping()
   public ResponseEntity<?> addBillingDetails(@RequestBody BillingDetailsDto billingDetailsDto) {
     try {
       BillingDetails billingDetails = billingDetailsService.createBillingDetail(billingDetailsDto);

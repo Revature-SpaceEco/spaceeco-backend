@@ -14,8 +14,8 @@ public class ProductDto {
     private String name;
     private String description;
     private int cost;
-    private Categories category;
+    private Categories categories;
     private String image;
-    private SellerDto sellerInfo;
+    private SellerDto seller;
 
 }
