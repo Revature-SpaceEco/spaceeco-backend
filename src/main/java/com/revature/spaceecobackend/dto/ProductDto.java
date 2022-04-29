@@ -10,12 +10,12 @@ import lombok.*;
 
 public class ProductDto {
 
-    private int productId;
-    private String productName;
-    private String productDescription;
-    private int productCost;
-    private Categories categories;
-    private String productImage;
+    private int id;
+    private String name;
+    private String description;
+    private int cost;
+    private Categories category;
+    private String image;
     private SellerDto sellerInfo;
 
 }

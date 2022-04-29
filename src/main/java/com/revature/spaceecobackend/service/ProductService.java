@@ -5,7 +5,6 @@ import com.revature.spaceecobackend.dto.ProductDto;
 import com.revature.spaceecobackend.dto.SellerDto;
 import com.revature.spaceecobackend.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,19 +23,19 @@ public class ProductService implements ProductServiceInterface {
   public ProductDto convertProductToDto(Product product) {
 
       ProductDto pdto = new ProductDto();
-      pdto.setProductId(product.getProductId());
-      pdto.setProductName(product.getProductName());
-      pdto.setProductDescription(product.getProductDescription());
-      pdto.setProductCost(product.getProductCost());
-      pdto.setCategories(product.getCategories());
-      pdto.setProductImage(product.getProductImage());
+      pdto.setId(product.getId());
+      pdto.setName(product.getName());
+      pdto.setDescription(product.getDescription());
+      pdto.setCost(product.getCost());
+      pdto.setCategory(product.getCategories());
+      pdto.setImage(product.getImage());
 
       SellerDto sdto = new SellerDto();
-      sdto.setId(product.getProductSellerId().getId());
-      sdto.setUsername(product.getProductSellerId().getUsername());
-      sdto.setEmail(product.getProductSellerId().getEmail());
-      sdto.setFirstName(product.getProductSellerId().getFirstName());
-      sdto.setActive(product.getProductSellerId().isActive());
+      sdto.setId(product.getSeller().getId());
+      sdto.setUsername(product.getSeller().getUsername());
+      sdto.setEmail(product.getSeller().getEmail());
+      sdto.setFirstName(product.getSeller().getFirstName());
+      sdto.setActive(product.getSeller().isActive());
 
       pdto.setSellerInfo(sdto);
 

@@ -1,6 +1,5 @@
 package com.revature.spaceecobackend.model;
 
-import com.revature.spaceecobackend.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,37 +17,36 @@ import java.util.Objects;
 public class Product {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int productId;
+  private int id;
 
   @Column(name = "product_name")
-  private String productName;
+  private String name;
 
   @Column(name = "product_description")
-  private String productDescription;
+  private String description;
 
   @Column(name = "product_cost")
-  private Integer productCost;
+  private Integer cost;
 
   @ManyToOne
   private Categories categories;
 
   @Column(name = "product_image")
-  private String productImage;
-
+  private String image;
 
   @ManyToOne
-  private User productSellerId;
+  private User seller;
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Product product = (Product) o;
-    return productId == product.productId && Objects.equals(productName, product.productName) && Objects.equals(productDescription, product.productDescription) && Objects.equals(productCost, product.productCost) && Objects.equals(categories, product.categories) && Objects.equals(productImage, product.productImage) && Objects.equals(productSellerId, product.productSellerId);
+    return id == product.id && Objects.equals(name, product.name) && Objects.equals(description, product.description) && Objects.equals(cost, product.cost) && Objects.equals(categories, product.categories) && Objects.equals(image, product.image) && Objects.equals(seller, product.seller);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(productId, productName, productDescription, productCost, categories, productImage, productSellerId);
+    return Objects.hash(id, name, description, cost, categories, image, seller);
   }
 }
