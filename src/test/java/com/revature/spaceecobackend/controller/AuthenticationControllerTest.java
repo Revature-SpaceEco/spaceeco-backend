@@ -25,6 +25,7 @@ public class AuthenticationControllerTest {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
+    // This test does not pass
     @Test
     void positiveTest_createAuthenticationToken() throws Exception {
         AuthenticationRequest request = new AuthenticationRequest("admin1", "password", null);

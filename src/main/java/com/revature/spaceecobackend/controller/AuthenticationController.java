@@ -7,6 +7,10 @@ import com.revature.spaceecobackend.model.CustomUserDetails;
 import com.revature.spaceecobackend.service.CustomUserDetailsService;
 import com.revature.spaceecobackend.service.MfaService;
 import com.revature.spaceecobackend.util.JwtUtil;
+import dev.samstevens.totp.code.CodeVerifier;
+import dev.samstevens.totp.qr.QrDataFactory;
+import dev.samstevens.totp.qr.QrGenerator;
+import dev.samstevens.totp.secret.SecretGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -49,13 +53,12 @@ public class AuthenticationController {
             throw new Exception("Incorrect username or password", e);
         }
 
-        if (mfaService.verifyCode(authenticationRequest.getMfaCode(), mfaService.getSecret())) {
+        final CustomUserDetails userDetails = userDetailsService
+                .loadUserByUsername(authenticationRequest.getUsername());
 
-            final CustomUserDetails userDetails = userDetailsService
-                    .loadUserByUsername(authenticationRequest.getUsername());
+        if (mfaService.verifyCode(authenticationRequest.getMfaCode(), userDetails.getSecret())) {
 
             final String jwt = JwtUtil.generateToken(userDetails);
-
 
             return ResponseEntity.ok(new AuthenticationResponse(jwt, userDetails.getId()));
         }

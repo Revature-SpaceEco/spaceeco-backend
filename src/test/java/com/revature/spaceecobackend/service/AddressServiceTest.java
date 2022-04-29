@@ -50,7 +50,7 @@ public class AddressServiceTest {
     UserRole ur = new UserRole(2, "seller");
     BillingDetails bd = new BillingDetails();
 
-    User user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, address, bd, "www.image.com", true);
+    User user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, address, bd, "www.image.com", true, "secret");
     when(userRepository.findById(1)).thenReturn(Optional.of(user));
 
     when(addressRepository.saveAndFlush(address)).thenReturn(address);
@@ -74,7 +74,7 @@ public class AddressServiceTest {
     UserRole ur = new UserRole(2, "seller");
     BillingDetails bd = new BillingDetails();
 
-    User user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, expect, bd, "www.image.com", true);
+    User user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, expect, bd, "www.image.com", true, "secret");
 
     when(userRepository.findById(1)).thenReturn(Optional.of(user));
     Address actual = addressService.getAddressByUserId(1);
@@ -106,7 +106,7 @@ public class AddressServiceTest {
     UserRole ur = new UserRole(2, "seller");
     BillingDetails bd = new BillingDetails();
 
-    User user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, address, bd, "www.image.com", true);
+    User user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, address, bd, "www.image.com", true, "secret");
     when(userRepository.findById(1)).thenReturn(Optional.of(user));
 
     when(addressRepository.save(address)).thenReturn(address);
