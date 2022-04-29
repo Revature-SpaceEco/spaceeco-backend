@@ -17,11 +17,6 @@ public class AddressController {
 
   @Autowired
   AddressService addressService;
-//
-//     @PostMapping
-//     public Address createAddress(@RequestBody Address address) throws JsonProcessingException{ //Create
-//         return addressService.createAddress(address);
-//     }
 
   @PostMapping("/address")
   public Address createAddress(@PathVariable String userId,
@@ -35,15 +30,9 @@ public class AddressController {
     return addressService.getAddressByUserId(Integer.parseInt(userId));
   }
 
-//     @DeleteMapping("/{id}")
-//     public Boolean deleteAddressById(@PathVariable String id){ //Delete
-//         return addressService.deleteAddressById(Integer.parseInt(id));
-//     }
-
   @PutMapping("/address")
   public Address updateAddressByUserId(@PathVariable String userId,
                                        @RequestBody AddressDTO address) { //Update
     return addressService.updateAddressByUserId(Integer.parseInt(userId), address);
   }
-
 }
