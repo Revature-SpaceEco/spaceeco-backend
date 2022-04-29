@@ -2,6 +2,7 @@ package com.revature.spaceecobackend.service;
 
 import com.revature.spaceecobackend.dao.AddressRepository;
 import com.revature.spaceecobackend.dao.UserRepository;
+import com.revature.spaceecobackend.dto.AddressDTO;
 import com.revature.spaceecobackend.model.Address;
 import com.revature.spaceecobackend.model.BillingDetails;
 import com.revature.spaceecobackend.model.User;
@@ -10,7 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 
 import java.util.Optional;
 
@@ -25,14 +28,18 @@ public class AddressServiceTest {
 
   @InjectMocks
   private AddressService addressService;
+  @Spy
+  ModelMapper modelMapper = new ModelMapper();
+
 
   @Mock
   private UserRepository userRepository;
 
   @Test
-  public void createAddressTest() {
+    public void createAddressTest() {
     Address address = new Address();
     address.setAddressLineOne("234 Finch Avenue");
+    address.setAddressLineTwo("111");
     address.setCity("Toronto");
     address.setState("ON");
     address.setZip("M8I 8L9");
@@ -46,9 +53,9 @@ public class AddressServiceTest {
     User user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, address, bd, "www.image.com", true);
     when(userRepository.findById(1)).thenReturn(Optional.of(user));
 
-    when(addressRepository.save(address)).thenReturn(address);
+    when(addressRepository.saveAndFlush(address)).thenReturn(address);
 
-    Address actual = addressService.createAddress(1, address);
+    Address actual = addressService.createAddress(1, new AddressDTO("234 Finch Avenue","111","Toronto","ON","Canada","M8I 8L9","Milky Way","Earth"));
 
     assertThat(actual).isEqualTo(address);
   }
@@ -88,6 +95,7 @@ public class AddressServiceTest {
   public void updateAddressTestByUserId() {
     Address address = new Address();
     address.setAddressLineOne("234 Finch Avenue");
+    address.setAddressLineTwo("111");
     address.setCity("Toronto");
     address.setState("ON");
     address.setZip("M8I 8L9");
@@ -103,7 +111,7 @@ public class AddressServiceTest {
 
     when(addressRepository.save(address)).thenReturn(address);
 
-    Address actual = addressService.updateAddressByUserId(1, address);
+    Address actual = addressService.updateAddressByUserId(1, new AddressDTO("234 Finch Avenue","111","Toronto","ON","Canada","M8I 8L9","Earth","Milky Way"));
 
     assertThat(actual).isEqualTo(address);
   }
