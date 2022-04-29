@@ -7,8 +7,9 @@ import org.springframework.stereotype.Component;
 @Component("userSecurity")
 public class UserSecurity {
 
-    public boolean hasUserId(Authentication authentication, Integer userId) {
+    public boolean hasUserId(Authentication authentication, String userId) {
+        Integer id = Integer.parseInt(userId);
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        return userDetails.getId().equals(userId);
+        return userDetails.getId().equals(id);
     }
 }
