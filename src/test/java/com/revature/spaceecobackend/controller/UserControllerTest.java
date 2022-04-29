@@ -1,12 +1,12 @@
 package com.revature.spaceecobackend.controller;
 
-import com.revature.spaceecobackend.dao.UserRepository;
 import com.revature.spaceecobackend.dto.UserDTO;
-import com.revature.spaceecobackend.exception.EmptyFields;
 import com.revature.spaceecobackend.model.Address;
 import com.revature.spaceecobackend.model.BillingDetails;
 import com.revature.spaceecobackend.model.User;
 import com.revature.spaceecobackend.model.UserRole;
+import com.revature.spaceecobackend.service.MfaService;
+import com.revature.spaceecobackend.service.MfaServiceTest;
 import com.revature.spaceecobackend.service.UserService;
 import dev.samstevens.totp.exceptions.QrGenerationException;
 import org.junit.jupiter.api.BeforeAll;
@@ -15,7 +15,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -23,8 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.InstanceOfAssertFactories.LIST;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,6 +32,9 @@ class UserControllerTest {
 
     @Mock
     private UserService userService;
+
+    @Mock
+    private MfaService mfaService;
 
     @InjectMocks
     UserController userController;
@@ -49,7 +49,6 @@ class UserControllerTest {
     @BeforeAll
     public static void init() {
 
-
         role = new UserRole(1, "admin");
         address = new Address(1, "1 something street", "TestYoyo city", "TestCity", "TestState", "TestCountry",
                 "8823", "Test", "TestPlanet");
@@ -63,15 +62,19 @@ class UserControllerTest {
         userList.add(user);
         userList.add(user2);
 
-
     }
 
     @Test
     void createUser_positive() throws QrGenerationException {
         when(passwordEncoder.encode(user.getPassword())).thenReturn(user.getPassword());
         when(userService.createUser(user)).thenReturn(user);
+
+        when(mfaService.getSecret()).thenReturn("george of the jungle");
+        when(mfaService.getQrCode("george of the jungle", "test@email")).thenReturn("watch out for that tree");
+
         ResponseEntity<?> response = userController.AddUser(user);
-        assertThat(response).isEqualTo(userDTO);
+        Object[] expected = new Object[]{userDTO, "watch out for that tree"};
+        assertThat(response.getBody()).isEqualTo(expected);
     }
 
     @Test

@@ -47,7 +47,7 @@ public class MfaService {
         return qrCodeImage;
     }
 
-    public boolean verifyCode(String code, String secret) {
+    public boolean verifyCode(String secret, String code) {
 
         if (verifier.isValidCode(secret, code)) {
             return true;
