@@ -19,21 +19,21 @@ public class Categories {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int categoryId;
+  private int id;
 
-  @Column
-  private String categoryName;
+  @Column(name = "category_name")
+  private String name;
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Categories that = (Categories) o;
-    return categoryId == that.categoryId && Objects.equals(categoryName, that.categoryName);
+    return id == that.id && Objects.equals(name, that.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(categoryId, categoryName);
+    return Objects.hash(id, name);
   }
 }
