@@ -103,6 +103,6 @@ public class OrderService {
       return false;
     }
 
-      return orderDto.getShippingAddressId() != null;
+    return orderDto.getShippingAddressId() != null;
   }
 }

@@ -21,17 +21,17 @@ VALUES ('Visa', 1234456778971547, 142, 'John', 1),
 ('MasterCard', 9874159823651478, 951, 'Aruna', 2);
 
 INSERT INTO users (user_username, user_password, user_email, user_first_name, user_last_name, role_user_id, primary_address_id, primary_billing_id, profile_image, is_user_active)
-VALUES ('buyer1', 'password', 'buyer@email.com', 'John', 'Doe', 1, 1, 1, 'www.profileimage.com/1.jpg', true),
-('buyer2', 'password', 'tenzin@email.com', 'Tenzin', 'Chandrakant', 1, 2, 2, 'www.profileimage.com/2.jpg', true),
-('seller1', 'password', 'seller@email.com', 'Jane', 'Doe', 2, 3, 3, 'www.profileimage.com/2.jpg', true),
-('admin1', 'password', 'admin@email.com', 'Aruna', 'Pero', 3, 4, 4, 'www.profileimage.com/3.jpg', true);
+VALUES ('buyer1', '$2a$10$OPEivFropbqHYDlQaY/UK.0BTzIPMnrk4DWncToiRVkNDUCqNrOqq', 'buyer@email.com', 'John', 'Doe', 1, 1, 1, 'www.profileimage.com/1.jpg', true),
+('buyer2', '$2a$10$OPEivFropbqHYDlQaY/UK.0BTzIPMnrk4DWncToiRVkNDUCqNrOqq', 'tenzin@email.com', 'Tenzin', 'Chandrakant', 1, 2, 2, 'www.profileimage.com/2.jpg', true),
+('seller1', '$2a$10$OPEivFropbqHYDlQaY/UK.0BTzIPMnrk4DWncToiRVkNDUCqNrOqq', 'seller@email.com', 'Jane', 'Doe', 2, 3, 3, 'www.profileimage.com/2.jpg', true),
+('admin1', '$2a$10$OPEivFropbqHYDlQaY/UK.0BTzIPMnrk4DWncToiRVkNDUCqNrOqq', 'admin@email.com', 'Aruna', 'Pero', 3, 4, 4, 'www.profileimage.com/3.jpg', true);
 
 INSERT INTO payments (billing_details)
 VALUES (1),
 (2);
 
-INSERT INTO products (product_name, product_description, product_cost, categories_category_id, product_image, product_seller_id_user_id)
-VALUES ('reach', 'A wonderful planet', 150, 1, 'www.image.com/reach.jpg', 3),
+INSERT INTO products (product_name, product_description, product_cost, categories_id, product_image, seller_user_id)
+VALUES ('reach', 'A wonderful planet', 150, 1, 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg', 3),
 ('eridanus II', 'A wonderful planet', 100, 1, 'www.image.com/eridanusII.jpg', 3),
 ('Pilar of autumn', 'A powerful rocket', 50, 2, 'www.image.com/pillar.jpg', 3);
 
@@ -39,7 +39,7 @@ INSERT INTO orders (buyer, order_date, order_status, shipping_address_id, paymen
 VALUES (1, '2022-04-20 08:26:24.166', 'Pending', 1, 1),
 (2, '2022-04-20 08:30:24.166', 'Approved', 2, 2);
 
-INSERT INTO orders_items (order_id, items_product_id)
+INSERT INTO orders_items (order_id, items_id)
 VALUES (1, 1),
 (1, 2),
 (2, 2),

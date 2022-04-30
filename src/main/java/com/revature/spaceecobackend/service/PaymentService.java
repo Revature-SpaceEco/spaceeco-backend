@@ -27,7 +27,7 @@ public class PaymentService {
   }
 
   public Payment createPayment(PaymentDto paymentDto) throws EmptyFields {
-    if (paymentDto.getBillingDetailsDto() == null || !paymentDto.getStatus().equals("Pending")) {
+    if (paymentDto.getBillingDetails() == null || !paymentDto.getStatus().equals("Pending")) {
       throw new EmptyFields("Payment missing information");
     }
     Payment payment = modelMapper.map(paymentDto, Payment.class);

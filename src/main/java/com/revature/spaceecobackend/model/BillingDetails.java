@@ -51,12 +51,12 @@ public class BillingDetails {
   @Override
   public String toString() {
     return "BillingDetails{" +
-        "id=" + id +
-        ", billingCardType='" + billingCardType + '\'' +
-        ", billingCardNumber=" + billingCardNumber +
-        ", billingSecurityNumber=" + billingSecurityNumber +
-        ", billingName='" + billingName + '\'' +
-        ", billingAddress=" + billingAddress +
-        '}';
+            "id=" + id +
+            ", billingCardType='" + billingCardType + '\'' +
+            ", billingCardNumber=" + billingCardNumber +
+            ", billingSecurityNumber=" + billingSecurityNumber +
+            ", billingName='" + billingName + '\'' +
+            ", billingAddress=" + billingAddress +
+            '}';
   }
 }
