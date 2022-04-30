@@ -33,18 +33,18 @@ class UserServiceTest {
   }
 
 
-//  @Test
-//  public void createUser_positive() {
-//    UserRole role = new UserRole(1, "admin");
-//    Address address = new Address(1, "1 something street", "TestYoyo city", "TestCity", "TestState", "TestCountry",
-//        "8823", "Test", "TestPlanet");
-//    BillingDetails billingDetails = new BillingDetails();
-//
-//    User user = new User(0, "test", "password", "test", "test", "test@test.com", role, address, billingDetails, "Person Profile", true);
-//    when(userRepository.save(user)).thenReturn(user);
-//    User actual = userService.createUser(user);
-//    assertThat(actual).isEqualTo(user);
-//  }
+  @Test
+  public void createUser_positive() {
+    UserRole role = new UserRole(1, "admin");
+    Address address = new Address(1, "1 something street", "TestYoyo city", "TestCity", "TestState", "TestCountry",
+        "8823", "Test", "TestPlanet");
+    BillingDetails billingDetails = new BillingDetails();
+
+    User user = new User(0, "test", "password", "test", "test", "test@test.com", role, address, billingDetails, "Person Profile", true, "secret");
+    when(userRepository.save(user)).thenReturn(user);
+    User actual = userService.createUser(user);
+    assertThat(actual).isEqualTo(user);
+  }
 
 
 }

@@ -1,23 +1,17 @@
 package com.revature.spaceecobackend.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.annotation.sql.DataSourceDefinition;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuthenticationResponse {
 
     private String jwt;
-    private Integer userId;
-
-    public AuthenticationResponse() {}
-
-    public AuthenticationResponse(String jwt, Integer userId) {
-        this.jwt = jwt;
-        this.userId = userId;
-    }
-
-    public String getJwt() {
-        return jwt;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
+    private int userId;
 
 }

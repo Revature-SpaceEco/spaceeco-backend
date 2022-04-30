@@ -52,6 +52,9 @@ public class User {
   @Column(name = "is_user_active")
   private boolean active;
 
+  @Column
+  private String secret;
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

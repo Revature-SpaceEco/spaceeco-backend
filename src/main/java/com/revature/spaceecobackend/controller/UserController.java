@@ -1,17 +1,15 @@
 package com.revature.spaceecobackend.controller;
 
-import com.revature.spaceecobackend.dto.RegisterUserDTO;
 import com.revature.spaceecobackend.dto.UserDTO;
-import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.User;
+import com.revature.spaceecobackend.service.MfaService;
 import com.revature.spaceecobackend.service.UserService;
-import org.modelmapper.ModelMapper;
+import dev.samstevens.totp.exceptions.QrGenerationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -26,20 +24,34 @@ public class UserController {
   private UserService userService;
 
   @Autowired
-  private ModelMapper modelMapper;
+  private MfaService mfaService;
 
   @PostMapping()
-  public ResponseEntity<?> AddUser(@RequestBody RegisterUserDTO registerUserDTO) {
-    registerUserDTO.setActive(true);
-    registerUserDTO.setPassword(passwordEncoder.encode(registerUserDTO.getPassword()));
+  public ResponseEntity<?> AddUser(@RequestBody User user) throws QrGenerationException {
+    user.setActive(true);
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
+    String secret = mfaService.getSecret();
+    user.setSecret(secret);
+    String qrCode = mfaService.getQrCode(secret, user.getEmail());
 
-    boolean result = userService.createUser(registerUserDTO);
+    User rtnUser = userService.createUser(user);
 
-    if (result) {
-      return ResponseEntity.status(200).body("User created successfully.");
-    } else {
-      return ResponseEntity.status(400).body("Username or email already exist.");
+    // TODO create mapper to clean this up
+    if (rtnUser != null) {
+      UserDTO userDTO = new UserDTO();
+      userDTO.setId(rtnUser.getId());
+      userDTO.setUsername(rtnUser.getUsername());
+      userDTO.setFirstName(rtnUser.getFirstName());
+      userDTO.setLastName(rtnUser.getLastName());
+      userDTO.setEmail(rtnUser.getEmail());
+      userDTO.setImageUrl(rtnUser.getImageUrl());
+      userDTO.setUserRole(rtnUser.getUserRole());
+      userDTO.setPrimaryAddress(rtnUser.getPrimaryAddressId());
+      userDTO.setPrimaryBilling(rtnUser.getPrimaryBillingId());
+      userDTO.setActive(rtnUser.isActive());
+      return ResponseEntity.ok(new Object[]{userDTO, qrCode});
     }
+    return ResponseEntity.status(400).body("Registration Failed");
   }
 
   @GetMapping()
@@ -48,14 +60,6 @@ public class UserController {
     return ResponseEntity.ok().body(users);
   }
 
-  @GetMapping("/{userId}")
-  public ResponseEntity<?> getUserById(@PathVariable("userId") int id) {
-    try {
-      UserDTO userDTO = userService.getUserById(id);
-      return ResponseEntity.ok().body(userDTO);
-    } catch (NotFound e) {
-      return ResponseEntity.notFound().build();
-    }
-  }
+
 
 }

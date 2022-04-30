@@ -3,6 +3,9 @@ package com.revature.spaceecobackend;
 import com.revature.spaceecobackend.dao.UserRepository;
 import com.revature.spaceecobackend.filter.JwtRequestFilter;
 import com.revature.spaceecobackend.service.CustomUserDetailsService;
+import dev.samstevens.totp.qr.QrDataFactory;
+import dev.samstevens.totp.secret.DefaultSecretGenerator;
+import dev.samstevens.totp.secret.SecretGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -50,7 +53,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/authenticate").permitAll()
                 .antMatchers("/products").permitAll()
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
-                .and().cors()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
@@ -62,5 +64,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+
 
 }
