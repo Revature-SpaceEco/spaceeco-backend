@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(originPatterns = "*", exposedHeaders = "*", allowedHeaders = "*")
+@CrossOrigin
 @RequestMapping("/users/{userId}")
 public class AddressController {
 
@@ -22,6 +22,7 @@ public class AddressController {
 //     public Address createAddress(@RequestBody Address address) throws JsonProcessingException{ //Create
 //         return addressService.createAddress(address);
 //     }
+
 
   @PostMapping("/address")
   public Address createAddress(@PathVariable String userId,
