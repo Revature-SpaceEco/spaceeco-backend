@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(originPatterns = "*", exposedHeaders = "*", allowedHeaders = "*")
+@CrossOrigin
 @RequestMapping("/users")
 public class UserController {
 
@@ -40,11 +40,14 @@ public class UserController {
     String qrCode = mfaService.getQrCode(user.getSecret(), user.getEmail());
 
     UserDTO returnUser = userService.createUser(user);
-    returnUser.setQrCode(qrCode);
 
-    // TODO this condition always returns true
-    return (returnUser != null) ? ResponseEntity.status(200).body(returnUser) :
-              ResponseEntity.status(400).body("Registration Failed");
+    if (returnUser != null) {
+        returnUser.setQrCode(qrCode);
+       
+        return ResponseEntity.status(200).body(returnUser) 
+    } else {
+        return ResponseEntity.status(400).body("Registration Failed");
+    }
   }
 
   @GetMapping()

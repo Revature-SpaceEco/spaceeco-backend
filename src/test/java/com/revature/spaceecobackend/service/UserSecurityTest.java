@@ -13,7 +13,7 @@ import org.springframework.security.core.Authentication;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class UserSecurityTest {
+class UserSecurityTest {
 
     @Mock
     private Authentication authentication;

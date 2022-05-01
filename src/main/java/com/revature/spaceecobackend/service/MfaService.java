@@ -40,19 +40,14 @@ public class MfaService {
 
         // Generate the QR code image data as a base64 string which
         // can be used in an <img> tag:
-        String qrCodeImage = getDataUriForImage(
+        return getDataUriForImage(
                 qrGenerator.generate(data),
                 qrGenerator.getImageMimeType()
                 );
-        return qrCodeImage;
     }
 
     public boolean verifyCode(String secret, String code) {
-
-        if (verifier.isValidCode(secret, code)) {
-            return true;
-        }
-        return false;
+        return verifier.isValidCode(secret, code) ? true : false;
     }
 
 

@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class MfaServiceTest {
+class MfaServiceTest {
     @Mock
     private SecretGenerator secretGenerator;
 

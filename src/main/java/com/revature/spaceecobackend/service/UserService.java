@@ -1,7 +1,6 @@
 package com.revature.spaceecobackend.service;
 
 import com.revature.spaceecobackend.dao.UserRepository;
-import com.revature.spaceecobackend.dto.RegisterUserDTO;
 import com.revature.spaceecobackend.dto.UserDTO;
 import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.User;

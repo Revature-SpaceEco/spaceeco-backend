@@ -14,7 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(originPatterns = "*", exposedHeaders = "*", allowedHeaders = "*")
+@CrossOrigin
 public class AuthenticationController {
 
     @Autowired
@@ -27,7 +27,7 @@ public class AuthenticationController {
     private MfaService mfaService;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<?> createAuthenticationTokenAndLogin(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+    public ResponseEntity<AuthenticationResponse> createAuthenticationTokenAndLogin(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
 
         try {
             authenticationManager.authenticate(

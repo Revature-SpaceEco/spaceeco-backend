@@ -38,7 +38,7 @@ class UserServiceTest {
 
 
   @Test
-  public void createUser_positive() {
+  void createUser_positive() {
     UserRole role = new UserRole(1, "admin");
     User user = new User(0, "test", "sadsa", "test@email", "test", "test@test.com", role, null, null, null, true, "secret");
     ModelMapper modelMapper = new ModelMapper();
