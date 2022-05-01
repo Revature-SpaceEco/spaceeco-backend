@@ -7,6 +7,7 @@ import com.revature.spaceecobackend.service.CustomUserDetailsService;
 import com.revature.spaceecobackend.service.MfaService;
 import com.revature.spaceecobackend.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,7 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(originPatterns = "*", exposedHeaders = "*", allowedHeaders = "*")
 public class AuthenticationController {
 
     @Autowired
@@ -47,7 +48,7 @@ public class AuthenticationController {
             return ResponseEntity.ok(new AuthenticationResponse(jwt, userDetails.getId()));
         }
 
-        return ResponseEntity.status(400).body("Authentication Failed");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new AuthenticationResponse());
 
     }
 

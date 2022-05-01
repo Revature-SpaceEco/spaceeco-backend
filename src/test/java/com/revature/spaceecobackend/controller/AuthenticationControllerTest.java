@@ -39,8 +39,7 @@ public class AuthenticationControllerTest {
                 "8823", "Test", "TestPlanet");
         BillingDetails billingDetails = new BillingDetails();
 
-        User user = new User(0, "test", "sadsa", "test@email", "test", "test@test.com", role, address, billingDetails, "Person Profile", true,
-                "secret");
+        User user = new User(0, "test", "sadsa", "test@email", "test", "test@test.com", role, address, billingDetails, "Person Profile", true, "secret");
 
         AuthenticationRequest authenticationRequest = new AuthenticationRequest(user.getUsername(), user.getPassword(), "code");
         CustomUserDetails userDetails = new CustomUserDetails(user);
@@ -84,7 +83,7 @@ public class AuthenticationControllerTest {
         when(userDetailsService.loadUserByUsername(user.getUsername())).thenReturn(userDetails);
         when(mfaService.verifyCode(user.getSecret(), authenticationRequest.getMfaCode())).thenReturn(false);
         int actualStatus =  authenticationController.createAuthenticationTokenAndLogin(authenticationRequest).getStatusCode().value();
-        int expectedStatus = 400;
+        int expectedStatus = 403;
 
         Assertions.assertEquals(expectedStatus, actualStatus);
     }
