@@ -9,8 +9,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,20 +18,17 @@ public class UserService {
   @Autowired
   UserRepository userRepository;
 
-  @Autowired
-  private ModelMapper modelMapper;
-
-  public boolean createUser(RegisterUserDTO registerUserDTO) {
+  public UserDTO createUser(User user) {
     // get the user from the database if exist
-    User dbUser = userRepository.findByUsernameOrEmail(registerUserDTO.getUsername(), registerUserDTO.getEmail());
+    User dbUser = userRepository.findByUsernameOrEmail(user.getUsername(), user.getEmail());
 
+    ModelMapper modelMapper = new ModelMapper();
     // if the user not already exist
     // then we create and return the user
     if(dbUser == null) {
-      userRepository.save(modelMapper.map(registerUserDTO, User.class));
-      return true;
+      return modelMapper.map(userRepository.save(user), UserDTO.class);
     } else {
-      return false;
+      return null;
     }
   }
 
@@ -44,6 +39,7 @@ public class UserService {
   public UserDTO getUserById(int id) throws NotFound {
     Optional<User> optional = userRepository.findById(id);
 
+    ModelMapper modelMapper = new ModelMapper();
     if(optional.isPresent()) {
       return modelMapper.map(optional.get(), UserDTO.class);
     } else {

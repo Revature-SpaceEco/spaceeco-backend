@@ -34,7 +34,6 @@ public class UserSecurityTest {
 
         when(authentication.getPrincipal()).thenReturn(userDetails);
 
-        Assertions.assertTrue(userSecurity.hasUserId(authentication,0));
+        Assertions.assertTrue(userSecurity.hasUserId(authentication,"0"));
     }
-
 }
