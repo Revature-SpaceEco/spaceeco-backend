@@ -50,14 +50,14 @@ public class OrderControllerTest {
   public static void init() {
     billingDetails = new BillingDetails();
     userRole2 = new UserRole(2, "seller");
-    seller = new User(2, "seller", "password", "email@email.com", "tester", "testy", userRole2, address, billingDetails, "www.image.com", true, "secret");
+    seller = new User(2, "seller", "password", "email@email.com", "tester", "testy", userRole2, address, billingDetails, "www.image.com", true);
     category = new Categories(1, "categoryTest");
     products = new ArrayList<>();
     products.add(new Product(1, "test", "test description", 100, category, "image.jpg", seller));
     products.add(new Product(2, "test", "test description", 100, category, "image2.jpg", seller));
     payment = new Payment();
     userRole = new UserRole(1, "buyer");
-    buyer = new User(1, "test", "password", "email@email.com", "tester", "testy", userRole, address, billingDetails, "www.image.com", true, "secret");
+    buyer = new User(1, "test", "password", "email@email.com", "tester", "testy", userRole, address, billingDetails, "www.image.com", true);
     address = new Address(1, "10 Test Drive", null, "City Test", "Test", "Country", "80000", "Solar", "Planet");
     orders = new ArrayList<>();
     orderDate = new Timestamp(System.currentTimeMillis());
@@ -65,7 +65,7 @@ public class OrderControllerTest {
     orders.add(order);
     paymentDto = new PaymentDto();
     orderDtos = new ArrayList<>();
-    orderDto = new OrderDto(1, orderDate, "pending", address, paymentDto);
+    orderDto = new OrderDto(1, buyerDto,productsDto,orderDate, "pending", address, paymentDto);
     orderDtos.add(orderDto);
   }
 

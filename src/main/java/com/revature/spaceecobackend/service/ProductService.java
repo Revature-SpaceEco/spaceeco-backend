@@ -27,7 +27,7 @@ public class ProductService implements ProductServiceInterface {
       pdto.setName(product.getName());
       pdto.setDescription(product.getDescription());
       pdto.setCost(product.getCost());
-      pdto.setCategory(product.getCategories());
+      pdto.setCategories(product.getCategories());
       pdto.setImage(product.getImage());
 
       SellerDto sdto = new SellerDto();
@@ -37,7 +37,7 @@ public class ProductService implements ProductServiceInterface {
       sdto.setFirstName(product.getSeller().getFirstName());
       sdto.setActive(product.getSeller().isActive());
 
-      pdto.setSellerInfo(sdto);
+      pdto.setSeller(sdto);
 
       return pdto;
   }

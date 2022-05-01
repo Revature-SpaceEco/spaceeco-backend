@@ -25,7 +25,7 @@ public class OrderController {
     return ResponseEntity.ok().body(orders);
   }
 
-  @GetMapping("/users/{userId}/orders/{orderId}")
+  @GetMapping("/users/{user_id}/orders/{order_id}")
   public ResponseEntity<?> getOrderById(@PathVariable("orderId") int orderId) {
     try {
       OrderDto orderDto = orderService.getOrderByOrderId(orderId);
@@ -35,7 +35,7 @@ public class OrderController {
     }
   }
 
-  @GetMapping("/user/{userId}/orders")
+  @GetMapping("/users/{user_id}/orders")
   public ResponseEntity<?> getOrdersByUserId(@PathVariable("userId") int userId) {
     try {
       List<OrderDto> orders = orderService.getOrdersByBuyerId(userId);
@@ -48,7 +48,7 @@ public class OrderController {
     }
   }
 
-  @PatchMapping("/users/{userId}/orders/{orderId}")
+  @PatchMapping("/users/{user_id}/orders/{order_id}")
   public ResponseEntity<?> updateOrderById(@RequestBody OrderDto orderDto) {
     try {
       OrderDto updatedOrder = orderService.updateOrder(orderDto);
@@ -60,7 +60,7 @@ public class OrderController {
     }
   }
 
-  @PostMapping("/users/{userId}/orders")
+  @PostMapping("/users/{user_id}/orders")
   public ResponseEntity<?> addNewOrder(@RequestBody OrderDto orderDto) {
     try {
       OrderDto newOrder = orderService.createOrder(orderDto);
@@ -70,7 +70,7 @@ public class OrderController {
     }
   }
 
-  @DeleteMapping("/users/{userId}/orders/{orderId}")
+  @DeleteMapping("/users/{user_id}/orders")
   public ResponseEntity<?> deleteOrder(@RequestBody OrderDto orderDto) {
     try {
       boolean deleted = orderService.deleteOrder(orderDto);
