@@ -44,7 +44,7 @@ public class UserController {
     if (returnUser != null) {
         returnUser.setQrCode(qrCode);
        
-        return ResponseEntity.status(200).body(returnUser) 
+        return ResponseEntity.status(200).body(returnUser);
     } else {
         return ResponseEntity.status(400).body("Registration Failed");
     }
