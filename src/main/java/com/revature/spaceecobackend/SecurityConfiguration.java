@@ -47,6 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .access("@userSecurity.hasUserId(authentication, #userId)")
                 .antMatchers("/users/{userId}")
                 .access("@userSecurity.hasUserId(authentication, #userId)")
+                .antMatchers(HttpMethod.POST, "/address").permitAll()
                 .antMatchers("/authenticate").permitAll()
                 .antMatchers("/products").permitAll()
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
