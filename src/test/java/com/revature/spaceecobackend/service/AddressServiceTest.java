@@ -7,6 +7,7 @@ import com.revature.spaceecobackend.model.Address;
 import com.revature.spaceecobackend.model.BillingDetails;
 import com.revature.spaceecobackend.model.User;
 import com.revature.spaceecobackend.model.UserRole;
+import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,9 +29,9 @@ public class AddressServiceTest {
 
   @InjectMocks
   private AddressService addressService;
+
   @Spy
   ModelMapper modelMapper = new ModelMapper();
-
 
   @Mock
   private UserRepository userRepository;
@@ -52,12 +53,29 @@ public class AddressServiceTest {
 
     User user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, address, bd, "www.image.com", true);
     when(userRepository.findById(1)).thenReturn(Optional.of(user));
-
     when(addressRepository.saveAndFlush(address)).thenReturn(address);
-
     Address actual = addressService.createAddress(1, new AddressDTO("234 Finch Avenue","111","Toronto","ON","Canada","M8I 8L9","Milky Way","Earth"));
-
     assertThat(actual).isEqualTo(address);
+  }
+  @Test
+  public void createAddressOrderTest() {
+    Address address = new Address();
+    address.setAddressLineOne("234 Finch Avenue");
+    address.setAddressLineTwo("111");
+    address.setCity("Toronto");
+    address.setState("ON");
+    address.setZip("M8I 8L9");
+    address.setCountry("Canada");
+    address.setPlanet("Earth");
+    address.setSolarSystem("Milky Way");
+
+    UserRole ur = new UserRole(2, "seller");
+    BillingDetails bd = new BillingDetails();
+    User user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, address, bd, "www.image.com", true);
+
+    when(addressRepository.save(address)).thenReturn(address);
+    Address actual = addressService.createAddressOrder(address);
+    AssertionsForClassTypes.assertThat(actual).isEqualTo(address);
   }
 
   @Test
@@ -78,18 +96,8 @@ public class AddressServiceTest {
 
     when(userRepository.findById(1)).thenReturn(Optional.of(user));
     Address actual = addressService.getAddressByUserId(1);
-
     assertThat(actual).isEqualTo(expect);
   }
-
-
-//    @Test
-//    public void deleteAddressByIdTest() {
-//        when(addressRepository.existsById(1)).thenReturn(false);
-//        Boolean actual = addressService.deleteAddressById(1);
-//
-//        assertThat(actual).isEqualTo(true);
-//    }
 
   @Test
   public void updateAddressTestByUserId() {
@@ -107,12 +115,10 @@ public class AddressServiceTest {
     BillingDetails bd = new BillingDetails();
 
     User user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, address, bd, "www.image.com", true);
+
     when(userRepository.findById(1)).thenReturn(Optional.of(user));
-
     when(addressRepository.save(address)).thenReturn(address);
-
     Address actual = addressService.updateAddressByUserId(1, new AddressDTO("234 Finch Avenue","111","Toronto","ON","Canada","M8I 8L9","Earth","Milky Way"));
-
     assertThat(actual).isEqualTo(address);
   }
 

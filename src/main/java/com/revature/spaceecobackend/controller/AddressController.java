@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class AddressController {
 
-  //add users as private instance variable @Autowired
-
-
   @Autowired
   AddressService addressService;
 
@@ -22,24 +19,21 @@ public class AddressController {
     return addressService.createAddressOrder(address);
   }
 
-
-
   @PostMapping("/users/{userId}/address")
   public Address createAddress(@PathVariable String userId,
-                               @RequestBody AddressDTO addressDTO) throws JsonProcessingException { //Create
+                               @RequestBody AddressDTO addressDTO) throws JsonProcessingException {
 
     return addressService.createAddress(Integer.parseInt(userId), addressDTO);
   }
 
-
   @GetMapping("/users/{userId}/address")
-  public Address getAddressByUserId(@PathVariable String userId) { //change name if naming convention changes //Response
+  public Address getAddressByUserId(@PathVariable String userId) {
     return addressService.getAddressByUserId(Integer.parseInt(userId));
   }
 
   @PutMapping("/users/{userId}/address")
   public Address updateAddressByUserId(@PathVariable String userId,
-                                       @RequestBody AddressDTO address) { //Update
+                                       @RequestBody AddressDTO address) {
     return addressService.updateAddressByUserId(Integer.parseInt(userId), address);
   }
 }
