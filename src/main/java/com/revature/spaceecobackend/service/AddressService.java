@@ -24,6 +24,11 @@ public class AddressService {
   UserRepository userRepository;
 
   @Transactional
+  public Address createAddressOrder(Address address){
+    return addressRepository.save(address);
+  }
+
+  @Transactional
   public Address createAddress(int userId, AddressDTO addressDTO) {
 
     Address address = modelMapper.map(addressDTO, Address.class);

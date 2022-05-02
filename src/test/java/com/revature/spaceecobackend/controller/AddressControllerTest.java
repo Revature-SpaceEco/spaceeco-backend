@@ -52,4 +52,11 @@ public class AddressControllerTest {
         Address response = addressController.getAddressByUserId("1");
         assertThat(response).isEqualTo(address);
     }
+
+    /*@Test
+    public void createAddressTest() throws Exception{
+        when(addressService.createAddress(1, addressDTO)).thenReturn(address);
+        Address response
+
+    }*/
 }
