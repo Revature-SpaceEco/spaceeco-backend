@@ -12,6 +12,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class User {
 
   @Id
@@ -52,19 +53,7 @@ public class User {
   @Column(name = "is_user_active")
   private boolean active;
 
-  @Column
+  @Column(name = "user_secret")
   private String secret;
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    User user = (User) o;
-    return id == user.id && active == user.active && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(userRole, user.userRole) && Objects.equals(primaryAddressId, user.primaryAddressId) && Objects.equals(primaryBillingId, user.primaryBillingId) && Objects.equals(imageUrl, user.imageUrl);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, username, password, email, firstName, lastName, userRole, primaryAddressId, primaryBillingId, imageUrl, active);
-  }
 }
