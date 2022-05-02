@@ -67,7 +67,6 @@ public class PaymentControllerTest {
     assertThat(response.getStatusCodeValue()).isEqualTo(expectedStatus);
   }
 
-  // CreatePayment
   @Test
   void createNewPayment_positive() throws EmptyFields {
     when(paymentService.createPayment(paymentDto)).thenReturn(payment);
@@ -87,27 +86,6 @@ public class PaymentControllerTest {
     assertThat(actualStatus).isEqualTo(expectedStatus);
   }
 
-  // UpdatePaymentStatus
-  @Test
-  void updatePaymentStatus_postive() throws NotFound {
-    Payment updated = new Payment(1, billingDetails, "approved");
-    when(paymentService.updatePayment(paymentDto)).thenReturn(updated);
-    ResponseEntity<?> response = paymentController.updatePaymentStatus(paymentDto);
-    Payment actual = (Payment) response.getBody();
-
-    assertThat(actual).isEqualTo(updated);
-    assertThat(response.getStatusCodeValue()).isEqualTo(200);
-  }
-
-  @Test
-  void updatePaymentStatus_negative() throws NotFound {
-    when(paymentService.updatePayment(any(PaymentDto.class))).thenThrow(NotFound.class);
-    ResponseEntity<?> response = paymentController.updatePaymentStatus(paymentDto);
-    int expected = 404;
-    assertThat(response.getStatusCodeValue()).isEqualTo(expected);
-  }
-
-
   @Test
   void editPaymentDetails_postive() throws NotFound {
     Payment edited = new Payment(1, billingDetails2, "pending");
@@ -124,7 +102,6 @@ public class PaymentControllerTest {
     assertThat(response.getStatusCodeValue()).isEqualTo(expected);
   }
 
-  // DeletePayment
   @Test
   void deletePaymentDetails_postive() throws NotFound {
     when(paymentService.deletePaymentById(1)).thenReturn(true);
@@ -132,7 +109,6 @@ public class PaymentControllerTest {
 
     assertThat(response.getStatusCodeValue()).isEqualTo(200);
   }
-
 
   @Test
   void deletePaymentDetails_PaymentNotFound() throws NotFound {

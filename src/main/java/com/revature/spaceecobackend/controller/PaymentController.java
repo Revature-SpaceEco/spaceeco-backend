@@ -32,7 +32,7 @@ public class PaymentController {
   }
 
   // createPayment
-  @PostMapping("/")
+  @PostMapping()
   public ResponseEntity<?> createPayment(@RequestBody PaymentDto paymentDto) {
     try {
       Payment createPayment = paymentService.createPayment(paymentDto);
@@ -42,19 +42,7 @@ public class PaymentController {
     }
   }
 
-  // updatePaymentStatus
-  @PutMapping("/")
-  public ResponseEntity<?> updatePaymentStatus(@RequestBody PaymentDto paymentDto) {
-    try {
-      Payment updatePayment = paymentService.updatePayment(paymentDto);
-      return ResponseEntity.ok().body(updatePayment);
-    } catch (NotFound e) {
-      return ResponseEntity.notFound().build();
-    }
-  }
-
-  // editPaymentDetails
-  @PatchMapping("/")
+  @PatchMapping()
   public ResponseEntity<?> editPaymentDetails(@RequestBody PaymentDto paymentDto) {
     try {
       Payment editPayment = paymentService.updatePayment(paymentDto);

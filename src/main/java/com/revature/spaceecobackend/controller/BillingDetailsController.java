@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/users/{userId}/billing")
+@RequestMapping("/users/{user_id}/billing")
 @CrossOrigin(originPatterns = "*", exposedHeaders = "*", allowedHeaders = "*")
 public class BillingDetailsController {
   @Autowired
@@ -39,7 +39,7 @@ public class BillingDetailsController {
     }
   }
 
-  @PostMapping("/")
+  @PostMapping()
   public ResponseEntity<?> addBillingDetails(@RequestBody BillingDetailsDto billingDetailsDto) {
     try {
       BillingDetails billingDetails = billingDetailsService.createBillingDetail(billingDetailsDto);
@@ -48,18 +48,6 @@ public class BillingDetailsController {
       return ResponseEntity.status(400).body(e.getMessage());
     }
   }
-
-
-  @PostMapping("/user")
-  public ResponseEntity<?> saveBillingDetails(@RequestBody BillingDetailsDto billingDetailsDto) {
-    try {
-      BillingDetails billingDetails1 = billingDetailsService.createBillingDetail(billingDetailsDto);
-      return ResponseEntity.ok().body(billingDetails1);
-    } catch (EmptyFields e) {
-      return ResponseEntity.status(400).body(e.getMessage());
-    }
-  }
-
 
   @DeleteMapping("/{billing_id}")
   public ResponseEntity<?> deleteBillingDetails(@PathVariable("billing_id") int id) {

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -13,9 +14,9 @@ import java.sql.Timestamp;
 public class OrderDto {
   private int id;
 
-//    private UserDto buyer;
+  private UserDTO buyer;
 
-//    List<ProductDTO> items;
+  List<ProductDto> items;
 
   private Timestamp orderDate;
 

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class PaymentDto {
 
   private int id;
-  private BillingDetailsDto billingDetailsDto;
+  private BillingDetailsDto billingDetails;
   private String status;
 
 }

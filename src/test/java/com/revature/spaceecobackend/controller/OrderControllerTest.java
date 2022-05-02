@@ -1,7 +1,6 @@
 package com.revature.spaceecobackend.controller;
 
-import com.revature.spaceecobackend.dto.OrderDto;
-import com.revature.spaceecobackend.dto.PaymentDto;
+import com.revature.spaceecobackend.dto.*;
 import com.revature.spaceecobackend.exception.EmptyFields;
 import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.*;
@@ -31,7 +30,9 @@ public class OrderControllerTest {
   private OrderController orderController;
 
   private static User buyer;
+  private static UserDTO buyerDto;
   private static User seller;
+  private static SellerDto sellerDto;
   private static UserRole userRole;
   private static UserRole userRole2;
   private static List<Order> orders;
@@ -39,6 +40,7 @@ public class OrderControllerTest {
   private static OrderDto orderDto;
   private static List<OrderDto> orderDtos;
   private static List<Product> products;
+  private static List<ProductDto> productsDto;
   private static Payment payment;
   private static Categories category;
   private static Address address;
@@ -51,13 +53,18 @@ public class OrderControllerTest {
     billingDetails = new BillingDetails();
     userRole2 = new UserRole(2, "seller");
     seller = new User(2, "seller", "password", "email@email.com", "tester", "testy", userRole2, address, billingDetails, "www.image.com", true);
+    sellerDto = new SellerDto(1,"seller","email@email.com","tester",true);
     category = new Categories(1, "categoryTest");
     products = new ArrayList<>();
     products.add(new Product(1, "test", "test description", 100, category, "image.jpg", seller));
     products.add(new Product(2, "test", "test description", 100, category, "image2.jpg", seller));
+    productsDto = new ArrayList<>();
+    productsDto.add(new ProductDto(1, "test", "test description", 100, category, "image.jpg", sellerDto));
+    productsDto.add(new ProductDto(2, "test", "test description", 100, category, "image2.jpg", sellerDto));
     payment = new Payment();
     userRole = new UserRole(1, "buyer");
     buyer = new User(1, "test", "password", "email@email.com", "tester", "testy", userRole, address, billingDetails, "www.image.com", true);
+    buyerDto = new UserDTO(1, "test", "email@email.com", "tester", "testy", userRole, address, billingDetails, "www.image.com", true);
     address = new Address(1, "10 Test Drive", null, "City Test", "Test", "Country", "80000", "Solar", "Planet");
     orders = new ArrayList<>();
     orderDate = new Timestamp(System.currentTimeMillis());
@@ -65,7 +72,7 @@ public class OrderControllerTest {
     orders.add(order);
     paymentDto = new PaymentDto();
     orderDtos = new ArrayList<>();
-    orderDto = new OrderDto(1, orderDate, "pending", address, paymentDto);
+    orderDto = new OrderDto(1, buyerDto,productsDto,orderDate, "pending", address, paymentDto);
     orderDtos.add(orderDto);
   }
 
