@@ -71,7 +71,7 @@ public class AddressServiceTest {
 
     UserRole ur = new UserRole(2, "seller");
     BillingDetails bd = new BillingDetails();
-    User user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, address, bd, "www.image.com", true);
+    User user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, address, bd, "www.image.com", true, "secret");
 
     when(addressRepository.save(address)).thenReturn(address);
     Address actual = addressService.createAddressOrder(address);
@@ -114,12 +114,12 @@ public class AddressServiceTest {
     UserRole ur = new UserRole(2, "seller");
     BillingDetails bd = new BillingDetails();
 
-<<<<<<< HEAD
-    User user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, address, bd, "www.image.com", true);
 
-=======
+
+
+
     User user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, address, bd, "www.image.com", true, "secret");
->>>>>>> main-dev
+
     when(userRepository.findById(1)).thenReturn(Optional.of(user));
     when(addressRepository.save(address)).thenReturn(address);
     Address actual = addressService.updateAddressByUserId(1, new AddressDTO("234 Finch Avenue","111","Toronto","ON","Canada","M8I 8L9","Earth","Milky Way"));
