@@ -49,8 +49,6 @@ class MfaServiceTest {
         String qrCode = realMfaService.getQrCode("any_secret", "any_email");
 
         Assertions.assertTrue(qrCode.startsWith("data:image/png;base64"));
-
-
     }
 
 
