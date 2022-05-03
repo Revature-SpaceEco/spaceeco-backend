@@ -52,10 +52,10 @@ class ProductServiceTest {
         fakeUser.setActive(true);
         fakeUser.setUserRole(fakeRole);
         List<Product> fakeProducts = new ArrayList<>();
-        fakeProducts.add(new Product(1, "product", "product description", 100, categories, "image.jpg", fakeUser));
+        fakeProducts.add(new Product(1, "product", "product description", 100, categories.getName(), "image.jpg", fakeUser));
         when(productRepository.findAll()).thenReturn(fakeProducts);
         List<ProductDto> productDtos = new ArrayList<>();
-        productDtos.add(new ProductDto(1, "product", "product description", 100, categories, "image.jpg", new SellerDto(fakeUser.getId(), fakeUser.getUsername(), fakeUser.getEmail(), fakeUser.getFirstName(), fakeUser.isActive())));
+        productDtos.add(new ProductDto(1, "product", "product description", 100, categories.getName(), "image.jpg", new SellerDto(fakeUser.getId(), fakeUser.getUsername(), fakeUser.getEmail(), fakeUser.getFirstName(), fakeUser.isActive())));
         List<ProductDto> actual = productService.findAllProducts();
 
         Assertions.assertEquals(productDtos, actual);
@@ -77,11 +77,11 @@ class ProductServiceTest {
         fakeUser.setPassword("password");
         fakeUser.setActive(true);
         fakeUser.setUserRole(fakeRole);
-        Product fakeProduct = new Product(1, "product", "product description", 100, categories, "image.jpg", fakeUser);
+        Product fakeProduct = new Product(1, "product", "product description", 100, categories.getName(), "image.jpg", fakeUser);
 
         when(productRepository.findById(1)).thenReturn(Optional.of(fakeProduct));
 
-        ProductDto fakeDto = new ProductDto(1, "product", "product description", 100, categories, "image.jpg", new SellerDto(fakeUser.getId(), fakeUser.getUsername(), fakeUser.getEmail(), fakeUser.getFirstName(), fakeUser.isActive()));
+        ProductDto fakeDto = new ProductDto(1, "product", "product description", 100, categories.getName(), "image.jpg", new SellerDto(fakeUser.getId(), fakeUser.getUsername(), fakeUser.getEmail(), fakeUser.getFirstName(), fakeUser.isActive()));
 
         ProductDto actual = productService.getProductsById(1);
 
