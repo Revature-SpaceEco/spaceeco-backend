@@ -2,6 +2,7 @@ package com.revature.spaceecobackend.controller;
 
 import com.revature.spaceecobackend.dto.RegisterUserDTO;
 import com.revature.spaceecobackend.dto.UserDTO;
+import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.User;
 import com.revature.spaceecobackend.service.MfaService;
 import com.revature.spaceecobackend.service.UserService;
@@ -56,6 +57,11 @@ public class UserController {
     return ResponseEntity.ok().body(users);
   }
 
-
+  @GetMapping("/{user_id}")
+  public ResponseEntity<?> getUserById(@PathVariable("user_id") String userId) throws NotFound {
+    Integer id = Integer.parseInt(userId);
+    UserDTO userDTO = userService.getUserById(id);
+    return ResponseEntity.ok().body(userDTO);
+  }
 
 }
