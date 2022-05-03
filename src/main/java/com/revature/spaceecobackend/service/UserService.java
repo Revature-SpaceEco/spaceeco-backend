@@ -17,18 +17,24 @@ public class UserService {
   @Autowired
   UserRepository userRepository;
 
-  public UserDTO createUser(User user) {
+  public UserDTO createUser(User user) throws NotFound {
     // get the user from the database if exist
     User dbUser = userRepository.findByUsernameOrEmail(user.getUsername(), user.getEmail());
 
-    ModelMapper modelMapper = new ModelMapper();
-    // if the user not already exist
-    // then we create and return the user
-    if(dbUser == null) {
-      return modelMapper.map(userRepository.save(user), UserDTO.class);
-    } else {
-      return null;
+    if(dbUser != null) {
+      throw new NotFound("Registration Failed");
     }
+    ModelMapper modelMapper = new ModelMapper();
+    return modelMapper.map(userRepository.save(user), UserDTO.class);
+
+//    ModelMapper modelMapper = new ModelMapper();
+//    // if the user not already exist
+//    // then we create and return the user
+//    if(dbUser == null) {
+//      return modelMapper.map(userRepository.save(user), UserDTO.class);
+//    } else {
+//      return null;
+//    }
   }
 
   public List<User> getAllUsers() {

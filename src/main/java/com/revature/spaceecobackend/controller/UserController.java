@@ -2,6 +2,7 @@ package com.revature.spaceecobackend.controller;
 
 import com.revature.spaceecobackend.dto.RegisterUserDTO;
 import com.revature.spaceecobackend.dto.UserDTO;
+import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.User;
 import com.revature.spaceecobackend.service.MfaService;
 import com.revature.spaceecobackend.service.UserService;
@@ -29,25 +30,44 @@ public class UserController {
   private MfaService mfaService;
 
   @PostMapping()
-  public ResponseEntity<?> AddUser(@RequestBody RegisterUserDTO registerUserDTO) throws QrGenerationException {
+  public ResponseEntity<?> addUser(@RequestBody RegisterUserDTO registerUserDTO) throws QrGenerationException, NotFound {
 
-    ModelMapper modelMapper = new ModelMapper();
-    User user = modelMapper.map(registerUserDTO, User.class);
+    try{
+      ModelMapper modelMapper = new ModelMapper();
+      User user = modelMapper.map(registerUserDTO, User.class);
 
-    user.setActive(true);
-    user.setPassword(passwordEncoder.encode(registerUserDTO.getPassword()));
-    user.setSecret(mfaService.getSecret());
-    String qrCode = mfaService.getQrCode(user.getSecret(), user.getEmail());
+      user.setActive(true);
+      user.setPassword(passwordEncoder.encode(registerUserDTO.getPassword()));
+      user.setSecret(mfaService.getSecret());
+      String qrCode = mfaService.getQrCode(user.getSecret(), user.getEmail());
 
-    UserDTO returnUser = userService.createUser(user);
+      UserDTO returnUser = userService.createUser(user);
 
-    if (returnUser != null) {
-        returnUser.setQrCode(qrCode);
-       
-        return ResponseEntity.status(200).body(returnUser);
-    } else {
-        return ResponseEntity.status(400).body("Registration Failed");
+      returnUser.setQrCode(qrCode);
+
+      return ResponseEntity.status(200).body(returnUser);
+
+
+    }catch (NotFound e){
+      return ResponseEntity.status(400).body(e.getMessage());
     }
+//    ModelMapper modelMapper = new ModelMapper();
+//    User user = modelMapper.map(registerUserDTO, User.class);
+//
+//    user.setActive(true);
+//    user.setPassword(passwordEncoder.encode(registerUserDTO.getPassword()));
+//    user.setSecret(mfaService.getSecret());
+//    String qrCode = mfaService.getQrCode(user.getSecret(), user.getEmail());
+//
+//    UserDTO returnUser = userService.createUser(user);
+//
+//    if (returnUser != null) {
+//        returnUser.setQrCode(qrCode);
+//
+//        return ResponseEntity.status(200).body(returnUser);
+//    } else {
+//        return ResponseEntity.status(400).body("Registration Failed");
+//    }
   }
 
   @GetMapping()

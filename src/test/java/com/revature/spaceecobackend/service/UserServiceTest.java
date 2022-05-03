@@ -3,6 +3,7 @@ package com.revature.spaceecobackend.service;
 import com.revature.spaceecobackend.dao.UserRepository;
 import com.revature.spaceecobackend.dto.RegisterUserDTO;
 import com.revature.spaceecobackend.dto.UserDTO;
+import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.Address;
 import com.revature.spaceecobackend.model.BillingDetails;
 import com.revature.spaceecobackend.model.User;
@@ -38,7 +39,7 @@ class UserServiceTest {
 
 
   @Test
-  void createUser_positive() {
+  void createUser_positive() throws NotFound {
     UserRole role = new UserRole(1, "admin");
     User user = new User(0, "test", "sadsa", "test@email", "test", "test@test.com", role, null, null, null, true, "secret");
     ModelMapper modelMapper = new ModelMapper();

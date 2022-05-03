@@ -2,6 +2,7 @@ package com.revature.spaceecobackend.controller;
 
 import com.revature.spaceecobackend.dto.RegisterUserDTO;
 import com.revature.spaceecobackend.dto.UserDTO;
+import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.Address;
 import com.revature.spaceecobackend.model.BillingDetails;
 import com.revature.spaceecobackend.model.User;
@@ -16,10 +17,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +71,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser_positive() throws QrGenerationException {
+    void createUser_positive() throws QrGenerationException, NotFound {
         ModelMapper modelMapper = new ModelMapper();
         User modeledUser = modelMapper.map(registerUserDTO, User.class);
         modeledUser.setSecret(user.getSecret());
@@ -84,7 +83,7 @@ class UserControllerTest {
         when(mfaService.getQrCode(user.getSecret(), user.getEmail())).thenReturn(userDTO.getQrCode());
 
         ResponseEntity<?> expected = ResponseEntity.status(200).body(userDTO);
-        ResponseEntity<?> actual = userController.AddUser(registerUserDTO);
+        ResponseEntity<?> actual = userController.addUser(registerUserDTO);
 
         assertThat(actual).isEqualTo(expected);
     }
