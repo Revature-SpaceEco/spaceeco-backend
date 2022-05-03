@@ -28,8 +28,8 @@ public class Product {
   @Column(name = "product_cost")
   private Integer cost;
 
-  @ManyToOne
-  private Categories categories;
+  @JoinColumn(name = "category_name")
+  private String categoryName;
 
   @Column(name = "product_image")
   private String image;
@@ -42,11 +42,11 @@ public class Product {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Product product = (Product) o;
-    return id == product.id && Objects.equals(name, product.name) && Objects.equals(description, product.description) && Objects.equals(cost, product.cost) && Objects.equals(categories, product.categories) && Objects.equals(image, product.image) && Objects.equals(seller, product.seller);
+    return id == product.id && Objects.equals(name, product.name) && Objects.equals(description, product.description) && Objects.equals(cost, product.cost) && Objects.equals(categoryName, product.categoryName) && Objects.equals(image, product.image) && Objects.equals(seller, product.seller);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, cost, categories, image, seller);
+    return Objects.hash(id, name, description, cost, categoryName, image, seller);
   }
 }

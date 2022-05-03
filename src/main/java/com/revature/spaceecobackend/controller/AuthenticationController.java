@@ -28,14 +28,14 @@ public class AuthenticationController {
     private MfaService mfaService;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> createAuthenticationTokenAndLogin(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+    public ResponseEntity<AuthenticationResponse> createAuthenticationTokenAndLogin(@RequestBody AuthenticationRequest authenticationRequest) throws BadCredentialsException {
 
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
             );
         } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password", e);
+            throw new BadCredentialsException("Incorrect username or password", e);
         }
 
         final CustomUserDetails userDetails = userDetailsService
