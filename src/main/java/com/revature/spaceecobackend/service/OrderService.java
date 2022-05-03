@@ -98,10 +98,6 @@ public class OrderService {
       return false;
     }
 
-    if (orderDto.getOrderStatus().equals("")) {
-      return false;
-    }
-
     return orderDto.getShippingAddressId() != null;
   }
 }

@@ -17,7 +17,7 @@ public class UserService {
   @Autowired
   UserRepository userRepository;
 
-  public UserDTO createUser(User user) {
+  public UserDTO createUser(User user){
     // get the user from the database if exist
     User dbUser = userRepository.findByUsernameOrEmail(user.getUsername(), user.getEmail());
 
@@ -42,7 +42,6 @@ public class UserService {
     if(optional.isPresent()) {
       return modelMapper.map(optional.get(), UserDTO.class);
     } else {
-      System.out.println(optional);
       throw new NotFound("The user with the id " + id + " does not exist.");
     }
   }

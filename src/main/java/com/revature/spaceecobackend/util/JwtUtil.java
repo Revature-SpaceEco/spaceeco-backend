@@ -14,8 +14,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-@Component
+
 public class JwtUtil {
+
+    private JwtUtil(){}
+
     private static final String SECRET_KEY = "what_secrets_shall_we_keep?*@$))@*$!)@*$!)$";
 
     public static String extractUsername(String token) {

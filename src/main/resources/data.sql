@@ -36,6 +36,7 @@ VALUES ('Reach', 'A wonderful planet', 150, 1, 'https://cdn.pixabay.com/photo/20
 ('Eridanus II', 'A wonderful planet', 100, 1, 'https://static.wikia.nocookie.net/halo/images/0/0d/HWF_Eridanus_II.png', 3),
 ('Pillar of Autumn', 'A powerful rocket', 50, 2, 'https://static.wikia.nocookie.net/halo/images/d/d0/PoA.jpg', 3);
 
+
 INSERT INTO orders (buyer, order_date, order_status, shipping_address_id, payment_id)
 VALUES (1, '2022-04-20 08:26:24.166', 'Pending', 1, 1),
 (2, '2022-04-20 08:30:24.166', 'Approved', 2, 2);

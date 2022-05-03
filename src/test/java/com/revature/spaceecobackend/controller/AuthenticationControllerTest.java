@@ -17,7 +17,7 @@ import org.springframework.security.core.Authentication;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class AuthenticationControllerTest {
+class AuthenticationControllerTest {
 
     @Mock
     private AuthenticationManager authenticationManager;
@@ -62,7 +62,7 @@ public class AuthenticationControllerTest {
         when(authenticationManager.authenticate(authentication)).thenThrow(BadCredentialsException.class);
 
 
-        Assertions.assertThrows(Exception.class,
+        Assertions.assertThrows(BadCredentialsException.class,
                 () -> authenticationController.createAuthenticationTokenAndLogin(authenticationRequest)
         );
     }
