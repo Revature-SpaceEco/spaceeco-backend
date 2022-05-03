@@ -57,12 +57,13 @@ class AddressControllerTest {
         assertThat(address).isEqualTo(response);
     }
 
-//    @Test
-//    public void createAddressOrderTest() throws Exception {
-//        when(addressService.createAddressOrder(address)).thenReturn(address);
-//        Address response = addressController.createAddressOrder(address);
-//        assertThat(address).isEqualTo(response);
-//    }
+    @Test
+    public void createAddressOrderTest() throws Exception {
+        when(addressService.createAddressOrder(addressDTO)).thenReturn(address);
+        Address response = addressController.createAddressOrder(addressDTO);
+        assertThat(address).isEqualTo(response);
+    }
+
     @Test
     void updateAddressByUserIdTest() throws Exception {
         when(addressService.updateAddressByUserId(1, addressDTO)).thenReturn(address);

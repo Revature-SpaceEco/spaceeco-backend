@@ -3,6 +3,7 @@ package com.revature.spaceecobackend.service;
 import com.revature.spaceecobackend.dao.AddressRepository;
 import com.revature.spaceecobackend.dao.UserRepository;
 import com.revature.spaceecobackend.dto.AddressDTO;
+import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.Address;
 import com.revature.spaceecobackend.model.BillingDetails;
 import com.revature.spaceecobackend.model.User;
@@ -51,12 +52,11 @@ class AddressServiceTest {
       bd = new BillingDetails();
       address = new Address(1,"234 Finch Avenue","111","Toronto","ON","M8I 8L9","Canada","Earth","Milky Way");
       user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, address, bd, "www.image.com", true, "secret");
-      addressDTO = new AddressDTO("234 Finch Avenue","111","Toronto","ON","Canada","M8I 8L9","Milky Way","Earth");
-
+      addressDTO = new AddressDTO(1,"234 Finch Avenue","111","Toronto","ON","Canada","M8I 8L9","Milky Way","Earth");
   }
 
   @Test
-  void createAddressTest() {
+  void createAddressTest() throws NotFound {
     when(userRepository.findById(1)).thenReturn(Optional.of(user));
     when(addressRepository.saveAndFlush(any(Address.class))).thenReturn(address);
     Address actual = addressService.createAddress(1, addressDTO);
@@ -71,15 +71,14 @@ class AddressServiceTest {
   }
 
   @Test
-  void getAddressByUserIdTest() {
+  void getAddressByUserIdTest() throws NotFound {
     when(userRepository.findById(1)).thenReturn(Optional.of(user));
     Address actual = addressService.getAddressByUserId(1);
     assertThat(actual).isEqualTo(address);
   }
 
-
   @Test
-   void updateAddressTestByUserId() {
+   void updateAddressTestByUserId() throws NotFound {
     when(userRepository.findById(1)).thenReturn(Optional.of(user));
     when(addressRepository.save(address)).thenReturn(address);
     Address actual = addressService.updateAddressByUserId(1, addressDTO);

@@ -1,6 +1,7 @@
 package com.revature.spaceecobackend.controller;
 
 import com.revature.spaceecobackend.dto.AddressDTO;
+import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.Address;
 import com.revature.spaceecobackend.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +21,19 @@ public class AddressController {
 
   @PostMapping("/users/{userId}/address")
   public Address createAddress(@PathVariable String userId,
-                               @RequestBody AddressDTO addressDTO) {
+                               @RequestBody AddressDTO addressDTO) throws NotFound {
 
     return addressService.createAddress(Integer.parseInt(userId), addressDTO);
   }
 
   @GetMapping("/users/{userId}/address")
-  public Address getAddressByUserId(@PathVariable String userId) {
+  public Address getAddressByUserId(@PathVariable String userId) throws NotFound {
     return addressService.getAddressByUserId(Integer.parseInt(userId));
   }
 
   @PutMapping("/users/{userId}/address")
   public Address updateAddressByUserId(@PathVariable String userId,
-                                       @RequestBody AddressDTO address) {
+                                       @RequestBody AddressDTO address) throws NotFound {
     return addressService.updateAddressByUserId(Integer.parseInt(userId), address);
   }
 
