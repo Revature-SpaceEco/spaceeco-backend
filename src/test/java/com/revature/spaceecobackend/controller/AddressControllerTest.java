@@ -1,8 +1,6 @@
 package com.revature.spaceecobackend.controller;
 
 import com.revature.spaceecobackend.dto.AddressDTO;
-import com.revature.spaceecobackend.exception.EmptyFields;
-import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.Address;
 import com.revature.spaceecobackend.model.BillingDetails;
 import com.revature.spaceecobackend.model.User;
@@ -14,17 +12,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class AddressControllerTest {
+class AddressControllerTest {
 
     @Mock
     private AddressService addressService;
@@ -49,11 +43,12 @@ public class AddressControllerTest {
     }
 
     @Test
-    public void getAddressByIdTest() throws Exception{
+     void getAddressByIdTest() throws Exception{
         when(addressService.getAddressByUserId(buyer.getId())).thenReturn(address);
         Address response = addressController.getAddressByUserId("1");
         assertThat(response).isEqualTo(address);
     }
+
 
     @Test
     public void createAddressTest() throws Exception {
@@ -64,14 +59,16 @@ public class AddressControllerTest {
 
     @Test
     public void createAddressOrderTest() throws Exception {
-        when(addressService.createAddressOrder(address)).thenReturn(address);
-        Address response = addressController.createAddressOrder(address);
+        when(addressService.createAddressOrder(addressDTO)).thenReturn(address);
+        Address response = addressController.createAddressOrder(addressDTO);
         assertThat(address).isEqualTo(response);
     }
+
     @Test
     void updateAddressByUserIdTest() throws Exception {
         when(addressService.updateAddressByUserId(1, addressDTO)).thenReturn(address);
         Address response = addressController.updateAddressByUserId("1", addressDTO);
         assertThat(address).isEqualTo(response);
     }
+
 }

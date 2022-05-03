@@ -1,7 +1,7 @@
 package com.revature.spaceecobackend.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.revature.spaceecobackend.dto.AddressDTO;
+import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.Address;
 import com.revature.spaceecobackend.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,25 +15,25 @@ public class AddressController {
   AddressService addressService;
 
   @PostMapping("/address")
-  public Address createAddressOrder(@RequestBody Address address) {
-    return addressService.createAddressOrder(address);
+  public Address createAddressOrder(@RequestBody AddressDTO addressDTO) {
+    return addressService.createAddressOrder(addressDTO);
   }
 
   @PostMapping("/users/{userId}/address")
   public Address createAddress(@PathVariable String userId,
-                               @RequestBody AddressDTO addressDTO) throws JsonProcessingException {
+                               @RequestBody AddressDTO addressDTO) throws NotFound {
 
     return addressService.createAddress(Integer.parseInt(userId), addressDTO);
   }
 
   @GetMapping("/users/{userId}/address")
-  public Address getAddressByUserId(@PathVariable String userId) {
+  public Address getAddressByUserId(@PathVariable String userId) throws NotFound {
     return addressService.getAddressByUserId(Integer.parseInt(userId));
   }
 
   @PutMapping("/users/{userId}/address")
   public Address updateAddressByUserId(@PathVariable String userId,
-                                       @RequestBody AddressDTO address) {
+                                       @RequestBody AddressDTO address) throws NotFound {
     return addressService.updateAddressByUserId(Integer.parseInt(userId), address);
   }
 
