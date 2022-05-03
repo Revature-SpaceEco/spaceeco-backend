@@ -64,22 +64,22 @@ public class BillingDetailsService {
   private boolean isBillingDetailsValid(BillingDetailsDto billingDetailsDto) {
 
     BillingDetails billingDetails = modelMapper.map(billingDetailsDto, BillingDetails.class);
-    if (billingDetails.getBillingName() == null) {
+    if (billingDetails.getName() == null) {
       return false;
     }
 
-    if (billingDetails.getBillingCardNumber() == 0) {
+    if (billingDetails.getCardNumber() == 0) {
       return false;
     }
 
-    if (billingDetails.getBillingAddress() == null) {
+    if (billingDetails.getAddress() == null) {
       return false;
     }
 
-    if (billingDetails.getBillingSecurityNumber() == 0) {
+    if (billingDetails.getSecurityNumber() == 0) {
       return false;
     }
 
-    return billingDetails.getBillingCardType() != null;
+    return billingDetails.getCardType() != null;
   }
 }

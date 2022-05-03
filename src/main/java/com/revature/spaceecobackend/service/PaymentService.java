@@ -41,10 +41,11 @@ public class PaymentService {
 
     if (optional.isPresent()) {
       paymentRepository.saveAndFlush(payment);
+      return optional.get();
     } else {
       throw new NotFound("Payment info with id" + payment.getId() + " was not found");
     }
-    return payment;
+
   }
 
   public boolean deletePaymentById(int id) throws NotFound {

@@ -67,7 +67,8 @@ sonarqube {
 		property "sonar.coverage.exclusions", "**/com/revature/spaceecobackend/model/*, " +
 				"**/com/revature/spaceecobackend/exception/*, **/com/revature/spaceecobackend/SecurityConfiguration.java," +
 				"**/com/revature/spaceecobackend/dao/*, **/com/revature/spaceecobackend/dto/*," +
-				"**/com/revature/spaceecobackend/aspect/*, **/com/revature/spaceecobackend/SpaceecoBackendApplication.java"
+				"**/com/revature/spaceecobackend/aspect/*, **/com/revature/spaceecobackend/SpaceecoBackendApplication.java," +
+				"**/com/revature/spaceecobackend/filter/**"
 	}
 }
 
