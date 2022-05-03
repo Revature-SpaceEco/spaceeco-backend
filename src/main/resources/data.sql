@@ -32,9 +32,9 @@ VALUES (1),
 (2);
 
 INSERT INTO products (product_name, product_description, product_cost, categories_id, product_image, seller_user_id)
-VALUES ('reach', 'A wonderful planet', 150, 1, 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg', 3),
-('eridanus II', 'A wonderful planet', 100, 1, 'www.image.com/eridanusII.jpg', 3),
-('Pilar of autumn', 'A powerful rocket', 50, 2, 'www.image.com/pillar.jpg', 3);
+VALUES ('Reach', 'A wonderful planet', 150, 1, 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg', 3),
+('Eridanus II', 'A wonderful planet', 100, 1, 'https://static.wikia.nocookie.net/halo/images/0/0d/HWF_Eridanus_II.png', 3),
+('Pillar of Autumn', 'A powerful rocket', 50, 2, 'https://static.wikia.nocookie.net/halo/images/d/d0/PoA.jpg', 3);
 
 INSERT INTO orders (buyer, order_date, order_status, shipping_address_id, payment_id)
 VALUES (1, '2022-04-20 08:26:24.166', 'Pending', 1, 1),
