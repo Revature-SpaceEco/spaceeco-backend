@@ -29,15 +29,4 @@ public class AddressDTO {
     private String solarSystem;
 
     private String planet;
-
-    public AddressDTO(String addressLineOne, String addressLineTwo, String city, String state, String country, String zip, String solarSystem, String planet) {
-        this.addressLineOne = addressLineOne;
-        this.addressLineTwo = addressLineTwo;
-        this.city = city;
-        this.state = state;
-        this.country = country;
-        this.zip = zip;
-        this.solarSystem = solarSystem;
-        this.planet = planet;
-    }
 }
