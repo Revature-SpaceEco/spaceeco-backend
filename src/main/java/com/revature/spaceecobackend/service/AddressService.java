@@ -60,6 +60,4 @@ public class AddressService {
     oldAddress.setSolarSystem(newAddress.getSolarSystem());
     return addressRepository.save(oldAddress);
   }
-
-
 }

@@ -1,6 +1,8 @@
 package com.revature.spaceecobackend.controller;
 
 import com.revature.spaceecobackend.dto.AddressDTO;
+import com.revature.spaceecobackend.exception.EmptyFields;
+import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.Address;
 import com.revature.spaceecobackend.model.BillingDetails;
 import com.revature.spaceecobackend.model.User;
@@ -53,10 +55,23 @@ public class AddressControllerTest {
         assertThat(response).isEqualTo(address);
     }
 
-    /*@Test
-    public void createAddressTest() throws Exception{
+    @Test
+    public void createAddressTest() throws Exception {
         when(addressService.createAddress(1, addressDTO)).thenReturn(address);
-        Address response
+        Address response = addressController.createAddress("1", addressDTO);
+        assertThat(address).isEqualTo(response);
+    }
 
-    }*/
+    @Test
+    public void createAddressOrderTest() throws Exception {
+        when(addressService.createAddressOrder(address)).thenReturn(address);
+        Address response = addressController.createAddressOrder(address);
+        assertThat(address).isEqualTo(response);
+    }
+    @Test
+    void updateAddressByUserIdTest() throws Exception {
+        when(addressService.updateAddressByUserId(1, addressDTO)).thenReturn(address);
+        Address response = addressController.updateAddressByUserId("1", addressDTO);
+        assertThat(address).isEqualTo(response);
+    }
 }
