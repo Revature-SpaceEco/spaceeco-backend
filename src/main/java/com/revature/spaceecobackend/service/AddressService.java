@@ -23,9 +23,10 @@ public class AddressService {
   @Autowired
   UserRepository userRepository;
 
-//    public Address createAddress(Address address) {
-//        return addressRepository.save(address);
-//    }
+  @Transactional
+  public Address createAddressOrder(Address address){
+    return addressRepository.save(address);
+  }
 
   @Transactional
   public Address createAddress(int userId, AddressDTO addressDTO) {
@@ -44,11 +45,6 @@ public class AddressService {
 
   }
 
-//    public Boolean deleteAddressById(int id) {
-//        addressRepository.deleteById(id);
-//        return !addressRepository.existsById(id);
-//    }
-
   @Transactional
   public Address updateAddressByUserId(int id, AddressDTO newAddress) {
     Optional<User> user = userRepository.findById(id);
@@ -64,6 +60,4 @@ public class AddressService {
     oldAddress.setSolarSystem(newAddress.getSolarSystem());
     return addressRepository.save(oldAddress);
   }
-
-
 }

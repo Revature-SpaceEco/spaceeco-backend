@@ -17,6 +17,7 @@ public class CustomUserDetails implements UserDetails {
     private String password;
     private boolean active;
     private List<GrantedAuthority> authorities;
+    private String secret;
 
     public CustomUserDetails(User user) {
         this.id = user.getId();
@@ -24,14 +25,7 @@ public class CustomUserDetails implements UserDetails {
         this.password = user.getPassword();
         this.active = user.isActive();
         this.authorities = Arrays.asList(new SimpleGrantedAuthority(user.getUserRole().getRole()));
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+        this.secret = user.getSecret();
     }
 
     @Override

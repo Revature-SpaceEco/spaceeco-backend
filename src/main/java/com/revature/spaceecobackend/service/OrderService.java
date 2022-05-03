@@ -24,8 +24,7 @@ public class OrderService {
   @Autowired
   UserRepository userRepository;
 
-  @Autowired
-  private ModelMapper modelMapper;
+  private ModelMapper modelMapper = new ModelMapper();
 
   public List<OrderDto> getAllOrders() {
     List<Order> orders = orderRepository.findAll();

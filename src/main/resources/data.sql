@@ -20,11 +20,12 @@ VALUES ('Visa', 1234456778971547, 142, 'John', 1),
 ('MasterCard', 9874159823651478, 951, 'Jane', 2),
 ('MasterCard', 9874159823651478, 951, 'Aruna', 2);
 
-INSERT INTO users (user_username, user_password, user_email, user_first_name, user_last_name, role_user_id, primary_address_id, primary_billing_id, profile_image, is_user_active)
-VALUES ('buyer1', '$2a$10$OPEivFropbqHYDlQaY/UK.0BTzIPMnrk4DWncToiRVkNDUCqNrOqq', 'buyer@email.com', 'John', 'Doe', 1, 1, 1, 'www.profileimage.com/1.jpg', true),
-('buyer2', '$2a$10$OPEivFropbqHYDlQaY/UK.0BTzIPMnrk4DWncToiRVkNDUCqNrOqq', 'tenzin@email.com', 'Tenzin', 'Chandrakant', 1, 2, 2, 'www.profileimage.com/2.jpg', true),
-('seller1', '$2a$10$OPEivFropbqHYDlQaY/UK.0BTzIPMnrk4DWncToiRVkNDUCqNrOqq', 'seller@email.com', 'Jane', 'Doe', 2, 3, 3, 'www.profileimage.com/2.jpg', true),
-('admin1', '$2a$10$OPEivFropbqHYDlQaY/UK.0BTzIPMnrk4DWncToiRVkNDUCqNrOqq', 'admin@email.com', 'Aruna', 'Pero', 3, 4, 4, 'www.profileimage.com/3.jpg', true);
+INSERT INTO users (user_username, user_password, user_email, user_first_name, user_last_name, role_user_id, primary_address_id, primary_billing_id, profile_image, is_user_active, user_secret)
+VALUES
+('buyer1', '$2a$10$Z.LeqmZEqwoBKnjWWXA04.oYta1kpqvzPSOJsv1bdDWenG3yfPrrK', 'buyer@email.com', 'John', 'Doe', 1, 1, 1, 'www.profileimage.com/1.jpg', true, '4DFRBLQLAJ7YMYKQSVDL3MCA3E36ZXNY7VHKMWTMMKP4RDPXFJ7DA57W3JXPHLJOVVTG7PP5XVUXF557ULSMHHDS6IY23ZYCVOPIVNASEFRC4TOXLJRW4P3I635PNV5P'),
+('buyer2', '$2a$10$Z.LeqmZEqwoBKnjWWXA04.oYta1kpqvzPSOJsv1bdDWenG3yfPrrK', 'tenzin@email.com', 'Tenzin', 'Chandrakant', 1, 2, 2, 'www.profileimage.com/2.jpg', true, '4DFRBLQLAJ7YMYKQSVDL3MCA3E36ZXNY7VHKMWTMMKP4RDPXFJ7DA57W3JXPHLJOVVTG7PP5XVUXF557ULSMHHDS6IY23ZYCVOPIVNASEFRC4TOXLJRW4P3I635PNV5P'),
+('seller1', '$2a$10$Z.LeqmZEqwoBKnjWWXA04.oYta1kpqvzPSOJsv1bdDWenG3yfPrrK', 'seller@email.com', 'Jane', 'Doe', 2, 3, 3, 'www.profileimage.com/2.jpg', true, '4DFRBLQLAJ7YMYKQSVDL3MCA3E36ZXNY7VHKMWTMMKP4RDPXFJ7DA57W3JXPHLJOVVTG7PP5XVUXF557ULSMHHDS6IY23ZYCVOPIVNASEFRC4TOXLJRW4P3I635PNV5P'),
+('admin1', '$2a$10$Z.LeqmZEqwoBKnjWWXA04.oYta1kpqvzPSOJsv1bdDWenG3yfPrrK', 'admin@email.com', 'Aruna', 'Pero', 3, 4, 4, 'www.profileimage.com/3.jpg', true, '4DFRBLQLAJ7YMYKQSVDL3MCA3E36ZXNY7VHKMWTMMKP4RDPXFJ7DA57W3JXPHLJOVVTG7PP5XVUXF557ULSMHHDS6IY23ZYCVOPIVNASEFRC4TOXLJRW4P3I635PNV5P');
 
 INSERT INTO payments (billing_details)
 VALUES (1),
