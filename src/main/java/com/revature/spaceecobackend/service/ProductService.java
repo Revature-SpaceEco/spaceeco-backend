@@ -27,7 +27,7 @@ public class ProductService implements ProductServiceInterface {
       pdto.setName(product.getName());
       pdto.setDescription(product.getDescription());
       pdto.setCost(product.getCost());
-      pdto.setCategories(product.getCategories());
+      pdto.setCategoryName(product.getCategoryName());
       pdto.setImage(product.getImage());
 
       SellerDto sdto = new SellerDto();

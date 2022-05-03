@@ -61,8 +61,8 @@ public class OrderControllerTest {
     seller = new User(2, "seller", "password", "email@email.com", "tester", "testy", userRole2, address, billingDetails, "www.image.com", true, "secret");
     category = new Categories(1, "categoryTest");
     products = new ArrayList<>();
-    products.add(new Product(1, "test", "test description", 100, category, "image.jpg", seller));
-    products.add(new Product(2, "test", "test description", 100, category, "image2.jpg", seller));
+    products.add(new Product(1, "test", "test description", 100, category.getName(), "image.jpg", seller));
+    products.add(new Product(2, "test", "test description", 100, category.getName(), "image2.jpg", seller));
     productDto1 = modelMapper.map(products.get(0), ProductDto.class);
     productDto2 = modelMapper.map(products.get(1), ProductDto.class);
     productDtos = new ArrayList<>();

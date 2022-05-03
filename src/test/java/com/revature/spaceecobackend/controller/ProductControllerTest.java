@@ -27,7 +27,7 @@ public class ProductControllerTest {
         Categories categories = new Categories(1,"categoryName");
         SellerDto sdto = new SellerDto(1,"username","email","firstname",true);
         List<ProductDto> productDtos = new ArrayList<>();
-        ProductDto pdto = new ProductDto(1,"name","description",1,categories,"image",sdto);
+        ProductDto pdto = new ProductDto(1,"name","description",1,categories.getName(),"image",sdto);
         productDtos.add(pdto);
         when(productService.findAllProducts()).thenReturn(productDtos);
         List<ProductDto> response = prodController.getAllProducts();
@@ -38,7 +38,7 @@ public class ProductControllerTest {
     public void getProductByIdPositive(){
         Categories categories = new Categories(1,"categoryName");
         SellerDto sdto = new SellerDto(1,"username","email","firstname",true);
-        ProductDto pdto = new ProductDto(1,"name","description",1,categories,"image",sdto);
+        ProductDto pdto = new ProductDto(1,"name","description",1,categories.getName(),"image",sdto);
         when(productService.getProductsById(1)).thenReturn(pdto);
         ProductDto response = prodController.getProductById(1);
         Assertions.assertEquals(pdto,response);
