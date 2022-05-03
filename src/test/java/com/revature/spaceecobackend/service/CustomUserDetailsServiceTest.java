@@ -18,7 +18,7 @@ import java.util.Optional;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class CustomUserDetailsServiceTest {
+class CustomUserDetailsServiceTest {
 
     @Mock
     private UserRepository userRepository;

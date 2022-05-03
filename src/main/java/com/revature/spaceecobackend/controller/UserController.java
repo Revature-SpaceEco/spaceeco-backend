@@ -29,7 +29,7 @@ public class UserController {
   private MfaService mfaService;
 
   @PostMapping()
-  public ResponseEntity<?> AddUser(@RequestBody RegisterUserDTO registerUserDTO) throws QrGenerationException {
+  public ResponseEntity<?> addUser(@RequestBody RegisterUserDTO registerUserDTO) throws QrGenerationException {
 
     ModelMapper modelMapper = new ModelMapper();
     User user = modelMapper.map(registerUserDTO, User.class);
@@ -43,7 +43,7 @@ public class UserController {
 
     if (returnUser != null) {
         returnUser.setQrCode(qrCode);
-       
+
         return ResponseEntity.status(200).body(returnUser);
     } else {
         return ResponseEntity.status(400).body("Registration Failed");
