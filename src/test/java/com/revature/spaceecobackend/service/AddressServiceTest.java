@@ -8,7 +8,9 @@ import com.revature.spaceecobackend.model.Address;
 import com.revature.spaceecobackend.model.BillingDetails;
 import com.revature.spaceecobackend.model.User;
 import com.revature.spaceecobackend.model.UserRole;
+import org.aspectj.weaver.ast.Not;
 import org.assertj.core.api.AssertionsForClassTypes;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -64,6 +66,13 @@ class AddressServiceTest {
   }
 
   @Test
+  void createAddress_UserNotFound(){
+    Assertions.assertThrows(NotFound.class,()->{
+      Address address = addressService.createAddress(1,addressDTO);
+    });
+  }
+
+  @Test
   public void createAddressOrderTest() {
     when(addressRepository.saveAndFlush(any(Address.class))).thenReturn(address);
     Address actual = addressService.createAddressOrder(addressDTO);
@@ -78,11 +87,23 @@ class AddressServiceTest {
   }
 
   @Test
+  void getAddressByUserId_UserNotFound(){
+    Assertions.assertThrows(NotFound.class,()->{
+      Address address = addressService.getAddressByUserId(1);
+    });
+  }
+
+  @Test
    void updateAddressTestByUserId() throws NotFound {
     when(userRepository.findById(1)).thenReturn(Optional.of(user));
     when(addressRepository.save(address)).thenReturn(address);
     Address actual = addressService.updateAddressByUserId(1, addressDTO);
     assertThat(actual).isEqualTo(address);
   }
-
+  @Test
+  void udpateAddress_UserNotFound(){
+    Assertions.assertThrows(NotFound.class,()->{
+      Address address = addressService.updateAddressByUserId(1,addressDTO);
+    });
+  }
 }
