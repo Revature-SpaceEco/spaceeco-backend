@@ -24,15 +24,19 @@ public class AddressService {
   UserRepository userRepository;
 
   @Transactional
-  public Address createAddressOrder(Address address){
-    return addressRepository.save(address);
+  public Address createAddressOrder(AddressDTO addressDTO){
+    Address address = modelMapper.map(addressDTO, Address.class);
+//    Address createdAddress = addressRepository.saveAndFlush(address);
+
+    return addressRepository.saveAndFlush(address);
   }
 
   @Transactional
   public Address createAddress(int userId, AddressDTO addressDTO) {
 
-    Address address = modelMapper.map(addressDTO, Address.class);
-    Address createdAddress = addressRepository.saveAndFlush(address);
+//    Address address = modelMapper.map(addressDTO, Address.class);
+//    Address createdAddress = addressRepository.saveAndFlush(address);
+    Address createdAddress = createAddressOrder(addressDTO);
     Optional<User> user = userRepository.findById(userId);
     user.get().setPrimaryAddressId(createdAddress);
     return createdAddress;

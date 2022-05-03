@@ -1,6 +1,5 @@
 package com.revature.spaceecobackend.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.revature.spaceecobackend.dto.AddressDTO;
 import com.revature.spaceecobackend.model.Address;
 import com.revature.spaceecobackend.service.AddressService;
@@ -15,13 +14,13 @@ public class AddressController {
   AddressService addressService;
 
   @PostMapping("/address")
-  public Address createAddressOrder(@RequestBody Address address) {
-    return addressService.createAddressOrder(address);
+  public Address createAddressOrder(@RequestBody AddressDTO addressDTO) {
+    return addressService.createAddressOrder(addressDTO);
   }
 
   @PostMapping("/users/{userId}/address")
   public Address createAddress(@PathVariable String userId,
-                               @RequestBody AddressDTO addressDTO) throws JsonProcessingException {
+                               @RequestBody AddressDTO addressDTO) {
 
     return addressService.createAddress(Integer.parseInt(userId), addressDTO);
   }
