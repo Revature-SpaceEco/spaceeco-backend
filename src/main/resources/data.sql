@@ -31,10 +31,13 @@ INSERT INTO payments (billing_details)
 VALUES (1),
 (2);
 
+
 INSERT INTO products (product_name, product_description, product_cost, category_name, product_image, seller_user_id)
 VALUES ('reach', 'A wonderful planet', 150, 'planets', 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg', 3),
 ('eridanus II', 'A wonderful planet', 100, 'planets', 'www.image.com/eridanusII.jpg', 3),
 ('Pilar of autumn', 'A powerful rocket', 50, 'vehicles', 'www.image.com/pillar.jpg', 3);
+
+
 
 INSERT INTO orders (buyer, order_date, order_status, shipping_address_id, payment_id)
 VALUES (1, '2022-04-20 08:26:24.166', 'Pending', 1, 1),
