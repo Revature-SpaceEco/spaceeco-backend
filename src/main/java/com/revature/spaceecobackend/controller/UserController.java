@@ -1,31 +1,61 @@
 package com.revature.spaceecobackend.controller;
 
+import com.revature.spaceecobackend.dto.RegisterUserDTO;
+import com.revature.spaceecobackend.dto.UserDTO;
 import com.revature.spaceecobackend.model.User;
+import com.revature.spaceecobackend.service.MfaService;
 import com.revature.spaceecobackend.service.UserService;
+import dev.samstevens.totp.exceptions.QrGenerationException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@CrossOrigin(originPatterns = "*",exposedHeaders = "*",allowedHeaders = "*")
+@CrossOrigin
 @RequestMapping("/users")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
-    @PostMapping()
-    public User AddUser(@RequestBody User user)
-    {
-        return userService.createUser(user);
-    }
+  @Autowired
+  private UserService userService;
 
-    @GetMapping()
-    public ResponseEntity<?> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        return ResponseEntity.ok().body(users);
+  @Autowired
+  private MfaService mfaService;
+
+  @PostMapping()
+  public ResponseEntity<?> AddUser(@RequestBody RegisterUserDTO registerUserDTO) throws QrGenerationException {
+
+    ModelMapper modelMapper = new ModelMapper();
+    User user = modelMapper.map(registerUserDTO, User.class);
+
+    user.setActive(true);
+    user.setPassword(passwordEncoder.encode(registerUserDTO.getPassword()));
+    user.setSecret(mfaService.getSecret());
+    String qrCode = mfaService.getQrCode(user.getSecret(), user.getEmail());
+
+    UserDTO returnUser = userService.createUser(user);
+
+    if (returnUser != null) {
+        returnUser.setQrCode(qrCode);
+       
+        return ResponseEntity.status(200).body(returnUser);
+    } else {
+        return ResponseEntity.status(400).body("Registration Failed");
     }
+  }
+
+  @GetMapping()
+  public ResponseEntity<?> getAllUsers() {
+    List<User> users = userService.getAllUsers();
+    return ResponseEntity.ok().body(users);
+  }
+
+
 
 }

@@ -17,23 +17,23 @@ import java.util.Objects;
 @Setter
 public class Categories {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int categoryId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
-        @Override
-        public boolean equals(Object o) {
-                if (this == o) return true;
-                if (o == null || getClass() != o.getClass()) return false;
-                Categories that = (Categories) o;
-                return categoryId == that.categoryId && Objects.equals(categoryName, that.categoryName);
-        }
+  @Column(name = "category_name")
+  private String name;
 
-        @Override
-        public int hashCode() {
-                return Objects.hash(categoryId, categoryName);
-        }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Categories that = (Categories) o;
+    return id == that.id && Objects.equals(name, that.name);
+  }
 
-        @Column
-        private String categoryName;
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name);
+  }
 }

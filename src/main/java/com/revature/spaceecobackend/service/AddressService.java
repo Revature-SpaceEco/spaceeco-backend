@@ -1,36 +1,63 @@
 package com.revature.spaceecobackend.service;
 
 import com.revature.spaceecobackend.dao.AddressRepository;
+import com.revature.spaceecobackend.dao.UserRepository;
+import com.revature.spaceecobackend.dto.AddressDTO;
 import com.revature.spaceecobackend.model.Address;
+import com.revature.spaceecobackend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.modelmapper.ModelMapper;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
-public class AddressService{
+public class AddressService {
 
-    @Autowired
-    AddressRepository addressRepository;
+  @Autowired
+  AddressRepository addressRepository;
+  @Autowired
+  private ModelMapper modelMapper;
 
-    public Address createAddress(Address address) {
-        return addressRepository.save(address);
-    }
+  @Autowired
+  UserRepository userRepository;
 
-  /*  public Optional<Address> getAddressByUserId(int id) {//Fix later
-        return userRepository.findAddressByUserId(id);
-    }*/
+  @Transactional
+  public Address createAddressOrder(Address address){
+    return addressRepository.save(address);
+  }
 
-    public Boolean deleteAddress(int id) {
-        addressRepository.deleteById(id);
-        return !addressRepository.existsById(id);
-    }
+  @Transactional
+  public Address createAddress(int userId, AddressDTO addressDTO) {
 
-   /* public Address updateAddressByUserId(int id, Address address) {
-        return addressRepository.findById(id, address);
-    }
+    Address address = modelMapper.map(addressDTO, Address.class);
+    Address createdAddress = addressRepository.saveAndFlush(address);
+    Optional<User> user = userRepository.findById(userId);
+    user.get().setPrimaryAddressId(createdAddress);
+    return createdAddress;
+  }
 
-    public Address updateAddressByUserId2(Address address) {
-        return addressRepository.save(address);
-    }*/
+  @Transactional
+  public Address getAddressByUserId(int userId) {
+    Optional<User> user = userRepository.findById(userId);
+    return user.get().getPrimaryAddressId();
+
+  }
+
+  @Transactional
+  public Address updateAddressByUserId(int id, AddressDTO newAddress) {
+    Optional<User> user = userRepository.findById(id);
+    Address oldAddress = user.get().getPrimaryAddressId();
+
+    oldAddress.setAddressLineOne(newAddress.getAddressLineOne());
+    oldAddress.setAddressLineTwo(newAddress.getAddressLineTwo());
+    oldAddress.setCity(newAddress.getCity());
+    oldAddress.setState(newAddress.getState());
+    oldAddress.setCountry(newAddress.getCountry());
+    oldAddress.setZip(newAddress.getZip());
+    oldAddress.setPlanet(newAddress.getPlanet());
+    oldAddress.setSolarSystem(newAddress.getSolarSystem());
+    return addressRepository.save(oldAddress);
+  }
 }
