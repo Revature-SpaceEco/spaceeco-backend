@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BillingDetailsDto {
 
-  private String billingCardType;
-  private long billingCardNumber;
-  private int billingSecurityNumber;
-  private String billingName;
-  private Address billingAddress;
+  private String cardType;
+  private long cardNumber;
+  private int securityNumber;
+  private String name;
+  private Address address;
 }

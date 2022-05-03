@@ -20,43 +20,43 @@ public class BillingDetails {
   private int id;
 
   @Column(name = "billing_card_type", nullable = false)
-  private String billingCardType;
+  private String cardType;
 
   @Column(name = "billing_card_number", nullable = false)
-  private long billingCardNumber;
+  private long cardNumber;
 
   @Column(name = "billing_security_number", nullable = false)
-  private int billingSecurityNumber;
+  private int securityNumber;
 
   @Column(name = "billing_name", nullable = false)
-  private String billingName;
+  private String name;
 
   @JoinColumn(name = "billing_address")
   @ManyToOne
-  private Address billingAddress;
+  private Address address;
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     BillingDetails that = (BillingDetails) o;
-    return id == that.id && billingCardNumber == that.billingCardNumber && billingSecurityNumber == that.billingSecurityNumber && Objects.equals(billingCardType, that.billingCardType) && Objects.equals(billingName, that.billingName) && Objects.equals(billingAddress, that.billingAddress);
+    return id == that.id && cardNumber == that.cardNumber && securityNumber == that.securityNumber && Objects.equals(cardType, that.cardType) && Objects.equals(name, that.name) && Objects.equals(address, that.address);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, billingCardType, billingCardNumber, billingSecurityNumber, billingName, billingAddress);
+    return Objects.hash(id, cardType, cardNumber, securityNumber, name, address);
   }
 
   @Override
   public String toString() {
     return "BillingDetails{" +
             "id=" + id +
-            ", billingCardType='" + billingCardType + '\'' +
-            ", billingCardNumber=" + billingCardNumber +
-            ", billingSecurityNumber=" + billingSecurityNumber +
-            ", billingName='" + billingName + '\'' +
-            ", billingAddress=" + billingAddress +
+            ", cardType='" + cardType + '\'' +
+            ", cardNumber=" + cardNumber +
+            ", securityNumber=" + securityNumber +
+            ", name='" + name + '\'' +
+            ", address=" + address +
             '}';
   }
 }
