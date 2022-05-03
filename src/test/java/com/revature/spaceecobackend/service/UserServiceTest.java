@@ -32,7 +32,7 @@ class UserServiceTest {
 
   // TODO this is not a proper test
   @Test
-  public void getAllUsersTest_positive() {
+  void getAllUsersTest_positive() {
     List<User> userList = userService.getAllUsers();
     assertThat(userList).isNotNull();
   }
