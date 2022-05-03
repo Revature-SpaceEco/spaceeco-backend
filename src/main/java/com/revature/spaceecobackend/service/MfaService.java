@@ -47,7 +47,7 @@ public class MfaService {
     }
 
     public boolean verifyCode(String secret, String code) {
-        return verifier.isValidCode(secret, code) ? true : false;
+        return verifier.isValidCode(secret, code);
     }
 
 
