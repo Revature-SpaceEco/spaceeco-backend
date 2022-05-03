@@ -48,7 +48,6 @@ public class UserService {
     if(optional.isPresent()) {
       return modelMapper.map(optional.get(), UserDTO.class);
     } else {
-      System.out.println(optional);
       throw new NotFound("The user with the id " + id + " does not exist.");
     }
   }
