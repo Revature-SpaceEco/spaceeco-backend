@@ -2,20 +2,20 @@ package com.revature.spaceecobackend.controller;
 
 import com.revature.spaceecobackend.dto.RegisterUserDTO;
 import com.revature.spaceecobackend.dto.UserDTO;
-import com.revature.spaceecobackend.exception.NotFound;
 import com.revature.spaceecobackend.model.User;
+import com.revature.spaceecobackend.service.MfaService;
 import com.revature.spaceecobackend.service.UserService;
+import dev.samstevens.totp.exceptions.QrGenerationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
-@CrossOrigin(originPatterns = "*", exposedHeaders = "*", allowedHeaders = "*")
+@CrossOrigin
 @RequestMapping("/users")
 public class UserController {
 
@@ -26,19 +26,27 @@ public class UserController {
   private UserService userService;
 
   @Autowired
-  private ModelMapper modelMapper;
+  private MfaService mfaService;
 
   @PostMapping()
-  public ResponseEntity<?> AddUser(@RequestBody RegisterUserDTO registerUserDTO) {
-    registerUserDTO.setActive(true);
-    registerUserDTO.setPassword(passwordEncoder.encode(registerUserDTO.getPassword()));
+  public ResponseEntity<?> AddUser(@RequestBody RegisterUserDTO registerUserDTO) throws QrGenerationException {
 
-    boolean result = userService.createUser(registerUserDTO);
+    ModelMapper modelMapper = new ModelMapper();
+    User user = modelMapper.map(registerUserDTO, User.class);
 
-    if (result) {
-      return ResponseEntity.status(200).body("User created successfully.");
+    user.setActive(true);
+    user.setPassword(passwordEncoder.encode(registerUserDTO.getPassword()));
+    user.setSecret(mfaService.getSecret());
+    String qrCode = mfaService.getQrCode(user.getSecret(), user.getEmail());
+
+    UserDTO returnUser = userService.createUser(user);
+
+    if (returnUser != null) {
+        returnUser.setQrCode(qrCode);
+       
+        return ResponseEntity.status(200).body(returnUser);
     } else {
-      return ResponseEntity.status(400).body("Username or email already exist.");
+        return ResponseEntity.status(400).body("Registration Failed");
     }
   }
 
@@ -48,14 +56,6 @@ public class UserController {
     return ResponseEntity.ok().body(users);
   }
 
-  @GetMapping("/{userId}")
-  public ResponseEntity<?> getUserById(@PathVariable("userId") int id) {
-    try {
-      UserDTO userDTO = userService.getUserById(id);
-      return ResponseEntity.ok().body(userDTO);
-    } catch (NotFound e) {
-      return ResponseEntity.notFound().build();
-    }
-  }
+
 
 }

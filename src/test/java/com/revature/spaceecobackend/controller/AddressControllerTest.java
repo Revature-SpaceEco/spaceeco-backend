@@ -41,7 +41,7 @@ public class AddressControllerTest {
     @BeforeAll
     private static void init() {
         userRole = new UserRole(1, "buyer");
-        buyer = new User(1, "test", "password", "email@email.com", "test", "test", userRole, address, billingDetails, "www.image.com/1", true);
+        buyer = new User(1, "test", "password", "email@email.com", "test", "test", userRole, address, billingDetails, "www.image.com/1", true, "secret");
         address = new Address(1, "9194 North College Ave", "512 South Pennsylvania St", "Grand Haven", "MI", "United States", "49417", "solar system", "earth");
         billingDetails = new BillingDetails();
         addressDTO = new AddressDTO(1, "9194 North College Ave", "512 South Pennsylvania St", "Grand Haven", "MI", "United States", "49417", "solar system", "earth");

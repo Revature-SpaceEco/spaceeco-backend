@@ -15,5 +15,4 @@ public class RegisterUserDTO {
     private String firstName;
     private String lastName;
     private UserRole userRole;
-    private boolean active;
 }
