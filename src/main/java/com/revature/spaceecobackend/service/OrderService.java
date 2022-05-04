@@ -34,7 +34,8 @@ public class OrderService {
     @Autowired
     PaymentService paymentService;
 
-    private final ModelMapper modelMapper = new ModelMapper();
+   @Autowired
+   ModelMapper modelMapper;
 
     public List<OrderDto> getAllOrders() {
         List<Order> orders = orderRepository.findAll();

@@ -44,7 +44,6 @@ public class OrderServiceTest {
 
     @InjectMocks
     private OrderService orderService;
-
     private static User buyer;
     private static User seller;
     private static UserRole userRole;
