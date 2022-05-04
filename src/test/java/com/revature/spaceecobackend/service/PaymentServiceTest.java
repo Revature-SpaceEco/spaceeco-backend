@@ -1,6 +1,7 @@
 package com.revature.spaceecobackend.service;
 
 import com.revature.spaceecobackend.dao.PaymentRepository;
+import com.revature.spaceecobackend.dto.AddressDTO;
 import com.revature.spaceecobackend.dto.BillingDetailsDto;
 import com.revature.spaceecobackend.dto.PaymentDto;
 import com.revature.spaceecobackend.exception.EmptyFields;
@@ -25,11 +26,17 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class PaymentServiceTest {
+class PaymentServiceTest {
 
   @Mock
   private PaymentRepository paymentRepository;
 
+  @Mock
+  private AddressService addressService;
+
+  @Mock
+  private BillingDetailsService billingDetailsService;
+  
   @Spy
   ModelMapper modelMapper = new ModelMapper();
 
@@ -72,6 +79,15 @@ public class PaymentServiceTest {
 
   @Test
   void createPayment_positive() throws EmptyFields {
+
+    AddressDTO addressDTO = modelMapper.map(paymentDto.getBillingDetails().getAddress(), AddressDTO.class);
+
+    when(modelMapper.map(paymentDto.getBillingDetails().getAddress(), AddressDTO.class)).thenReturn(addressDTO);
+
+    when(addressService.createAddressOrder(addressDTO)).thenReturn(address);
+
+    when(billingDetailsService.createBillingDetail(paymentDto.getBillingDetails())).thenReturn(billingDetails);
+
     when(paymentRepository.saveAndFlush(any(Payment.class))).thenReturn(payment);
 
     Payment actual = paymentService.createPayment(paymentDto);
