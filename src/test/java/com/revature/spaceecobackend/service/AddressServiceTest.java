@@ -8,7 +8,6 @@ import com.revature.spaceecobackend.model.Address;
 import com.revature.spaceecobackend.model.BillingDetails;
 import com.revature.spaceecobackend.model.User;
 import com.revature.spaceecobackend.model.UserRole;
-import org.aspectj.weaver.ast.Not;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -43,18 +42,18 @@ class AddressServiceTest {
   private UserRepository userRepository;
 
   private static Address address;
-    private static User user;
-    private static AddressDTO addressDTO;
-    private static UserRole ur;
-    private static BillingDetails bd;
+  private static User user;
+  private static AddressDTO addressDTO;
+  private static UserRole ur;
+  private static BillingDetails bd;
 
   @BeforeAll
   public static void init() {
-      ur = new UserRole(2, "seller");
-      bd = new BillingDetails();
-      address = new Address(1,"234 Finch Avenue","111","Toronto","ON","M8I 8L9","Canada","Earth","Milky Way");
-      user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, address, bd, "www.image.com", true, "secret");
-      addressDTO = new AddressDTO(1,"234 Finch Avenue","111","Toronto","ON","Canada","M8I 8L9","Milky Way","Earth");
+    ur = new UserRole(2, "seller");
+    bd = new BillingDetails();
+    address = new Address(1,"234 Finch Avenue","111","Toronto","ON","M8I 8L9","Canada","Earth","Milky Way");
+    user = new User(1, "username", "password", "123@gmail.com", "John", "Doe", ur, address, bd, "www.image.com", true, "secret");
+    addressDTO = new AddressDTO(1,"234 Finch Avenue","111","Toronto","ON","Canada","M8I 8L9","Milky Way","Earth");
   }
 
   @Test
@@ -73,7 +72,7 @@ class AddressServiceTest {
   }
 
   @Test
-  public void createAddressOrderTest() {
+  void createAddressOrderTest() {
     when(addressRepository.saveAndFlush(any(Address.class))).thenReturn(address);
     Address actual = addressService.createAddressOrder(addressDTO);
     AssertionsForClassTypes.assertThat(actual).isEqualTo(address);
